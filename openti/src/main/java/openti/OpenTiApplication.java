@@ -10,6 +10,6 @@ public class OpenTiApplication extends BuilderFx {
 
 	@Override
 	protected String getBackupFilename() {
-		return "osa_back.zip";
+		return "ti_back.zip";
 	}
 }
