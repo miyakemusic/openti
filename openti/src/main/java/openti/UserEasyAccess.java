@@ -17,7 +17,7 @@ public class UserEasyAccess {
     public long getOscDuration() {
         return Long.valueOf(model.getProperty(ID.ID_OSC_DURATION).getCurrentValue());
     }
-    enum EnumReceiver{
+    public enum EnumReceiver{
         ID_RECEIVER_SFP,
         ID_RECEIVER_ELECTRICAL,
     };
@@ -33,7 +33,7 @@ public class UserEasyAccess {
     public String getComment() {
         return model.getProperty(ID.ID_COMMENT).getCurrentValue();
     }
-    enum EnumOsaGridtableOperationMode{
+    public enum EnumOsaGridtableOperationMode{
         ID_OSA_GRIDTABLE_OPERATION_MODE_CREATE,
         ID_OSA_GRIDTABLE_OPERATION_MODE_EDIT,
         ID_OSA_GRIDTABLE_OPERATION_MODE_ADD,
@@ -63,7 +63,7 @@ public class UserEasyAccess {
     public long getOsaAverageCount() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_AVERAGE_COUNT).getCurrentValue());
     }
-    enum EnumOsaNoiseCorrectionMode{
+    public enum EnumOsaNoiseCorrectionMode{
         ID_OSA_NOISE_CORRECTION_MODE_NONE,
         ID_OSA_NOISE_CORRECTION_MODE_ABSOLUTE,
         ID_OSA_NOISE_CORRECTION_MODE_RELATIVE,
@@ -80,7 +80,7 @@ public class UserEasyAccess {
     public String getOsaInspectionMesureLastError() {
         return model.getProperty(ID.ID_OSA_INSPECTION_MESURE_LAST_ERROR).getCurrentValue();
     }
-    enum EnumOtdrMode{
+    public enum EnumOtdrMode{
         ID_OTDR_MODE_NORMAL,
         ID_OTDR_MODE_ADVANCED,
     };
@@ -90,7 +90,7 @@ public class UserEasyAccess {
     public EnumOtdrMode getOtdrMode() {
         return EnumOtdrMode.valueOf(model.getProperty(ID.ID_OTDR_MODE).getCurrentValue());
     }
-    enum EnumOsaSweepType{
+    public enum EnumOsaSweepType{
         ID_OSA_SWEEP_TYPE_SINGLE,
         ID_OSA_SWEEP_TYPE_REPEAT,
         ID_OSA_SWEEP_TYPE_AVERAGE,
@@ -144,7 +144,7 @@ public class UserEasyAccess {
     public double getOsaSummaryPinTotalpower() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_PIN_TOTALPOWER).getCurrentValue());
     }
-    enum EnumGraphOperationModePrev{
+    public enum EnumGraphOperationModePrev{
         ID_GRAPH_OPERATION_MODE_ZOOMIN,
         ID_GRAPH_OPERATION_MODE_ZOOMOUT,
         ID_GRAPH_OPERATION_MODE_VIEWALL,
@@ -205,7 +205,7 @@ public class UserEasyAccess {
     public double getResultJitter() {
         return Double.valueOf(model.getProperty(ID.ID_RESULT_JITTER).getCurrentValue());
     }
-    enum EnumOsaDriftMeasSetupType{
+    public enum EnumOsaDriftMeasSetupType{
         ID_OSA_DRIFT_MEAS_SETUP_TYPE_NEW,
         ID_OSA_DRIFT_MEAS_SETUP_TYPE_RESUME,
     };
@@ -233,7 +233,7 @@ public class UserEasyAccess {
     public String getOwner() {
         return model.getProperty(ID.ID_OWNER).getCurrentValue();
     }
-    enum EnumTransmitter{
+    public enum EnumTransmitter{
         ID_TRANSMITTER_SFP,
         ID_TRANSMITTER_CFP,
         ID_TRANSMITTER_QSFP,
@@ -269,7 +269,7 @@ public class UserEasyAccess {
     public double getOsaGraphViewrangedbMax() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_GRAPH_VIEWRANGEDB_MAX).getCurrentValue());
     }
-    enum EnumTestaction{
+    public enum EnumTestaction{
         ID_TESTACTION_START,
         ID_TESTACTION_STOP,
     };
@@ -279,7 +279,7 @@ public class UserEasyAccess {
     public EnumTestaction getTestaction() {
         return EnumTestaction.valueOf(model.getProperty(ID.ID_TESTACTION).getCurrentValue());
     }
-    enum EnumOsaGridImportReferenceGridType{
+    public enum EnumOsaGridImportReferenceGridType{
         ID_OSA_GRID_TYPE_ITUT100G,
         ID_OSA_GRID_TYPE_ITUT50G,
         ID_OSA_GRID_TYPE_ITUT25G,
@@ -293,7 +293,7 @@ public class UserEasyAccess {
     public EnumOsaGridImportReferenceGridType getOsaGridImportReferenceGridType() {
         return EnumOsaGridImportReferenceGridType.valueOf(model.getProperty(ID.ID_OSA_GRID_IMPORT_REFERENCE_GRID_TYPE).getCurrentValue());
     }
-    enum EnumMessageScreenlockFordebug{
+    public enum EnumMessageScreenlockFordebug{
         ID_MESSAGECONTENT_NOMESSAGE,
         ID_MESSAGECONTENT_STARTUP,
         ID_MESSAGECONTENT_SHUTDOWN,
@@ -312,7 +312,7 @@ public class UserEasyAccess {
     public EnumMessageScreenlockFordebug getMessageScreenlockFordebug() {
         return EnumMessageScreenlockFordebug.valueOf(model.getProperty(ID.ID_MESSAGE_SCREENLOCK_FORDEBUG).getCurrentValue());
     }
-    enum EnumOsaRbw{
+    public enum EnumOsaRbw{
         ID_OSA_RBW_FULL,
         ID_OSA_RBW_0_1_NM,
         ID_OSA_RBW_0_2_NM,
@@ -329,7 +329,7 @@ public class UserEasyAccess {
     public EnumOsaRbw getOsaRbw() {
         return EnumOsaRbw.valueOf(model.getProperty(ID.ID_OSA_RBW).getCurrentValue());
     }
-    enum EnumResultFileload{
+    public enum EnumResultFileload{
         ID_RESULT_FILELOAD_NOTFINISHED,
         ID_RESULT_FILELOAD_SUCCESS,
         ID_RESULT_FILELOAD_FAILED,
@@ -352,7 +352,7 @@ public class UserEasyAccess {
     public String getActiveWaveformModuleVerificationDate() {
         return model.getProperty(ID.ID_ACTIVE_WAVEFORM_MODULE_VERIFICATION_DATE).getCurrentValue();
     }
-    enum EnumCalibrationMode{
+    public enum EnumCalibrationMode{
         ID_CALIBRATION_MODE_SPEED,
         ID_CALIBRATION_MODE_ACCURACY,
     };
@@ -392,7 +392,7 @@ public class UserEasyAccess {
     public long getOsaActiveChannelNumber() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_ACTIVE_CHANNEL_NUMBER).getCurrentValue());
     }
-    enum EnumOsaActiveTraceDriftSelect{
+    public enum EnumOsaActiveTraceDriftSelect{
         ID_OSA_ACTIVE_TRACE_DRIFT_SELECT_INITIAL,
         ID_OSA_ACTIVE_TRACE_DRIFT_SELECT_CURRENT,
     };
@@ -420,7 +420,7 @@ public class UserEasyAccess {
     public long getEdDatalength() {
         return Long.valueOf(model.getProperty(ID.ID_ED_DATALENGTH).getCurrentValue());
     }
-    enum EnumMaskType{
+    public enum EnumMaskType{
         ID_MASK_TYPE_10GBE_FEC,
         ID_MASK_TYPE_10GBE_LAN,
         ID_MASK_TYPE_10GBE_WAN,
@@ -437,7 +437,7 @@ public class UserEasyAccess {
     public double getOsaStartWavelengthThz() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_START_WAVELENGTH_THZ).getCurrentValue());
     }
-    enum EnumEdPattern{
+    public enum EnumEdPattern{
         ID_ED_PATTERN_PRBS7,
         ID_ED_PATTERN_PRBS8,
         ID_ED_PATTERN_PRBS9,
@@ -491,7 +491,7 @@ public class UserEasyAccess {
     public long getSelectedeventCompletedNumber() {
         return Long.valueOf(model.getProperty(ID.ID_SELECTEDEVENT_COMPLETED_NUMBER).getCurrentValue());
     }
-    enum EnumOsaInspectionOptswitch{
+    public enum EnumOsaInspectionOptswitch{
         ID_OSA_INSPECTION_OPTSWITCH_NORMAL,
         ID_OSA_INSPECTION_OPTSWITCH_CROSS,
     };
@@ -525,7 +525,7 @@ public class UserEasyAccess {
     public String getOsaFittingCurveTable() {
         return model.getProperty(ID.ID_OSA_FITTING_CURVE_TABLE).getCurrentValue();
     }
-    enum EnumServerState{
+    public enum EnumServerState{
         ID_SERVER_STATE_INITIALIZING,
         ID_SERVER_STATE_IDLE,
         ID_SERVER_STATE_PREPAREMEASURE,
@@ -544,7 +544,7 @@ public class UserEasyAccess {
     public EnumServerState getServerState() {
         return EnumServerState.valueOf(model.getProperty(ID.ID_SERVER_STATE).getCurrentValue());
     }
-    enum EnumOsaTraceDriftVisibleInitial{
+    public enum EnumOsaTraceDriftVisibleInitial{
         ID_OSA_TRACE_SHOW,
         ID_OSA_TRACE_HIDE,
     };
@@ -572,7 +572,7 @@ public class UserEasyAccess {
     public String getActiveWaveformModuleVerificationDueDate() {
         return model.getProperty(ID.ID_ACTIVE_WAVEFORM_MODULE_VERIFICATION_DUE_DATE).getCurrentValue();
     }
-    enum EnumOsaGridEditSpanType{
+    public enum EnumOsaGridEditSpanType{
         ID_OSA_GRID_EDIT_SPAN_TYPE_NONE,
         ID_OSA_GRID_SIGNAL_SPAN,
         ID_OSA_GRID_MASKED_SPAN,
@@ -585,7 +585,7 @@ public class UserEasyAccess {
     public EnumOsaGridEditSpanType getOsaGridEditSpanType() {
         return EnumOsaGridEditSpanType.valueOf(model.getProperty(ID.ID_OSA_GRID_EDIT_SPAN_TYPE).getCurrentValue());
     }
-    enum EnumOsaDriftgraphDisplaytype1{
+    public enum EnumOsaDriftgraphDisplaytype1{
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_POWER,
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_OSNR,
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_WAVELENGTH,
@@ -596,7 +596,7 @@ public class UserEasyAccess {
     public EnumOsaDriftgraphDisplaytype1 getOsaDriftgraphDisplaytype1() {
         return EnumOsaDriftgraphDisplaytype1.valueOf(model.getProperty(ID.ID_OSA_DRIFTGRAPH_DISPLAYTYPE1).getCurrentValue());
     }
-    enum EnumOsaDriftgraphDisplaytype2{
+    public enum EnumOsaDriftgraphDisplaytype2{
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_POWER,
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_OSNR,
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_WAVELENGTH,
@@ -613,7 +613,7 @@ public class UserEasyAccess {
     public String getOsaDebugSimulatorCalfile() {
         return model.getProperty(ID.ID_OSA_DEBUG_SIMULATOR_CALFILE).getCurrentValue();
     }
-    enum EnumOsaDriftgraphDisplaytype3{
+    public enum EnumOsaDriftgraphDisplaytype3{
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_POWER,
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_OSNR,
         ID_OSA_DRIFTGRAPH_DISPLAYTYPE_WAVELENGTH,
@@ -642,7 +642,7 @@ public class UserEasyAccess {
     public long getOsaAverageCountMaxInband() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_AVERAGE_COUNT_MAX_INBAND).getCurrentValue());
     }
-    enum EnumOsaTraceDriftVisibleHistory{
+    public enum EnumOsaTraceDriftVisibleHistory{
         ID_OSA_TRACE_SHOW,
         ID_OSA_TRACE_HIDE,
     };
@@ -652,7 +652,7 @@ public class UserEasyAccess {
     public EnumOsaTraceDriftVisibleHistory getOsaTraceDriftVisibleHistory() {
         return EnumOsaTraceDriftVisibleHistory.valueOf(model.getProperty(ID.ID_OSA_TRACE_DRIFT_VISIBLE_HISTORY).getCurrentValue());
     }
-    enum EnumOsaGridType{
+    public enum EnumOsaGridType{
         ID_OSA_GRID_TYPE_ITUT100G,
         ID_OSA_GRID_TYPE_ITUT50G,
         ID_OSA_GRID_TYPE_ITUT25G,
@@ -666,7 +666,7 @@ public class UserEasyAccess {
     public EnumOsaGridType getOsaGridType() {
         return EnumOsaGridType.valueOf(model.getProperty(ID.ID_OSA_GRID_TYPE).getCurrentValue());
     }
-    enum EnumOsaInspectionLightsource{
+    public enum EnumOsaInspectionLightsource{
         ID_OSA_INSPECTION_LIGHTSOURCE_OFF,
         ID_OSA_INSPECTION_LIGHTSOURCE_ON,
     };
@@ -682,7 +682,7 @@ public class UserEasyAccess {
     public long getOsaInspectionRegDsig() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_INSPECTION_REG_DSIG).getCurrentValue());
     }
-    enum EnumCursors{
+    public enum EnumCursors{
         ID_CURSORS_LOCK,
         ID_CURSORS_UNLOCK,
     };
@@ -710,7 +710,7 @@ public class UserEasyAccess {
     public double getOsaPinLossOffset() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_PIN_LOSS_OFFSET).getCurrentValue());
     }
-    enum EnumMode{
+    public enum EnumMode{
         ID_MODE_NEW_OFF,
         ID_MODE_NORMAL,
         ID_MODE_THROUGH,
@@ -722,7 +722,7 @@ public class UserEasyAccess {
     public EnumMode getMode() {
         return EnumMode.valueOf(model.getProperty(ID.ID_MODE).getCurrentValue());
     }
-    enum EnumOsaGridShowItem{
+    public enum EnumOsaGridShowItem{
         ID_OSA_GRID_SHOW_ITEM_ALL,
         ID_OSA_GRID_SHOW_ITEM_OSNR,
         ID_OSA_GRID_SHOW_ITEM_PF,
@@ -733,7 +733,7 @@ public class UserEasyAccess {
     public EnumOsaGridShowItem getOsaGridShowItem() {
         return EnumOsaGridShowItem.valueOf(model.getProperty(ID.ID_OSA_GRID_SHOW_ITEM).getCurrentValue());
     }
-    enum EnumOsaStartStop{
+    public enum EnumOsaStartStop{
         ID_OSA_START_STOP_START,
         ID_OSA_START_STOP_STOP,
     };
@@ -791,7 +791,7 @@ public class UserEasyAccess {
     public double getSamplingTrigger() {
         return Double.valueOf(model.getProperty(ID.ID_SAMPLING_TRIGGER).getCurrentValue());
     }
-    enum EnumApplicationtype{
+    public enum EnumApplicationtype{
         ID_APPLICATIONTYPE_WDM,
         ID_APPLICATIONTYPE_DRIFT,
         ID_APPLICATIONTYPE_EDFA,
@@ -809,7 +809,7 @@ public class UserEasyAccess {
     public long getOsaInspectionMotorZeroPosition() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_INSPECTION_MOTOR_ZERO_POSITION).getCurrentValue());
     }
-    enum EnumProgressbarDialog{
+    public enum EnumProgressbarDialog{
         ID_OSA_INSPECTION_SWEEP_MODE_DEFAULT,
         ID_OSA_INSPECTION_SWEEP_MODE_PUMP,
     };
@@ -843,7 +843,7 @@ public class UserEasyAccess {
     public double getGraphViewMaxydb() {
         return Double.valueOf(model.getProperty(ID.ID_GRAPH_VIEW_MAXYDB).getCurrentValue());
     }
-    enum EnumOsaSummaryDeltaf{
+    public enum EnumOsaSummaryDeltaf{
         ID_SUMMARY_RESULT_NONE,
         ID_SUMMARY_RESULT_PASS,
         ID_SUMMARY_RESULT_FAIL,
@@ -884,7 +884,7 @@ public class UserEasyAccess {
     public double getOsaSummaryPoutGaintilt() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_POUT_GAINTILT).getCurrentValue());
     }
-    enum EnumGuiTestTab{
+    public enum EnumGuiTestTab{
         ID_GUI_TEST_TAB_MEASUREMENT,
         ID_GUI_TEST_TAB_HEADERS,
         ID_GUI_TEST_TAB_PREFERENCES,
@@ -902,7 +902,7 @@ public class UserEasyAccess {
     public String getOsaGridtableData() {
         return model.getProperty(ID.ID_OSA_GRIDTABLE_DATA).getCurrentValue();
     }
-    enum EnumOsaSummaryPwr{
+    public enum EnumOsaSummaryPwr{
         ID_SUMMARY_RESULT_NONE,
         ID_SUMMARY_RESULT_PASS,
         ID_SUMMARY_RESULT_FAIL,
@@ -913,7 +913,7 @@ public class UserEasyAccess {
     public EnumOsaSummaryPwr getOsaSummaryPwr() {
         return EnumOsaSummaryPwr.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_PWR).getCurrentValue());
     }
-    enum EnumOsaSummaryDeltal{
+    public enum EnumOsaSummaryDeltal{
         ID_SUMMARY_RESULT_NONE,
         ID_SUMMARY_RESULT_PASS,
         ID_SUMMARY_RESULT_FAIL,
@@ -924,7 +924,7 @@ public class UserEasyAccess {
     public EnumOsaSummaryDeltal getOsaSummaryDeltal() {
         return EnumOsaSummaryDeltal.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_DELTAL).getCurrentValue());
     }
-    enum EnumLang{
+    public enum EnumLang{
         ID_LANG_ENGLISH,
         ID_LANG_JAPANESE,
         ID_LANG_CHINESE,
@@ -952,7 +952,7 @@ public class UserEasyAccess {
     public String getOsaGridWarningParamMessage() {
         return model.getProperty(ID.ID_OSA_GRID_WARNING_PARAM_MESSAGE).getCurrentValue();
     }
-    enum EnumGraphOperationMode{
+    public enum EnumGraphOperationMode{
         ID_GRAPH_OPERATION_MODE_ZOOMIN,
         ID_GRAPH_OPERATION_MODE_ZOOMOUT,
         ID_GRAPH_OPERATION_MODE_VIEWALL,
@@ -971,7 +971,7 @@ public class UserEasyAccess {
     public String getOperator() {
         return model.getProperty(ID.ID_OPERATOR).getCurrentValue();
     }
-    enum EnumOsaNfSelect{
+    public enum EnumOsaNfSelect{
         ID_OSA_NF_SELECT_SASE,
         ID_OSA_NF_SELECT_TOTAL,
     };
@@ -981,7 +981,7 @@ public class UserEasyAccess {
     public EnumOsaNfSelect getOsaNfSelect() {
         return EnumOsaNfSelect.valueOf(model.getProperty(ID.ID_OSA_NF_SELECT).getCurrentValue());
     }
-    enum EnumOsaHorizontalWidthUnit{
+    public enum EnumOsaHorizontalWidthUnit{
         ID_OSA_HORIZONTAL_WIDTH_UNIT_NM,
         ID_OSA_HORIZONTAL_WIDTH_UNIT_GHZ,
     };
@@ -991,7 +991,7 @@ public class UserEasyAccess {
     public EnumOsaHorizontalWidthUnit getOsaHorizontalWidthUnit() {
         return EnumOsaHorizontalWidthUnit.valueOf(model.getProperty(ID.ID_OSA_HORIZONTAL_WIDTH_UNIT).getCurrentValue());
     }
-    enum EnumMeasMode{
+    public enum EnumMeasMode{
         ID_MEAS_MODE_AVERAGE,
         ID_MEAS_MODE_TRIAL,
         ID_MEAS_MODE_EDFA_IN,
@@ -1009,7 +1009,7 @@ public class UserEasyAccess {
     public double getOsaDriftgraphViewOsnrMin() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_DRIFTGRAPH_VIEW_OSNR_MIN).getCurrentValue());
     }
-    enum EnumOsaTraceOnoffVisibleAllon{
+    public enum EnumOsaTraceOnoffVisibleAllon{
         ID_OSA_TRACE_SHOW,
         ID_OSA_TRACE_HIDE,
     };
@@ -1031,7 +1031,7 @@ public class UserEasyAccess {
     public double getOsaDebugSimulatorSwaveRatio() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_DEBUG_SIMULATOR_SWAVE_RATIO).getCurrentValue());
     }
-    enum EnumOsaDebugFittingCurveGetType{
+    public enum EnumOsaDebugFittingCurveGetType{
         ID_OSA_DEBUG_FITTING_CURVE_GET_TYPE_CORBA,
         ID_OSA_DEBUG_FITTING_CURVE_GET_TYPE_TABLE,
     };
@@ -1101,7 +1101,7 @@ public class UserEasyAccess {
     public long getOsaAverageCountMaxSingle() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_AVERAGE_COUNT_MAX_SINGLE).getCurrentValue());
     }
-    enum EnumTimingSource{
+    public enum EnumTimingSource{
         ID_TIMING_SOURCE_INTERNAL,
         ID_TIMING_SOURCE_EXTERNAL,
     };
@@ -1123,7 +1123,7 @@ public class UserEasyAccess {
     public long getAveragetime() {
         return Long.valueOf(model.getProperty(ID.ID_AVERAGETIME).getCurrentValue());
     }
-    enum EnumOsaActiveTraceDriftSelectView{
+    public enum EnumOsaActiveTraceDriftSelectView{
         ID_OSA_ACTIVE_TRACE_DRIFT_SELECT_INITIAL,
         ID_OSA_ACTIVE_TRACE_DRIFT_SELECT_CURRENT,
     };
@@ -1151,7 +1151,7 @@ public class UserEasyAccess {
     public long getOsaDebugSimulatorAdValue() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_DEBUG_SIMULATOR_AD_VALUE).getCurrentValue());
     }
-    enum EnumOsaTraceOnoffVisibleAlloff{
+    public enum EnumOsaTraceOnoffVisibleAlloff{
         ID_OSA_TRACE_SHOW,
         ID_OSA_TRACE_HIDE,
     };
@@ -1167,7 +1167,7 @@ public class UserEasyAccess {
     public double getOsaInspectionLigthsourceTemperature() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_INSPECTION_LIGTHSOURCE_TEMPERATURE).getCurrentValue());
     }
-    enum EnumTest{
+    public enum EnumTest{
         ID_TEST_DO_START,
         ID_TEST_DO_STOP,
     };
@@ -1177,7 +1177,7 @@ public class UserEasyAccess {
     public EnumTest getTest() {
         return EnumTest.valueOf(model.getProperty(ID.ID_TEST).getCurrentValue());
     }
-    enum EnumOsciloTest{
+    public enum EnumOsciloTest{
         ID_OSCILO_TEST_START,
         ID_OSCILO_TEST_STOP,
     };
@@ -1199,7 +1199,7 @@ public class UserEasyAccess {
     public String getOsaDebugAutomatorfails() {
         return model.getProperty(ID.ID_OSA_DEBUG_AUTOMATORFAILS).getCurrentValue();
     }
-    enum EnumOsaOsnrFitCurve{
+    public enum EnumOsaOsnrFitCurve{
         ID_OSA_OSNR_FIT_CURVE_LINEAR,
         ID_OSA_OSNR_FIT_CURVE_GAUSS,
         ID_OSA_OSNR_FIT_CURVE_3RD_POLY,
@@ -1224,7 +1224,7 @@ public class UserEasyAccess {
     public String getOsaGridtableDataScpiM() {
         return model.getProperty(ID.ID_OSA_GRIDTABLE_DATA_SCPI_M).getCurrentValue();
     }
-    enum EnumPort{
+    public enum EnumPort{
         ID_PORT_1,
         ID_PORT_2,
         ID_PORT_3,
@@ -1248,7 +1248,7 @@ public class UserEasyAccess {
     public double getGraphViewStartdb() {
         return Double.valueOf(model.getProperty(ID.ID_GRAPH_VIEW_STARTDB).getCurrentValue());
     }
-    enum EnumPpgStart{
+    public enum EnumPpgStart{
         ID_PPG_START_ON,
         ID_PPG_START_OFF,
     };
@@ -1258,7 +1258,7 @@ public class UserEasyAccess {
     public EnumPpgStart getPpgStart() {
         return EnumPpgStart.valueOf(model.getProperty(ID.ID_PPG_START).getCurrentValue());
     }
-    enum EnumMessageCancelWait{
+    public enum EnumMessageCancelWait{
         ID_MESSAGECONTENT_NOMESSAGE,
         ID_MESSAGECONTENT_ZEROSETTING,
         ID_MESSAGECONTENT_NOMESSAGE_DUMMY,
@@ -1269,7 +1269,7 @@ public class UserEasyAccess {
     public EnumMessageCancelWait getMessageCancelWait() {
         return EnumMessageCancelWait.valueOf(model.getProperty(ID.ID_MESSAGE_CANCEL_WAIT).getCurrentValue());
     }
-    enum EnumOsaActiveWaveformType{
+    public enum EnumOsaActiveWaveformType{
         ID_OSA_ACTIVE_WAVEFORM_TYPE_OUTBAND,
         ID_OSA_ACTIVE_WAVEFORM_TYPE_INBAND,
         ID_OSA_ACTIVE_WAVEFORM_TYPE_NONE,
@@ -1280,7 +1280,7 @@ public class UserEasyAccess {
     public EnumOsaActiveWaveformType getOsaActiveWaveformType() {
         return EnumOsaActiveWaveformType.valueOf(model.getProperty(ID.ID_OSA_ACTIVE_WAVEFORM_TYPE).getCurrentValue());
     }
-    enum EnumMessageQueryYesno{
+    public enum EnumMessageQueryYesno{
         ID_MESSAGECONTENT_NOMESSAGE,
         ID_MESSAGECONTENT_GRIDTABLE_MERGE,
         ID_MESSAGECONTENT_GRIDTABLE_DELETE,
@@ -1335,7 +1335,7 @@ public class UserEasyAccess {
     public String getOsaDebugSimulatorEtalonFilename() {
         return model.getProperty(ID.ID_OSA_DEBUG_SIMULATOR_ETALON_FILENAME).getCurrentValue();
     }
-    enum EnumOsaInspectionSweepMode{
+    public enum EnumOsaInspectionSweepMode{
         ID_OTDR_PULSEWIDTH_10NS,
         ID_OTDR_PULSEWIDTH_50NS,
     };
@@ -1345,7 +1345,7 @@ public class UserEasyAccess {
     public EnumOsaInspectionSweepMode getOsaInspectionSweepMode() {
         return EnumOsaInspectionSweepMode.valueOf(model.getProperty(ID.ID_OSA_INSPECTION_SWEEP_MODE).getCurrentValue());
     }
-    enum EnumActiveTab{
+    public enum EnumActiveTab{
         ID_ACTIVE_TAB_SETUP,
         ID_ACTIVE_TAB_TEST,
         ID_ACTIVE_TAB_RESULT,
@@ -1368,7 +1368,7 @@ public class UserEasyAccess {
     public String getCustomer() {
         return model.getProperty(ID.ID_CUSTOMER).getCurrentValue();
     }
-    enum EnumMessageQueryOkcancel{
+    public enum EnumMessageQueryOkcancel{
         ID_MESSAGECONTENT_NOMESSAGE,
         ID_MESSAGECONTENT_NOMESSAGE_DUMMY,
     };
@@ -1378,7 +1378,7 @@ public class UserEasyAccess {
     public EnumMessageQueryOkcancel getMessageQueryOkcancel() {
         return EnumMessageQueryOkcancel.valueOf(model.getProperty(ID.ID_MESSAGE_QUERY_OKCANCEL).getCurrentValue());
     }
-    enum EnumOtdrDistanceunit{
+    public enum EnumOtdrDistanceunit{
         ID_OTDR_DISTANCEUNIT_KM,
         ID_OTDR_DISTANCEUNIT_M,
         ID_OTDR_DISTANCEUNIT_MILE,
@@ -1426,7 +1426,7 @@ public class UserEasyAccess {
     public long getOsaAverageCountMaxAverage() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_AVERAGE_COUNT_MAX_AVERAGE).getCurrentValue());
     }
-    enum EnumAllTest{
+    public enum EnumAllTest{
         ID_ALL_TEST_START,
         ID_ALL_TEST_STOP,
     };
@@ -1436,7 +1436,7 @@ public class UserEasyAccess {
     public EnumAllTest getAllTest() {
         return EnumAllTest.valueOf(model.getProperty(ID.ID_ALL_TEST).getCurrentValue());
     }
-    enum EnumOsaChannelCenterDefinition{
+    public enum EnumOsaChannelCenterDefinition{
         ID_OSA_CHANNEL_CENTER_DEFINITION_DETECTED,
         ID_OSA_CHANNEL_CENTER_DEFINITION_GRID,
     };
@@ -1458,7 +1458,7 @@ public class UserEasyAccess {
     public String getOsaDebugAssignedruntest() {
         return model.getProperty(ID.ID_OSA_DEBUG_ASSIGNEDRUNTEST).getCurrentValue();
     }
-    enum EnumEdStart{
+    public enum EnumEdStart{
         ID_ED_START_START,
         ID_ED_START_STOP,
     };
@@ -1468,7 +1468,7 @@ public class UserEasyAccess {
     public EnumEdStart getEdStart() {
         return EnumEdStart.valueOf(model.getProperty(ID.ID_ED_START).getCurrentValue());
     }
-    enum EnumOtdrPulsewidth{
+    public enum EnumOtdrPulsewidth{
         ID_OTDR_PULSEWIDTH_10NS,
         ID_OTDR_PULSEWIDTH_50NS,
         ID_OTDR_PULSEWIDTH_100NS,
@@ -1480,7 +1480,7 @@ public class UserEasyAccess {
     public EnumOtdrPulsewidth getOtdrPulsewidth() {
         return EnumOtdrPulsewidth.valueOf(model.getProperty(ID.ID_OTDR_PULSEWIDTH).getCurrentValue());
     }
-    enum EnumTechnology{
+    public enum EnumTechnology{
         ID_TECHNOLOGY_SDH,
         ID_TECHNOLOGY_OTN,
         ID_TECHNOLOGY_ETHERNET,
@@ -1540,7 +1540,7 @@ public class UserEasyAccess {
     public double getOsaSummaryPinGaintilt() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_PIN_GAINTILT).getCurrentValue());
     }
-    enum EnumModule{
+    public enum EnumModule{
         ID_MODULE_MU100010A,
         ID_MODULE_MU100020A,
         ID_MODULE_MU100040A,
@@ -1575,7 +1575,7 @@ public class UserEasyAccess {
     public double getEdResultBer() {
         return Double.valueOf(model.getProperty(ID.ID_ED_RESULT_BER).getCurrentValue());
     }
-    enum EnumActiveCursor{
+    public enum EnumActiveCursor{
         ID_ACTIVE_CURSOR_A,
         ID_ACTIVE_CURSOR_B,
         ID_ACTIVE_CURSOR_C,
@@ -1601,7 +1601,7 @@ public class UserEasyAccess {
     public String getOsaDebugSimulatorAnalysisparam() {
         return model.getProperty(ID.ID_OSA_DEBUG_SIMULATOR_ANALYSISPARAM).getCurrentValue();
     }
-    enum EnumOsaInspectionLightsourceType{
+    public enum EnumOsaInspectionLightsourceType{
         ID_OSA_INSPECTION_LIGHTSOURCE_TYPE_PUMP,
         ID_OSA_INSPECTION_LIGHTSOURCE_TYPE_DFB,
     };
@@ -1617,7 +1617,7 @@ public class UserEasyAccess {
     public String getOsaGridMultieditCaution() {
         return model.getProperty(ID.ID_OSA_GRID_MULTIEDIT_CAUTION).getCurrentValue();
     }
-    enum EnumServerstateLabel{
+    public enum EnumServerstateLabel{
         ID_SERVERSTATE_LABEL_IDLE,
         ID_SERVERSTATE_LABEL_AVERAGING,
         ID_SERVERSTATE_LABEL_MEASURE,
@@ -1639,7 +1639,7 @@ public class UserEasyAccess {
     public double getGraphViewFullscaleMinydb() {
         return Double.valueOf(model.getProperty(ID.ID_GRAPH_VIEW_FULLSCALE_MINYDB).getCurrentValue());
     }
-    enum EnumOtdrDistancerange{
+    public enum EnumOtdrDistancerange{
         ID_OTDR_DISTANCE_RANGE_1KM,
         ID_OTDR_DISTANCE_RANGE_5KM,
         ID_OTDR_DISTANCE_RANGE_10KM,
@@ -1657,7 +1657,7 @@ public class UserEasyAccess {
     public long getVerificationPeriod() {
         return Long.valueOf(model.getProperty(ID.ID_VERIFICATION_PERIOD).getCurrentValue());
     }
-    enum EnumOsaTraceDriftVisibleCurrent{
+    public enum EnumOsaTraceDriftVisibleCurrent{
         ID_OSA_TRACE_SHOW,
         ID_OSA_TRACE_HIDE,
     };
@@ -1667,7 +1667,7 @@ public class UserEasyAccess {
     public EnumOsaTraceDriftVisibleCurrent getOsaTraceDriftVisibleCurrent() {
         return EnumOsaTraceDriftVisibleCurrent.valueOf(model.getProperty(ID.ID_OSA_TRACE_DRIFT_VISIBLE_CURRENT).getCurrentValue());
     }
-    enum EnumTotalSummary{
+    public enum EnumTotalSummary{
         ID_TOTAL_SUMMARY_PASS,
         ID_TOTAL_SUMMARY_FAIL,
     };
@@ -1677,7 +1677,7 @@ public class UserEasyAccess {
     public EnumTotalSummary getTotalSummary() {
         return EnumTotalSummary.valueOf(model.getProperty(ID.ID_TOTAL_SUMMARY).getCurrentValue());
     }
-    enum EnumMessageOkWait{
+    public enum EnumMessageOkWait{
         ID_MESSAGECONTENT_NOMESSAGE,
         ID_MESSAGECONTENT_DRIFT_APPLY_BAND_REQUIRED,
         ID_MESSAGECONTENT_CANNOT_LOAD_RESDRIFT_FOR_RFB,
@@ -1701,7 +1701,7 @@ public class UserEasyAccess {
     public String getActiveWaveformControllerSerial() {
         return model.getProperty(ID.ID_ACTIVE_WAVEFORM_CONTROLLER_SERIAL).getCurrentValue();
     }
-    enum EnumSummaryResult{
+    public enum EnumSummaryResult{
         ID_SUMMARY_RESULT_NONE,
         ID_SUMMARY_RESULT_PASS,
         ID_SUMMARY_RESULT_FAIL,
@@ -1718,7 +1718,7 @@ public class UserEasyAccess {
     public double getOsaSummaryAveragepower() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_AVERAGEPOWER).getCurrentValue());
     }
-    enum EnumCsvDelimiter{
+    public enum EnumCsvDelimiter{
         ID_CSV_DELIMITER_COMMA,
         ID_CSV_DELIMITER_SEMICOLON,
         ID_CSV_DELIMITER_TAB,
@@ -1729,7 +1729,7 @@ public class UserEasyAccess {
     public EnumCsvDelimiter getCsvDelimiter() {
         return EnumCsvDelimiter.valueOf(model.getProperty(ID.ID_CSV_DELIMITER).getCurrentValue());
     }
-    enum EnumOsaGridCreateType{
+    public enum EnumOsaGridCreateType{
         ID_OSA_GRID_CREATE_TYPE_NONE,
         ID_OSA_GRID_CREATE_TYPE_NEW,
         ID_OSA_GRID_CREATE_TYPE_IMPORT,
@@ -1740,7 +1740,7 @@ public class UserEasyAccess {
     public EnumOsaGridCreateType getOsaGridCreateType() {
         return EnumOsaGridCreateType.valueOf(model.getProperty(ID.ID_OSA_GRID_CREATE_TYPE).getCurrentValue());
     }
-    enum EnumMessageScreenlock{
+    public enum EnumMessageScreenlock{
         ID_MESSAGECONTENT_NOMESSAGE,
         ID_MESSAGECONTENT_STARTUP,
         ID_MESSAGECONTENT_SHUTDOWN,
@@ -1759,7 +1759,7 @@ public class UserEasyAccess {
     public EnumMessageScreenlock getMessageScreenlock() {
         return EnumMessageScreenlock.valueOf(model.getProperty(ID.ID_MESSAGE_SCREENLOCK).getCurrentValue());
     }
-    enum EnumApplication{
+    public enum EnumApplication{
         ID_APPLICATION_BERT,
         ID_APPLICATION_RFC2544,
         ID_APPLICATION_PING,
@@ -1788,7 +1788,7 @@ public class UserEasyAccess {
     public double getOsaStopWavelengthThz() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_STOP_WAVELENGTH_THZ).getCurrentValue());
     }
-    enum EnumOsaWavelengthDefinition{
+    public enum EnumOsaWavelengthDefinition{
         ID_OSA_WAVELENGTH_DEFINITION_THRESHOLD,
         ID_OSA_WAVELENGTH_DEFINITION_RMS,
     };
@@ -1822,7 +1822,7 @@ public class UserEasyAccess {
     public double getOsaGridChannelWidth() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_GRID_CHANNEL_WIDTH).getCurrentValue());
     }
-    enum EnumOsaHorizontalUnit{
+    public enum EnumOsaHorizontalUnit{
         ID_OSA_HORIZONTAL_UNIT_NM,
         ID_OSA_HORIZONTAL_UNIT_THZ,
     };
@@ -1838,7 +1838,7 @@ public class UserEasyAccess {
     public double getOsaSummaryPoutTotalpower() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_POUT_TOTALPOWER).getCurrentValue());
     }
-    enum EnumTraceviewMode{
+    public enum EnumTraceviewMode{
         ID_TRACEVIEW_MODE_GRAPH,
         ID_TRACEVIEW_MODE_TABLE,
         ID_TRACEVIEW_MODE_GRAPH_TABLE,
@@ -1861,7 +1861,7 @@ public class UserEasyAccess {
     public double getOsaSummaryGaintilt() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_GAINTILT).getCurrentValue());
     }
-    enum EnumOscState{
+    public enum EnumOscState{
         ID_OSC_STATE_IDLE,
         ID_OSC_STATE_COLLECTING,
     };
@@ -1871,7 +1871,7 @@ public class UserEasyAccess {
     public EnumOscState getOscState() {
         return EnumOscState.valueOf(model.getProperty(ID.ID_OSC_STATE).getCurrentValue());
     }
-    enum EnumSpeed{
+    public enum EnumSpeed{
         ID_SPEED_1G,
         ID_SPEED_2_5G,
         ID_SPEED_10G,
@@ -1890,7 +1890,7 @@ public class UserEasyAccess {
     public long getSelectedeventSummary() {
         return Long.valueOf(model.getProperty(ID.ID_SELECTEDEVENT_SUMMARY).getCurrentValue());
     }
-    enum EnumOsaEventTableFail{
+    public enum EnumOsaEventTableFail{
         ID_SUMMARY_RESULT_NONE,
         ID_SUMMARY_RESULT_PASS,
         ID_SUMMARY_RESULT_FAIL,
@@ -1913,7 +1913,7 @@ public class UserEasyAccess {
     public long getOsaInspectionRangeCode() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_INSPECTION_RANGE_CODE).getCurrentValue());
     }
-    enum EnumOsaSetupActiveTrace{
+    public enum EnumOsaSetupActiveTrace{
         ID_OSA_SETUP_ACTIVE_TRACE_A,
         ID_OSA_SETUP_ACTIVE_TRACE_B,
         ID_OSA_SETUP_ACTIVE_TRACE_C,
@@ -1937,7 +1937,7 @@ public class UserEasyAccess {
     public double getOsaGlobalNoiseBw() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_GLOBAL_NOISE_BW).getCurrentValue());
     }
-    enum EnumTableShowDetail{
+    public enum EnumTableShowDetail{
         ID_TABLE_SHOW_DETAIL_WDM,
         ID_TABLE_SHOW_DETAIL_EDFA,
     };
@@ -1947,7 +1947,7 @@ public class UserEasyAccess {
     public EnumTableShowDetail getTableShowDetail() {
         return EnumTableShowDetail.valueOf(model.getProperty(ID.ID_TABLE_SHOW_DETAIL).getCurrentValue());
     }
-    enum EnumServerstateLabelState{
+    public enum EnumServerstateLabelState{
         ID_SERVERSTATE_LABEL_STATE_HIDE,
         ID_SERVERSTATE_LABEL_STATE_SHOW,
         ID_SERVERSTATE_LABEL_STATE_FLASH,
@@ -1982,7 +1982,7 @@ public class UserEasyAccess {
     public double getOsaDriftgraphViewMarkerMinx() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_DRIFTGRAPH_VIEW_MARKER_MINX).getCurrentValue());
     }
-    enum EnumOtdrResolution{
+    public enum EnumOtdrResolution{
         ID_OTDR_RESOLUTION_COARSE,
         ID_OTDR_RESOLUTION_MIDDLE,
         ID_OTDR_RESOLUTION_DENSE,
@@ -1993,7 +1993,7 @@ public class UserEasyAccess {
     public EnumOtdrResolution getOtdrResolution() {
         return EnumOtdrResolution.valueOf(model.getProperty(ID.ID_OTDR_RESOLUTION).getCurrentValue());
     }
-    enum EnumAutoSave{
+    public enum EnumAutoSave{
         ID_AUTO_SAVE_PROMPT,
         ID_AUTO_SAVE_ON,
         ID_AUTO_SAVE_NONE,
@@ -2004,7 +2004,7 @@ public class UserEasyAccess {
     public EnumAutoSave getAutoSave() {
         return EnumAutoSave.valueOf(model.getProperty(ID.ID_AUTO_SAVE).getCurrentValue());
     }
-    enum EnumOsaActiveTraceEdfaSelect{
+    public enum EnumOsaActiveTraceEdfaSelect{
         ID_OSA_ACTIVE_TRACE_EDFA_SELECT_IN,
         ID_OSA_ACTIVE_TRACE_EDFA_SELECT_OUT,
     };
@@ -2026,7 +2026,7 @@ public class UserEasyAccess {
     public String getOsaDriftChannelTable() {
         return model.getProperty(ID.ID_OSA_DRIFT_CHANNEL_TABLE).getCurrentValue();
     }
-    enum EnumOsaActiveGridType{
+    public enum EnumOsaActiveGridType{
         ID_OSA_GRID_TYPE_ITUT100G,
         ID_OSA_GRID_TYPE_ITUT50G,
         ID_OSA_GRID_TYPE_ITUT25G,
@@ -2040,7 +2040,7 @@ public class UserEasyAccess {
     public EnumOsaActiveGridType getOsaActiveGridType() {
         return EnumOsaActiveGridType.valueOf(model.getProperty(ID.ID_OSA_ACTIVE_GRID_TYPE).getCurrentValue());
     }
-    enum EnumOsaSummarySnr{
+    public enum EnumOsaSummarySnr{
         ID_SUMMARY_RESULT_NONE,
         ID_SUMMARY_RESULT_PASS,
         ID_SUMMARY_RESULT_FAIL,
@@ -2051,7 +2051,7 @@ public class UserEasyAccess {
     public EnumOsaSummarySnr getOsaSummarySnr() {
         return EnumOsaSummarySnr.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_SNR).getCurrentValue());
     }
-    enum EnumOsaTraceDriftVisibleCurrentAndHistory{
+    public enum EnumOsaTraceDriftVisibleCurrentAndHistory{
         ID_OSA_TRACE_SHOW,
         ID_OSA_TRACE_HIDE,
     };
@@ -2067,7 +2067,7 @@ public class UserEasyAccess {
     public String getOsaDebugSimulatorFilename() {
         return model.getProperty(ID.ID_OSA_DEBUG_SIMULATOR_FILENAME).getCurrentValue();
     }
-    enum EnumOsaViewChannelResult{
+    public enum EnumOsaViewChannelResult{
         ID_OSA_VIEW_CHANNEL_RESULT_ALL,
         ID_OSA_VIEW_CHANNEL_RESULT_FOUND,
         ID_OSA_VIEW_CHANNEL_RESULT_ALARM,
@@ -2102,7 +2102,7 @@ public class UserEasyAccess {
     public double getPpgAmplitude() {
         return Double.valueOf(model.getProperty(ID.ID_PPG_AMPLITUDE).getCurrentValue());
     }
-    enum EnumTxrx{
+    public enum EnumTxrx{
         ID_TXRX_TX,
         ID_TXRX_RX,
     };
@@ -2112,7 +2112,24 @@ public class UserEasyAccess {
     public EnumTxrx getTxrx() {
         return EnumTxrx.valueOf(model.getProperty(ID.ID_TXRX).getCurrentValue());
     }
-    enum EnumOsaActiveTraceOnoffSelect{
+    public enum EnumOsaBand{
+        ID_OSA_BAND_AUTO_DETECT,
+        ID_OSA_BAND_O,
+        ID_OSA_BAND_E,
+        ID_OSA_BAND_S,
+        ID_OSA_BAND_C,
+        ID_OSA_BAND_L,
+        ID_OSA_BAND_CL,
+        ID_OSA_BAND_FULL,
+        ID_OSA_BAND_USER,
+    };
+    public void setOsaBand(EnumOsaBand value) {
+        model.requestChange(ID.ID_OSA_BAND, value.toString());
+    }
+    public EnumOsaBand getOsaBand() {
+        return EnumOsaBand.valueOf(model.getProperty(ID.ID_OSA_BAND).getCurrentValue());
+    }
+    public enum EnumOsaActiveTraceOnoffSelect{
         ID_OSA_ACTIVE_TRACE_ONOFF_SELECT_A,
         ID_OSA_ACTIVE_TRACE_ONOFF_SELECT_B,
     };
@@ -2122,7 +2139,7 @@ public class UserEasyAccess {
     public EnumOsaActiveTraceOnoffSelect getOsaActiveTraceOnoffSelect() {
         return EnumOsaActiveTraceOnoffSelect.valueOf(model.getProperty(ID.ID_OSA_ACTIVE_TRACE_ONOFF_SELECT).getCurrentValue());
     }
-    enum EnumGuiResuultTab{
+    public enum EnumGuiResuultTab{
         ID_GUI_RESUULT_TAB_TRACE,
         ID_GUI_RESUULT_TAB_FV,
     };
@@ -2144,7 +2161,7 @@ public class UserEasyAccess {
     public double getOsaActiveWaveformLevelOffset() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_ACTIVE_WAVEFORM_LEVEL_OFFSET).getCurrentValue());
     }
-    enum EnumOtdrStartStop{
+    public enum EnumOtdrStartStop{
         ID_OTDR_START_STOP_START,
         ID_OTDR_START_STOP_STOP,
     };
@@ -2172,7 +2189,7 @@ public class UserEasyAccess {
     public double getOsaDriftgraphViewrangeStopx() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_DRIFTGRAPH_VIEWRANGE_STOPX).getCurrentValue());
     }
-    enum EnumOsaAutosaveTracekindDrift{
+    public enum EnumOsaAutosaveTracekindDrift{
         ID_OSA_AUTOSAVE_TRACEKIND_DRIFT_ALL,
         ID_OSA_AUTOSAVE_TRACEKIND_DRIFT_FAIL,
         ID_OSA_AUTOSAVE_TRACEKIND_DRIFT_NONE,
@@ -2188,6 +2205,12 @@ public class UserEasyAccess {
     }
     public double getOsaStopWavelengthNm() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_STOP_WAVELENGTH_NM).getCurrentValue());
+    }
+    public void setOtdrTable(String value) {
+        model.requestChange(ID.ID_OTDR_TABLE, value);
+    }
+    public String getOtdrTable() {
+        return model.getProperty(ID.ID_OTDR_TABLE).getCurrentValue();
     }
     public void setActiveWaveformControllerVerificationDueDate(String value) {
         model.requestChange(ID.ID_ACTIVE_WAVEFORM_CONTROLLER_VERIFICATION_DUE_DATE, value);
@@ -2207,7 +2230,7 @@ public class UserEasyAccess {
     public String getResultEthBert() {
         return model.getProperty(ID.ID_RESULT_ETH_BERT).getCurrentValue();
     }
-    enum EnumPpgPattern{
+    public enum EnumPpgPattern{
         ID_PPG_PATTERN_PRBS7,
         ID_PPG_PATTERN_PRBS8,
         ID_PPG_PATTERN_PRBS9,
@@ -2219,7 +2242,7 @@ public class UserEasyAccess {
     public EnumPpgPattern getPpgPattern() {
         return EnumPpgPattern.valueOf(model.getProperty(ID.ID_PPG_PATTERN).getCurrentValue());
     }
-    enum EnumOsaGridShowList{
+    public enum EnumOsaGridShowList{
         ID_OSA_GRID_SHOW_LIST_ALL,
         ID_OSA_GRID_SHOW_LIST_DEFAULT,
         ID_OSA_GRID_SHOW_LIST_CHANGED,
@@ -2236,7 +2259,7 @@ public class UserEasyAccess {
     public double getOsaSummaryAverageosnr() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_SUMMARY_AVERAGEOSNR).getCurrentValue());
     }
-    enum EnumOsaOnoffOsnrMethod{
+    public enum EnumOsaOnoffOsnrMethod{
         ID_OSA_ONOFF_OSNR_METHOD_IEC,
         ID_OSA_ONOFF_OSNR_METHOD_CCSA,
         ID_OSA_ONOFF_OSNR_METHOD_USER,
@@ -2247,7 +2270,7 @@ public class UserEasyAccess {
     public EnumOsaOnoffOsnrMethod getOsaOnoffOsnrMethod() {
         return EnumOsaOnoffOsnrMethod.valueOf(model.getProperty(ID.ID_OSA_ONOFF_OSNR_METHOD).getCurrentValue());
     }
-    enum EnumStartStop{
+    public enum EnumStartStop{
         ID_START_STOP_START,
         ID_START_STOP_STOP,
     };
@@ -2263,7 +2286,7 @@ public class UserEasyAccess {
     public String getTransceiverCompliance() {
         return model.getProperty(ID.ID_TRANSCEIVER_COMPLIANCE).getCurrentValue();
     }
-    enum EnumOsaInspectionPolarization{
+    public enum EnumOsaInspectionPolarization{
         ID_OSA_INSPECTION_POLARIZATION_PRIMARY,
         ID_OSA_INSPECTION_POLARIZATION_SLANT,
         ID_OSA_INSPECTION_POLARIZATION_CIRCLE,
@@ -2274,7 +2297,7 @@ public class UserEasyAccess {
     public EnumOsaInspectionPolarization getOsaInspectionPolarization() {
         return EnumOsaInspectionPolarization.valueOf(model.getProperty(ID.ID_OSA_INSPECTION_POLARIZATION).getCurrentValue());
     }
-    enum EnumMessageNoResponse{
+    public enum EnumMessageNoResponse{
         ID_MESSAGECONTENT_NOMESSAGE,
         ID_MESSAGECONTENT_ACTIVE_FIBER,
         ID_MESSAGECONTENT_OFFSET_ERROR,
@@ -2365,7 +2388,7 @@ public class UserEasyAccess {
     public double getOsaDriftgraphViewMinx() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_DRIFTGRAPH_VIEW_MINX).getCurrentValue());
     }
-    enum EnumProductname{
+    public enum EnumProductname{
         ID_PRODUCTNAME_MT1000A,
         ID_PRODUCTNAME_MT1100A,
     };
@@ -2411,7 +2434,7 @@ public class UserEasyAccess {
     public long getOsaInspectionRegSfactorIntv() {
         return Long.valueOf(model.getProperty(ID.ID_OSA_INSPECTION_REG_SFACTOR_INTV).getCurrentValue());
     }
-    enum EnumOsaDebugSimulatorType{
+    public enum EnumOsaDebugSimulatorType{
         ID_OSA_DEBUG_SIMULATOR_TYPE_LOCAL,
         ID_OSA_DEBUG_SIMULATOR_TYPE_REMOTE,
     };
@@ -2421,7 +2444,7 @@ public class UserEasyAccess {
     public EnumOsaDebugSimulatorType getOsaDebugSimulatorType() {
         return EnumOsaDebugSimulatorType.valueOf(model.getProperty(ID.ID_OSA_DEBUG_SIMULATOR_TYPE).getCurrentValue());
     }
-    enum EnumDriftChartGraphOperationMode{
+    public enum EnumDriftChartGraphOperationMode{
         ID_GRAPH_OPERATION_MODE_ZOOMIN,
         ID_GRAPH_OPERATION_MODE_ZOOMOUT,
         ID_GRAPH_OPERATION_MODE_VIEWALL,
@@ -2440,7 +2463,7 @@ public class UserEasyAccess {
     public double getEdBitrate() {
         return Double.valueOf(model.getProperty(ID.ID_ED_BITRATE).getCurrentValue());
     }
-    enum EnumCalibrationModeDrift{
+    public enum EnumCalibrationModeDrift{
         ID_CALIBRATION_MODE_SPEED,
         ID_CALIBRATION_MODE_ACCURACY,
     };
@@ -2456,7 +2479,7 @@ public class UserEasyAccess {
     public String getOsaDebugAutomatorstate() {
         return model.getProperty(ID.ID_OSA_DEBUG_AUTOMATORSTATE).getCurrentValue();
     }
-    enum EnumModelnumber{
+    public enum EnumModelnumber{
         ID_MODELNUMBER_MU100030A,
         ID_MODELNUMBER_MU100031A,
     };
@@ -2472,7 +2495,7 @@ public class UserEasyAccess {
     public double getOsaCursorLevelRangeMin() {
         return Double.valueOf(model.getProperty(ID.ID_OSA_CURSOR_LEVEL_RANGE_MIN).getCurrentValue());
     }
-    enum EnumOsaOsnrDetectType{
+    public enum EnumOsaOsnrDetectType{
         ID_OSA_OSNR_DETECT_TYPE_POINT,
         ID_OSA_OSNR_DETECT_TYPE_SIGMA,
     };
