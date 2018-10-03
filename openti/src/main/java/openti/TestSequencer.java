@@ -11,28 +11,27 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import jp.silverbullet.ChangedItemValue;
-import jp.silverbullet.dependency.engine.RequestRejectedException;
+import jp.silverbullet.dependency.ChangedItemValue;
+import jp.silverbullet.dependency.RequestRejectedException;
 import jp.silverbullet.handlers.SvHandlerModel;
 import jp.silverbullet.property.ChartContent;
 import jp.silverbullet.web.JsTableContent;
+import openti.UserEasyAccess.EnumActiveTab;
 import openti.UserEasyAccess.EnumOsaBand;
 import openti.UserEasyAccess.EnumOtdrStartStop;
-import openti.UserEasyAccess.EnumTestaction;
 
 public class TestSequencer {
 	private boolean stopRequested;
 
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) {
 		UserEasyAccess easy = new UserEasyAccess(model.getEasyAccessModel());
-
-//		if (easy.getStartStop().compareTo(EnumStartStop.ID_START_STOP_STOP) == 0) {
-//		if (easy.getTest().compareTo(EnumTest.ID_TEST_DO_START) == 0) {
 		
+		easy.getActiveTab().compareTo(EnumActiveTab.ID_ACTIVE_TAB_RESULT);
+
 //		if (easy.getTestaction().compareTo(EnumTestaction.ID_TESTACTION_START) == 0) {
 		if (easy.getOtdrStartStop().compareTo(EnumOtdrStartStop.ID_OTDR_START_STOP_START) == 0) {
 			UserRegisterControl register = new UserRegisterControl(model.getRegisterAccess());
-
+			
 			stopRequested = false;
 //			SvProperty trace = model.getProperty(ID.ID_TRACE);
 			ChartContent chartContent = new ChartContent();
@@ -42,6 +41,8 @@ public class TestSequencer {
 			chartContent.setYmax("200");
 			
 			register.motorDriveStartStop.set_s_osa_em_drv_stop_mode(true);
+
+			register.emergencyThreshold.set_s_osa_em_emergency_ignore(true);
 			
 			long average = easy.getAveragetime();
 			for (int loop = 0; loop < average; loop++) {

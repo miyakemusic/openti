@@ -1,7 +1,6 @@
 package openti;
 
-
-import jp.silverbullet.BuilderFx;
+import jp.silverbullet.javafx.BuilderFx;
 
 public class OpenTiApplication extends BuilderFx {
 	public static void main(String[] args) {

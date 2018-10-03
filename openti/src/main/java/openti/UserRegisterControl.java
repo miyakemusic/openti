@@ -1,8 +1,7 @@
 package openti;
 import jp.silverbullet.handlers.RegisterAccess;
-import jp.silverbullet.handlers.InterruptHandler;
-import javafx.application.Platform;
-public class UserRegisterControl {
+import jp.silverbullet.register.RegisterControl;
+public class UserRegisterControl extends RegisterControl {
     public static int ADDR_INTERRUPTSTATUS = 0x0010;
     public static int BIT_INTERRUPTSTATUS_INTR_STATE_NEXT_BOARD = 28;
     public static int BIT_INTERRUPTSTATUS_INTER_STATE_OSA_LDCUR = 20;
@@ -107,32 +106,8 @@ public class UserRegisterControl {
     	return registerAccess;
     }
     public UserRegisterControl(RegisterAccess registerAccess2) {
+         super(registerAccess2);
          this.registerAccess = registerAccess2;
-    }
-    private Object lock = new Object();
-    public void waitIntrrupt() {
-    InterruptHandler interruptHandler = new InterruptHandler() {
-        @Override
-        public void onTrigger() {
-            synchronized(lock) {
-    	        lock.notifyAll();
-            }
-        }  
-    };
-    this.registerAccess.addInterruptHandler(interruptHandler);
-    try {
-       synchronized(lock) {
-           lock.wait();
-           Platform.runLater(new Runnable() {
-              @Override
-              public void run() {
-           	   registerAccess.removeInteruptHandler(interruptHandler);
-              }
-           });
-      }
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
     }
     public class InterruptStatus{
     /**
