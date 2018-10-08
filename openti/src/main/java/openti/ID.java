@@ -23,6 +23,9 @@ public class ID {
 	public static final String ID_OTDR_PULSEWIDTH_500NS="ID_OTDR_PULSEWIDTH_500NS";
 	public static final String ID_OTDR_AVERAGETIME="ID_OTDR_AVERAGETIME";
 	public static final String ID_OTDR_TRACE="ID_OTDR_TRACE";
+	public static final String ID_OTDR_TEST_MODE="ID_OTDR_TEST_MODE";
+	public static final String ID_OTDR_TEST_MODE_AUTO="ID_OTDR_TEST_MODE_AUTO";
+	public static final String ID_OTDR_TEST_MODE_MANUAL="ID_OTDR_TEST_MODE_MANUAL";
 	public static final String ID_OTDR_DISTANCERANGE="ID_OTDR_DISTANCERANGE";
 	public static final String ID_OTDR_DISTANCERANGE_1KM="ID_OTDR_DISTANCERANGE_1KM";
 	public static final String ID_OTDR_DISTANCERANGE_10KM="ID_OTDR_DISTANCERANGE_10KM";

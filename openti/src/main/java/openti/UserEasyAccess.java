@@ -71,6 +71,16 @@ public class UserEasyAccess {
     public long getOtdrAveragetime() {
         return Long.valueOf(model.getProperty(ID.ID_OTDR_AVERAGETIME).getCurrentValue());
     }
+    public enum EnumOtdrTestMode{
+        ID_OTDR_TEST_MODE_AUTO,
+        ID_OTDR_TEST_MODE_MANUAL,
+    };
+    public void setOtdrTestMode(EnumOtdrTestMode value) {
+        model.requestChange(ID.ID_OTDR_TEST_MODE, value.toString());
+    }
+    public EnumOtdrTestMode getOtdrTestMode() {
+        return EnumOtdrTestMode.valueOf(model.getProperty(ID.ID_OTDR_TEST_MODE).getCurrentValue());
+    }
     public enum EnumOtdrDistancerange{
         ID_OTDR_DISTANCERANGE_1KM,
         ID_OTDR_DISTANCERANGE_10KM,
