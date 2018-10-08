@@ -9,6 +9,7 @@ public abstract class OtdrHardware {
 	private byte[] data;
 	
 	public void start() {
+		stopRequested = false;
 		new Thread() {
 			@Override
 			public void run() {
