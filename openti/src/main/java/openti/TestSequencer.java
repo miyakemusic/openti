@@ -37,6 +37,7 @@ public class TestSequencer {
 
 			long average = easy.getOtdrAveragetime();
 			for (int loop = 0; loop < average; loop++) {
+				easy.setOtdrAverageResult(loop+1);
 				register.otdrTestControl.set_teststart(true);
 				register.waitIntrrupt();
 				
@@ -57,7 +58,6 @@ public class TestSequencer {
 				try {
 					Thread.sleep(200);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -94,24 +94,15 @@ public class TestSequencer {
 				}
 				register.otdrTestControl.set_teststart(false);
 				try {
-//					easy.setTraceDistancerange(model.getProperty(ID.ID_DISTANCERANGE).getSelectedListTitle() + model.getProperty(ID.ID_DISTANCERANGE).getUnit());
-//					easy.setTracePulsewidth(model.getProperty(ID.ID_PULSEWIDTH).getSelectedListTitle() + model.getProperty(ID.ID_PULSEWIDTH).getUnit());
 					model.requestChange(ID.ID_OTDR_TRACE, new ObjectMapper().writeValueAsString(chartContent));
 					model.requestChange(ID.ID_OTDR_TABLE, new ObjectMapper().writeValueAsString(tableContent));
-//					easy.setSpliceLoss(Math.random());
-//					easy.setReflectance(Math.random()-30);
-//					//easy.setTeststate(EnumTeststate.ID);
 				} catch (JsonGenerationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (JsonMappingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (RequestRejectedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
