@@ -23,10 +23,10 @@ public class TestSequencer {
 	private boolean stopRequested;
 
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) {
-		UserEasyAccess easy = new UserEasyAccess(model.getEasyAccessModel());
+		UserEasyAccess parameters = new UserEasyAccess(model.getEasyAccessModel());
 
-		if (easy.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {
-			UserRegisterControl register = new UserRegisterControl(model.getRegisterAccess());
+		if (parameters.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {
+			UserRegisterControl regiseters = new UserRegisterControl(model.getRegisterAccess());
 			
 			stopRequested = false;
 			ChartContent chartContent = new ChartContent();
@@ -35,21 +35,21 @@ public class TestSequencer {
 			chartContent.setYmin("-200");
 			chartContent.setYmax("200");	
 
-			long average = easy.getOtdrAveragetime();
+			long average = parameters.getOtdrAveragetime();
 			for (int loop = 0; loop < average; loop++) {
-				easy.setOtdrAverageResult(loop+1);
-				register.otdrTestControl.set_teststart(true);
-				register.waitIntrrupt();
+				parameters.setOtdrAverageResult(loop+1);
+				regiseters.otdrTestControl.set_teststart(true);
+				regiseters.waitIntrrupt();
 				
-				if (register.otdrInterruptStatus.get_erroroccurs()) {
-					easy.setOtdrError(EnumOtdrError.ID_OTDR_ERROR_HARDWARE);
-					register.otdrTestControl.set_teststart(false);
+				if (regiseters.otdrInterruptStatus.get_erroroccurs()) {
+					parameters.setOtdrError(EnumOtdrError.ID_OTDR_ERROR_HARDWARE);
+					regiseters.otdrTestControl.set_teststart(false);
 					break;
 				}
-				else if (register.otdrInterruptStatus.get_tracedataready()) {
-					register.otdrInterruptStatus.set_tracedataready(false);
+				else if (regiseters.otdrInterruptStatus.get_tracedataready()) {
+					regiseters.otdrInterruptStatus.set_tracedataready(false);
 				}
-				byte[] data = register.getRegisterAccess().readBlock(UserRegisterControl.ADDR_ADDROTDRTRACEDATA, 25001*2);
+				byte[] data = regiseters.getRegisterAccess().readBlock(UserRegisterControl.ADDR_ADDROTDRTRACEDATA, 25001*2);
 				
 				if (stopRequested) {
 					break;
@@ -92,7 +92,7 @@ public class TestSequencer {
 							);
 					tableContent.addRow(line);
 				}
-				register.otdrTestControl.set_teststart(false);
+				regiseters.otdrTestControl.set_teststart(false);
 				try {
 					model.requestChange(ID.ID_OTDR_TRACE, new ObjectMapper().writeValueAsString(chartContent));
 					model.requestChange(ID.ID_OTDR_TABLE, new ObjectMapper().writeValueAsString(tableContent));
@@ -106,7 +106,7 @@ public class TestSequencer {
 					e.printStackTrace();
 				}
 			}
-			easy.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
+			parameters.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
 		}
 		else {
 			stopRequested = true;
