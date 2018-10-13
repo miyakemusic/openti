@@ -4,6 +4,13 @@ import jp.silverbullet.register.SvSimulator;
 abstract public class AbstractUserSimulator extends SvSimulator {
     public void write_otdrtestcontrol_teststart(int value) {};
     public void read_otdrtestcontrol_otdrtestcontrol() {};
+    public void write_OTDRhardkeys_Setup(int value) {};
+    public void write_OTDRhardkeys_Load(int value) {};
+    public void write_OTDRhardkeys_Save(int value) {};
+    public void write_OTDRhardkeys_Realtime(int value) {};
+    public void write_OTDRhardkeys_Average(int value) {};
+    public void read_OTDRhardkeys_OTDRhardkeys() {};
+    public void read_Transporttestcontrol_Transporttestcontrol() {};
     public void write_otdrinterruptstatus_erroroccurs(int value) {};
     public void write_otdrinterruptstatus_tracedataready(int value) {};
     public void read_otdrinterruptstatus_otdrinterruptstatus() {};
@@ -25,6 +32,30 @@ abstract public class AbstractUserSimulator extends SvSimulator {
 				int value = getValue(0, data, mask);
 				write_otdrtestcontrol_teststart(value);
 			}
+		}
+		else if (address == SimRegisterControl.ADDR_OTDRHARDKEYS) {
+			if (mask.get(4)) {
+				int value = getValue(4, data, mask);
+				write_OTDRhardkeys_Setup(value);
+			}
+			else if (mask.get(3)) {
+				int value = getValue(3, data, mask);
+				write_OTDRhardkeys_Load(value);
+			}
+			else if (mask.get(2)) {
+				int value = getValue(2, data, mask);
+				write_OTDRhardkeys_Save(value);
+			}
+			else if (mask.get(1)) {
+				int value = getValue(1, data, mask);
+				write_OTDRhardkeys_Realtime(value);
+			}
+			else if (mask.get(0)) {
+				int value = getValue(0, data, mask);
+				write_OTDRhardkeys_Average(value);
+			}
+		}
+		else if (address == SimRegisterControl.ADDR_TRANSPORTTESTCONTROL) {
 		}
 		else if (address == SimRegisterControl.ADDR_OTDRINTERRUPTSTATUS) {
 			if (mask.get(1)) {
@@ -80,6 +111,12 @@ abstract public class AbstractUserSimulator extends SvSimulator {
 	public void readIo(long address) {
 		if (address == SimRegisterControl.ADDR_OTDRTESTCONTROL) {
 				read_otdrtestcontrol_otdrtestcontrol();
+		}
+		else if (address == SimRegisterControl.ADDR_OTDRHARDKEYS) {
+				read_OTDRhardkeys_OTDRhardkeys();
+		}
+		else if (address == SimRegisterControl.ADDR_TRANSPORTTESTCONTROL) {
+				read_Transporttestcontrol_Transporttestcontrol();
 		}
 		else if (address == SimRegisterControl.ADDR_OTDRINTERRUPTSTATUS) {
 				read_otdrinterruptstatus_otdrinterruptstatus();

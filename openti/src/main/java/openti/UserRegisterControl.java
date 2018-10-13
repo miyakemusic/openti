@@ -4,6 +4,13 @@ import jp.silverbullet.register.RegisterControl;
 public class UserRegisterControl extends RegisterControl {
     public static int ADDR_OTDRTESTCONTROL = 0x00;
     public static int BIT_OTDRTESTCONTROL_TESTSTART = 0;
+    public static int ADDR_OTDRHARDKEYS = 0x00001;
+    public static int BIT_OTDRHARDKEYS_SETUP = 4;
+    public static int BIT_OTDRHARDKEYS_LOAD = 3;
+    public static int BIT_OTDRHARDKEYS_SAVE = 2;
+    public static int BIT_OTDRHARDKEYS_REALTIME = 1;
+    public static int BIT_OTDRHARDKEYS_AVERAGE = 0;
+    public static int ADDR_TRANSPORTTESTCONTROL = 0x2;
     public static int ADDR_OTDRINTERRUPTSTATUS = 0x00010;
     public static int BIT_OTDRINTERRUPTSTATUS_ERROROCCURS = 1;
     public static int BIT_OTDRINTERRUPTSTATUS_TRACEDATAREADY = 0;
@@ -39,6 +46,72 @@ public class UserRegisterControl extends RegisterControl {
         }
     }
     public OtdrTestControl otdrTestControl = new OtdrTestControl();
+    public class OtdrHardKeys{
+    /**
+    *   new bit
+    **/
+        public boolean get_Setup() {
+    	    return readIoBoolean(ADDR_OTDRHARDKEYS, 4);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_Setup(boolean value) {
+            writeIo(ADDR_OTDRHARDKEYS, value, 4);
+        }
+    /**
+    *   new bit
+    **/
+        public boolean get_Load() {
+    	    return readIoBoolean(ADDR_OTDRHARDKEYS, 3);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_Load(boolean value) {
+            writeIo(ADDR_OTDRHARDKEYS, value, 3);
+        }
+    /**
+    *   new bit
+    **/
+        public boolean get_Save() {
+    	    return readIoBoolean(ADDR_OTDRHARDKEYS, 2);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_Save(boolean value) {
+            writeIo(ADDR_OTDRHARDKEYS, value, 2);
+        }
+    /**
+    *   new bit
+    **/
+        public boolean get_Realtime() {
+    	    return readIoBoolean(ADDR_OTDRHARDKEYS, 1);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_Realtime(boolean value) {
+            writeIo(ADDR_OTDRHARDKEYS, value, 1);
+        }
+    /**
+    *   new bit
+    **/
+        public boolean get_Average() {
+    	    return readIoBoolean(ADDR_OTDRHARDKEYS, 0);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_Average(boolean value) {
+            writeIo(ADDR_OTDRHARDKEYS, value, 0);
+        }
+    }
+    public OtdrHardKeys otdrHardKeys = new OtdrHardKeys();
+    public class TransportTestControl{
+    }
+    public TransportTestControl transportTestControl = new TransportTestControl();
     public class OtdrInterruptStatus{
     /**
     *   new bit

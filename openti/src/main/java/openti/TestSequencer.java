@@ -16,6 +16,7 @@ import jp.silverbullet.dependency.RequestRejectedException;
 import jp.silverbullet.handlers.SvHandlerModel;
 import jp.silverbullet.property.ChartContent;
 import jp.silverbullet.web.JsTableContent;
+import openti.UserEasyAccess.EnumOtdrCollectionMode;
 import openti.UserEasyAccess.EnumOtdrError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
 
@@ -104,6 +105,9 @@ public class TestSequencer {
 					e.printStackTrace();
 				} catch (RequestRejectedException e) {
 					e.printStackTrace();
+				}
+				if (parameters.getOtdrCollectionMode().equals(EnumOtdrCollectionMode.ID_OTDR_COLLECTION_MODE_REALTIME)) {
+					loop--;
 				}
 			}
 			parameters.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);

@@ -31,12 +31,23 @@ public class UserEasyAccess {
     public EnumOtdrError getOtdrError() {
         return EnumOtdrError.valueOf(model.getProperty(ID.ID_OTDR_ERROR).getCurrentValue());
     }
+    public enum EnumOtdrCollectionMode{
+        ID_OTDR_COLLECTION_MODE_AVERAGE,
+        ID_OTDR_COLLECTION_MODE_REALTIME,
+    };
+    public void setOtdrCollectionMode(EnumOtdrCollectionMode value) {
+        model.requestChange(ID.ID_OTDR_COLLECTION_MODE, value.toString());
+    }
+    public EnumOtdrCollectionMode getOtdrCollectionMode() {
+        return EnumOtdrCollectionMode.valueOf(model.getProperty(ID.ID_OTDR_COLLECTION_MODE).getCurrentValue());
+    }
     public enum EnumOtdrDistancerange{
         ID_OTDR_DISTANCERANGE_1KM,
         ID_OTDR_DISTANCERANGE_10KM,
         ID_OTDR_DISTANCERANGE_20KM,
         ID_OTDR_DISTANCERANGE_50KM,
         ID_OTDR_DISTANCERANGE_100KM,
+        ID_OTDR_DISTANCERANGE_200KM,
     };
     public void setOtdrDistancerange(EnumOtdrDistancerange value) {
         model.requestChange(ID.ID_OTDR_DISTANCERANGE, value.toString());
