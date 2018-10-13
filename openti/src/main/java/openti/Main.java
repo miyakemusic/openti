@@ -1,5 +1,10 @@
 package openti;
 
+import java.util.Set;
+
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+
 import jp.silverbullet.SilverBulletServer;
 import jp.silverbullet.handlers.EasyAccessModel;
 import jp.silverbullet.handlers.RegisterAccess;
@@ -17,7 +22,8 @@ public class Main extends SilverBulletServer {
 	}
 	@Override
 	protected String getUserPath() {
-		return this.getClass().getName().replace("." + this.getClass().getSimpleName(), "");
+		String ret = this.getClass().getName().replace("." + this.getClass().getSimpleName(), "");
+		return ret;
 	}
 	@Override
 	protected void onStart(EasyAccessModel easyAccess, RegisterAccess registerAccess) {
@@ -29,11 +35,11 @@ public class Main extends SilverBulletServer {
 				
 				while(true) {
 					register.waitIntrrupt();
-					if (register.otdrHardKeys.get_Average()) {
+					if (register.otdrHardkey.get_average()) {
 						props.setOtdrCollectionMode(EnumOtdrCollectionMode.ID_OTDR_COLLECTION_MODE_AVERAGE);
 						props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START);
 					}
-					if (register.otdrHardKeys.get_Realtime()) {
+					if (register.otdrHardkey.get_realtime()) {
 						props.setOtdrCollectionMode(EnumOtdrCollectionMode.ID_OTDR_COLLECTION_MODE_REALTIME);
 						props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START);
 					}

@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.silverbullet.dependency.ChangedItemValue;
 import jp.silverbullet.dependency.RequestRejectedException;
@@ -36,7 +36,7 @@ public class TestSequencer {
 			chartContent.setYmin("-200");
 			chartContent.setYmax("200");	
 
-			long average = parameters.getOtdrAveragetime();
+			long average = parameters.getOtdrAverage();
 			for (int loop = 0; loop < average; loop++) {
 				parameters.setOtdrAverageResult(loop+1);
 				regiseters.otdrTestControl.set_teststart(true);
@@ -47,10 +47,10 @@ public class TestSequencer {
 					regiseters.otdrTestControl.set_teststart(false);
 					break;
 				}
-				else if (regiseters.otdrInterruptStatus.get_tracedataready()) {
-					regiseters.otdrInterruptStatus.set_tracedataready(false);
+				else if (regiseters.otdrInterruptStatus.get_traceready()) {
+					regiseters.otdrInterruptStatus.set_traceready(false);
 				}
-				byte[] data = regiseters.getRegisterAccess().readBlock(UserRegisterControl.ADDR_ADDROTDRTRACEDATA, 25001*2);
+				byte[] data = regiseters.getRegisterAccess().readBlock(UserRegisterControl.ADDR_OTDRTRACEDATA, 25001*2);
 				
 				if (stopRequested) {
 					break;

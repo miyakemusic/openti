@@ -103,7 +103,7 @@ public class SimOscillo extends AbstractUserSimulator{
 
 
 	private void updateData() {
-		super.updateBlockData(UserRegisterControl.ADDR_ADDREYEDIAGRAM, getByteArray(data));
+		super.updateBlockData(UserRegisterControl.ADDR_EYEDIAGRAM, getByteArray(data));
 		
 		if (samplingCount == 0) {
 			super.triggerInterrupt();
@@ -168,19 +168,12 @@ public class SimOscillo extends AbstractUserSimulator{
 	}
 
 	@Override
-	public void write_OSCControl_Trigger(int value) {
+	public void write_OSCControl_trigger(int value) {
 		triggerPos = ((double)value) * 1e-3;
 	}
 
 	@Override
-	public void read_OSCControl_OSCControl() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void write_OSCControl_DataClear(int value) {
+	public void write_OSCControl_dataclear(int value) {
 		if (value == 1) {
 			this.data.clear();
 		}
