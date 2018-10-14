@@ -1,10 +1,5 @@
 package openti;
 
-import java.util.Set;
-
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-
 import jp.silverbullet.SilverBulletServer;
 import jp.silverbullet.handlers.EasyAccessModel;
 import jp.silverbullet.handlers.RegisterAccess;
@@ -13,7 +8,7 @@ import openti.UserEasyAccess.EnumOtdrTestcontrol;
 
 public class Main extends SilverBulletServer {
 	public static void main(String arg[]) {
-		new Main().start();
+		new Main().start(arg[0]);
 	}
 	@Override
 	protected String getDefaultFilename() {
