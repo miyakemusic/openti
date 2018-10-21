@@ -2,25 +2,27 @@ package openti;
 import jp.silverbullet.handlers.RegisterAccess;
 import jp.silverbullet.register.RegisterControl;
 public class UserRegisterControl extends RegisterControl {
-    public static int ADDR_OTDRTESTCONTROL = 0x000001;
+    public static int ADDR_OTDRTESTCONTROL = 0x00;
     public static int BIT_OTDRTESTCONTROL_TESTSTART = 0;
-    public static int ADDR_DUMMY = 0x1;
-    public static int ADDR_OTDRHARDKEY = 0x000002;
-    public static int BIT_OTDRHARDKEY_SETUP = 4;
-    public static int BIT_OTDRHARDKEY_LOA = 3;
-    public static int BIT_OTDRHARDKEY_SAVE = 2;
-    public static int BIT_OTDRHARDKEY_REALTIME = 1;
-    public static int BIT_OTDRHARDKEY_AVERAGE = 0;
-    public static int ADDR_OTDRINTERRUPTSTATUS = 0x000003;
-    public static int BIT_OTDRINTERRUPTSTATUS_TRACEREADY = 1;
-    public static int BIT_OTDRINTERRUPTSTATUS_ERROROCCURS = 0;
-    public static int ADDR_OTDRTRACEDATA = 0x00010;
-    public static int ADDR_EYEDIAGRAM = 0x000100;
-    public static int ADDR_PPGCONTROL = 0x102;
-    public static int ADDR_OSCCONTROL = 0x000101;
-    public static int BIT_OSCCONTROL_TRIGGER = 2;
-    public static int BIT_OSCCONTROL_DATACLEAR = 1;
+    public static int ADDR_HARDKEY = 0x00001;
+    public static int BIT_HARDKEY_SETUP = 4;
+    public static int BIT_HARDKEY_LOAD = 3;
+    public static int BIT_HARDKEY_SAVE = 2;
+    public static int BIT_HARDKEY_REALTIME = 1;
+    public static int BIT_HARDKEY_AVERAGE = 0;
+    public static int ADDR_OTDRDEUMMHY = 0x2;
+    public static int ADDR_OTDRINTERRUPTSTATUS = 0x00010;
+    public static int BIT_OTDRINTERRUPTSTATUS_ERROROCCURS = 1;
+    public static int BIT_OTDRINTERRUPTSTATUS_TRACEDATAREADY = 0;
+    public static int ADDR_ADDROTDRTRACEDATA = 0x00020;
+    public static int ADDR_ADDREYEDIAGRAM = 0x21;
+    public static int ADDR_OSCCONTROL = 0x22;
+    public static int BIT_OSCCONTROL_DATACLEAR = 2;
+    public static int BIT_OSCCONTROL_TRIGGER = 1;
     public static int BIT_OSCCONTROL_STARTSTOP = 0;
+    public static int ADDR_PPGCONTROL = 0x23;
+    public static int BIT_PPGCONTROL_STARTSTOP = 1;
+    public static int BIT_PPGCONTROL_TESTPATTERN = 0;
     private RegisterAccess registerAccess = null;
     public RegisterAccess getRegisterAccess() {
     	return registerAccess;
@@ -44,164 +46,137 @@ public class UserRegisterControl extends RegisterControl {
         }
     }
     public OtdrTestControl otdrTestControl = new OtdrTestControl();
-    public class Dummy{
-    }
-    public Dummy dummy = new Dummy();
-    public class OtdrHardkey{
+    public class Hardkey{
     /**
     *   new bit
     **/
-        public boolean get_setup() {
-    	    return readIoBoolean(ADDR_OTDRHARDKEY, 4);
+        public boolean get_Setup() {
+    	    return readIoBoolean(ADDR_HARDKEY, 4);
         }
     /**
     *   new bit
     **/
-        public void set_setup(boolean value) {
-            writeIo(ADDR_OTDRHARDKEY, value, 4);
+        public void set_Setup(boolean value) {
+            writeIo(ADDR_HARDKEY, value, 4);
         }
     /**
     *   new bit
     **/
-        public boolean get_loa() {
-    	    return readIoBoolean(ADDR_OTDRHARDKEY, 3);
+        public boolean get_Load() {
+    	    return readIoBoolean(ADDR_HARDKEY, 3);
         }
     /**
     *   new bit
     **/
-        public void set_loa(boolean value) {
-            writeIo(ADDR_OTDRHARDKEY, value, 3);
+        public void set_Load(boolean value) {
+            writeIo(ADDR_HARDKEY, value, 3);
         }
     /**
     *   new bit
     **/
-        public boolean get_save() {
-    	    return readIoBoolean(ADDR_OTDRHARDKEY, 2);
+        public boolean get_Save() {
+    	    return readIoBoolean(ADDR_HARDKEY, 2);
         }
     /**
     *   new bit
     **/
-        public void set_save(boolean value) {
-            writeIo(ADDR_OTDRHARDKEY, value, 2);
+        public void set_Save(boolean value) {
+            writeIo(ADDR_HARDKEY, value, 2);
         }
     /**
     *   new bit
     **/
-        public boolean get_realtime() {
-    	    return readIoBoolean(ADDR_OTDRHARDKEY, 1);
+        public boolean get_Realtime() {
+    	    return readIoBoolean(ADDR_HARDKEY, 1);
         }
     /**
     *   new bit
     **/
-        public void set_realtime(boolean value) {
-            writeIo(ADDR_OTDRHARDKEY, value, 1);
+        public void set_Realtime(boolean value) {
+            writeIo(ADDR_HARDKEY, value, 1);
         }
     /**
     *   new bit
     **/
-        public boolean get_average() {
-    	    return readIoBoolean(ADDR_OTDRHARDKEY, 0);
+        public boolean get_Average() {
+    	    return readIoBoolean(ADDR_HARDKEY, 0);
         }
     /**
     *   new bit
     **/
-        public void set_average(boolean value) {
-            writeIo(ADDR_OTDRHARDKEY, value, 0);
+        public void set_Average(boolean value) {
+            writeIo(ADDR_HARDKEY, value, 0);
         }
     }
-    public OtdrHardkey otdrHardkey = new OtdrHardkey();
+    public Hardkey hardkey = new Hardkey();
+    public class OtdrDeummhy{
+    }
+    public OtdrDeummhy otdrDeummhy = new OtdrDeummhy();
     public class OtdrInterruptStatus{
     /**
     *   new bit
     **/
-        public boolean get_traceready() {
+        public boolean get_erroroccurs() {
     	    return readIoBoolean(ADDR_OTDRINTERRUPTSTATUS, 1);
         }
     /**
     *   new bit
     **/
-        public void set_traceready(boolean value) {
+        public void set_erroroccurs(boolean value) {
             writeIo(ADDR_OTDRINTERRUPTSTATUS, value, 1);
         }
     /**
     *   new bit
     **/
-        public boolean get_erroroccurs() {
+        public boolean get_tracedataready() {
     	    return readIoBoolean(ADDR_OTDRINTERRUPTSTATUS, 0);
         }
     /**
     *   new bit
     **/
-        public void set_erroroccurs(boolean value) {
+        public void set_tracedataready(boolean value) {
             writeIo(ADDR_OTDRINTERRUPTSTATUS, value, 0);
         }
     }
     public OtdrInterruptStatus otdrInterruptStatus = new OtdrInterruptStatus();
-    public class EyeDiagram{
-    }
-    public EyeDiagram eyeDiagram = new EyeDiagram();
-    public class PpgControl{
+    public class AddrEyediagram{
     /**
     *   new bit
     **/
-        public int get_BitRate() {
-    	    return readIoInteger(ADDR_PPGCONTROL, 5,4);
+        public int get_data() {
+    	    return readIoInteger(ADDR_ADDREYEDIAGRAM, 31,0);
         }
     /**
     *   new bit
     **/
-        public void set_BitRate(int value) {
-            writeIo(ADDR_PPGCONTROL, value, 4, 5);
-        }
-    /**
-    *   new bit
-    **/
-        public int get_StartStop() {
-    	    return readIoInteger(ADDR_PPGCONTROL, 3,2);
-        }
-    /**
-    *   new bit
-    **/
-        public void set_StartStop(int value) {
-            writeIo(ADDR_PPGCONTROL, value, 2, 3);
-        }
-    /**
-    *   new bit
-    **/
-        public int get_TestPattern() {
-    	    return readIoInteger(ADDR_PPGCONTROL, 1,0);
-        }
-    /**
-    *   new bit
-    **/
-        public void set_TestPattern(int value) {
-            writeIo(ADDR_PPGCONTROL, value, 0, 1);
+        public void set_data(int value) {
+            writeIo(ADDR_ADDREYEDIAGRAM, value, 0, 31);
         }
     }
-    public PpgControl ppgControl = new PpgControl();
-    public class OscControl{
+    public AddrEyediagram addrEyediagram = new AddrEyediagram();
+    public class Osccontrol{
     /**
     *   new bit
     **/
-        public boolean get_trigger() {
+        public boolean get_DataClear() {
     	    return readIoBoolean(ADDR_OSCCONTROL, 2);
         }
     /**
     *   new bit
     **/
-        public void set_trigger(boolean value) {
+        public void set_DataClear(boolean value) {
             writeIo(ADDR_OSCCONTROL, value, 2);
         }
     /**
     *   new bit
     **/
-        public boolean get_dataclear() {
+        public boolean get_Trigger() {
     	    return readIoBoolean(ADDR_OSCCONTROL, 1);
         }
     /**
     *   new bit
     **/
-        public void set_dataclear(boolean value) {
+        public void set_Trigger(boolean value) {
             writeIo(ADDR_OSCCONTROL, value, 1);
         }
     /**
@@ -217,5 +192,44 @@ public class UserRegisterControl extends RegisterControl {
             writeIo(ADDR_OSCCONTROL, value, 0);
         }
     }
-    public OscControl oscControl = new OscControl();
+    public Osccontrol osccontrol = new Osccontrol();
+    public class Ppgcontrol{
+    /**
+    *   new bit
+    **/
+        public int get_BitRate() {
+    	    return readIoInteger(ADDR_PPGCONTROL, 3,2);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_BitRate(int value) {
+            writeIo(ADDR_PPGCONTROL, value, 2, 3);
+        }
+    /**
+    *   new bit
+    **/
+        public boolean get_StartStop() {
+    	    return readIoBoolean(ADDR_PPGCONTROL, 1);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_StartStop(boolean value) {
+            writeIo(ADDR_PPGCONTROL, value, 1);
+        }
+    /**
+    *   new bit
+    **/
+        public boolean get_TestPattern() {
+    	    return readIoBoolean(ADDR_PPGCONTROL, 0);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_TestPattern(boolean value) {
+            writeIo(ADDR_PPGCONTROL, value, 0);
+        }
+    }
+    public Ppgcontrol ppgcontrol = new Ppgcontrol();
 }

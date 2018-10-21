@@ -11,10 +11,10 @@ public class SimOtdr extends AbstractUserSimulator {
 	private OtdrHardware otdr = new OtdrHardware() {
 		@Override
 		protected void onCompleted() {
-			SimOtdr.this.updateBlockData(UserRegisterControl.ADDR_OTDRTRACEDATA, otdr.getData());
+			SimOtdr.this.updateBlockData(UserRegisterControl.ADDR_ADDROTDRTRACEDATA, otdr.getData());
 			
 			BitSet data = new BitSet();
-			data.set(UserRegisterControl.BIT_OTDRINTERRUPTSTATUS_TRACEREADY);
+			data.set(UserRegisterControl.BIT_OTDRINTERRUPTSTATUS_TRACEDATAREADY);
 			SimOtdr.this.updateRegister(UserRegisterControl.ADDR_OTDRINTERRUPTSTATUS, data, data);
 			SimOtdr.this.triggerInterrupt();
 		}

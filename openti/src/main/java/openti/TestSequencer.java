@@ -16,8 +16,8 @@ import jp.silverbullet.dependency.RequestRejectedException;
 import jp.silverbullet.handlers.SvHandlerModel;
 import jp.silverbullet.property.ChartContent;
 import jp.silverbullet.web.JsTableContent;
-import openti.UserEasyAccess.EnumOtdrCollectionMode;
-import openti.UserEasyAccess.EnumOtdrError;
+import openti.UserEasyAccess.EnumCollecmode;
+import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
 
 public class TestSequencer {
@@ -36,21 +36,21 @@ public class TestSequencer {
 			chartContent.setYmin("-200");
 			chartContent.setYmax("200");	
 
-			long average = parameters.getOtdrAverage();
+			long average = 1;//parameters.getOtdrAverage();
 			for (int loop = 0; loop < average; loop++) {
-				parameters.setOtdrAverageResult(loop+1);
+				parameters.setAverageResult(loop+1);
 				regiseters.otdrTestControl.set_teststart(true);
 				regiseters.waitIntrrupt();
 				
 				if (regiseters.otdrInterruptStatus.get_erroroccurs()) {
-					parameters.setOtdrError(EnumOtdrError.ID_OTDR_ERROR_HARDWARE);
+					parameters.setError(EnumError.ID_ERROR_HARDWARE);
 					regiseters.otdrTestControl.set_teststart(false);
 					break;
 				}
-				else if (regiseters.otdrInterruptStatus.get_traceready()) {
-					regiseters.otdrInterruptStatus.set_traceready(false);
+				else if (regiseters.otdrInterruptStatus.get_tracedataready()) {
+					regiseters.otdrInterruptStatus.set_tracedataready(false);
 				}
-				byte[] data = regiseters.getRegisterAccess().readBlock(UserRegisterControl.ADDR_OTDRTRACEDATA, 25001*2);
+				byte[] data = regiseters.getRegisterAccess().readBlock(UserRegisterControl.ADDR_ADDROTDRTRACEDATA, 25001*2);
 				
 				if (stopRequested) {
 					break;
@@ -64,8 +64,8 @@ public class TestSequencer {
 				
 				short[] shorts = new short[data.length/2];
 				// to turn bytes to shorts as either big endian or little endian. 
-				ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
-				
+			//	ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
+				ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).asShortBuffer().get(shorts);
 				
 				int points = shorts.length;
 				String[] y = new String[points];
@@ -95,8 +95,8 @@ public class TestSequencer {
 				}
 				regiseters.otdrTestControl.set_teststart(false);
 				try {
-					model.requestChange(ID.ID_OTDR_TRACE, new ObjectMapper().writeValueAsString(chartContent));
-					model.requestChange(ID.ID_OTDR_TABLE, new ObjectMapper().writeValueAsString(tableContent));
+					model.requestChange(ID.ID_TRACE, new ObjectMapper().writeValueAsString(chartContent));
+					model.requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
 				} catch (JsonGenerationException e) {
 					e.printStackTrace();
 				} catch (JsonMappingException e) {
@@ -106,7 +106,7 @@ public class TestSequencer {
 				} catch (RequestRejectedException e) {
 					e.printStackTrace();
 				}
-				if (parameters.getOtdrCollectionMode().equals(EnumOtdrCollectionMode.ID_OTDR_COLLECTION_MODE_REALTIME)) {
+				if (parameters.getCollecmode().equals(EnumCollecmode.ID_COLLECMODE_REALTIME)) {
 					loop--;
 				}
 			}

@@ -3,7 +3,7 @@ package openti;
 import jp.silverbullet.SilverBulletServer;
 import jp.silverbullet.handlers.EasyAccessModel;
 import jp.silverbullet.handlers.RegisterAccess;
-import openti.UserEasyAccess.EnumOtdrCollectionMode;
+import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
 
 public class Main extends SilverBulletServer {
@@ -30,12 +30,12 @@ public class Main extends SilverBulletServer {
 				
 				while(true) {
 					register.waitIntrrupt();
-					if (register.otdrHardkey.get_average()) {
-						props.setOtdrCollectionMode(EnumOtdrCollectionMode.ID_OTDR_COLLECTION_MODE_AVERAGE);
+					if (register.hardkey.get_Average()) {
+						props.setCollecmode(EnumCollecmode.ID_COLLECMODE_AVERAGE);
 						props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START);
 					}
-					if (register.otdrHardkey.get_realtime()) {
-						props.setOtdrCollectionMode(EnumOtdrCollectionMode.ID_OTDR_COLLECTION_MODE_REALTIME);
+					if (register.hardkey.get_Realtime()) {
+						props.setCollecmode(EnumCollecmode.ID_COLLECMODE_REALTIME);
 						props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START);
 					}
 				}
