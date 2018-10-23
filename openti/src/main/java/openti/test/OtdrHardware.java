@@ -18,8 +18,8 @@ public abstract class OtdrHardware {
 					ByteBuffer byteBuf = ByteBuffer.allocate(size*2);
 					//short array[] = new short[25001];
 					for (int i = 0; i < size; i++) {
-						double v = Math.random() * 10 + 10;
-						short shortV = (short)(v * 100);
+						double v = Math.sin((double)i/100.0) * 100 + Math.random() * 10;
+						short shortV = (short)(v);
 						//array[i] = shortV;
 						byteBuf.putShort(shortV);
 					}

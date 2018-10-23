@@ -57,14 +57,13 @@ public class TestSequencer {
 				}
 				
 				try {
-					Thread.sleep(200);
+					Thread.sleep(100);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
 				
 				short[] shorts = new short[data.length/2];
 				// to turn bytes to shorts as either big endian or little endian. 
-			//	ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
 				ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).asShortBuffer().get(shorts);
 				
 				int points = shorts.length;
@@ -76,7 +75,7 @@ public class TestSequencer {
 				chartContent.setY(y);
 				
 				JsTableContent tableContent = new JsTableContent();
-				tableContent.setHeaders(Arrays.asList("Distance [nm]", "Loss [dB]", "Refl. [dB]", "dB/km [dB]", "Cum. [dB]"));
+				tableContent.setHeaders(Arrays.asList("Element", "F1A", "F2A", "F3A", "F5A", "F6A", "F7A", "Total"));
 				
 				points = 10;		
 				
@@ -85,11 +84,14 @@ public class TestSequencer {
 					double level = Math.random() * 10;
 
 					List<String> line = Arrays.asList(
+							"E" + i + "D",
 							String.format("%.3f", wave), 
 							String.format("%.2f", level),
 							String.format("%.3f", wave), 
 							String.format("%.2f", level),
-							String.format("%.3f", wave)
+							String.format("%.3f", wave),
+							String.format("%.3f", wave),
+							String.format("%.3f", wave*4 + level*2)
 							);
 					tableContent.addRow(line);
 				}
