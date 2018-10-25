@@ -24,9 +24,9 @@ public class TestSequencer {
 	private boolean stopRequested;
 
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) {
-		UserEasyAccess parameters = new UserEasyAccess(model.getEasyAccessModel());
+		UserEasyAccess registers = new UserEasyAccess(model.getEasyAccessModel());
 
-		if (parameters.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {
+		if (registers.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {
 			UserRegisterControl regiseters = new UserRegisterControl(model.getRegisterAccess());
 			
 			stopRequested = false;
@@ -38,12 +38,18 @@ public class TestSequencer {
 
 			long average = 1;//parameters.getOtdrAverage();
 			for (int loop = 0; loop < average; loop++) {
-				parameters.setAverageResult(loop+1);
+				registers.setAverageResult(loop+1);
 				regiseters.otdrTestControl.set_teststart(true);
 				regiseters.waitIntrrupt();
 				
+				regiseters.otdrTestControl.set_duration((int)(Math.random() * 3));
+				regiseters.otdrTestControl.set_points((int)(Math.random() * 1000));
+				regiseters.otdrTestControl.set_pulse((int)(Math.random() * 3));
+				regiseters.otdrTestControl.set_power((int)(Math.random() * 3));
+				regiseters.otdrTestControl.set_range((int)(Math.random() * 30));
+				
 				if (regiseters.otdrInterruptStatus.get_erroroccurs()) {
-					parameters.setError(EnumError.ID_ERROR_HARDWARE);
+					registers.setError(EnumError.ID_ERROR_HARDWARE);
 					regiseters.otdrTestControl.set_teststart(false);
 					break;
 				}
@@ -57,7 +63,7 @@ public class TestSequencer {
 				}
 				
 				try {
-					Thread.sleep(100);
+					Thread.sleep(200);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
@@ -108,11 +114,11 @@ public class TestSequencer {
 				} catch (RequestRejectedException e) {
 					e.printStackTrace();
 				}
-				if (parameters.getCollecmode().equals(EnumCollecmode.ID_COLLECMODE_REALTIME)) {
+				if (registers.getCollecmode().equals(EnumCollecmode.ID_COLLECMODE_REALTIME)) {
 					loop--;
 				}
 			}
-			parameters.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
+			registers.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
 		}
 		else {
 			stopRequested = true;

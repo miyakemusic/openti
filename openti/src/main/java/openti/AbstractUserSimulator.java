@@ -2,6 +2,11 @@ package openti;
 import java.util.BitSet;
 import jp.silverbullet.register.SvSimulator;
 abstract public class AbstractUserSimulator extends SvSimulator {
+    public void write_otdrtestcontrol_duration(int value) {};
+    public void write_otdrtestcontrol_points(int value) {};
+    public void write_otdrtestcontrol_power(int value) {};
+    public void write_otdrtestcontrol_range(int value) {};
+    public void write_otdrtestcontrol_pulse(int value) {};
     public void write_otdrtestcontrol_teststart(int value) {};
     public void read_otdrtestcontrol_otdrtestcontrol() {};
     public void write_Hardkey_Setup(int value) {};
@@ -26,9 +31,31 @@ abstract public class AbstractUserSimulator extends SvSimulator {
     public void write_PPGControl_StartStop(int value) {};
     public void write_PPGControl_TestPattern(int value) {};
     public void read_PPGControl_PPGControl() {};
+    public void read_NewRegThu_NewRegThu() {};
+    public void read_NewRegThu9_NewRegThu9() {};
 	public void writeIo(long address, BitSet data, BitSet mask) {
 		if (address == SimRegisterControl.ADDR_OTDRTESTCONTROL) {
-			if (mask.get(0)) {
+			if (mask.get(21)) {
+				int value = getValue(21, data, mask);
+				write_otdrtestcontrol_duration(value);
+			}
+			else if (mask.get(13)) {
+				int value = getValue(13, data, mask);
+				write_otdrtestcontrol_points(value);
+			}
+			else if (mask.get(9)) {
+				int value = getValue(9, data, mask);
+				write_otdrtestcontrol_power(value);
+			}
+			else if (mask.get(5)) {
+				int value = getValue(5, data, mask);
+				write_otdrtestcontrol_range(value);
+			}
+			else if (mask.get(1)) {
+				int value = getValue(1, data, mask);
+				write_otdrtestcontrol_pulse(value);
+			}
+			else if (mask.get(0)) {
 				int value = getValue(0, data, mask);
 				write_otdrtestcontrol_teststart(value);
 			}
@@ -107,6 +134,10 @@ abstract public class AbstractUserSimulator extends SvSimulator {
 				write_PPGControl_TestPattern(value);
 			}
 		}
+		else if (address == SimRegisterControl.ADDR_NEWREGTHU) {
+		}
+		else if (address == SimRegisterControl.ADDR_NEWREGTHU9) {
+		}
 	}
 	public void readIo(long address) {
 		if (address == SimRegisterControl.ADDR_OTDRTESTCONTROL) {
@@ -132,6 +163,12 @@ abstract public class AbstractUserSimulator extends SvSimulator {
 		}
 		else if (address == SimRegisterControl.ADDR_PPGCONTROL) {
 				read_PPGControl_PPGControl();
+		}
+		else if (address == SimRegisterControl.ADDR_NEWREGTHU) {
+				read_NewRegThu_NewRegThu();
+		}
+		else if (address == SimRegisterControl.ADDR_NEWREGTHU9) {
+				read_NewRegThu9_NewRegThu9();
 		}
 	}
 }

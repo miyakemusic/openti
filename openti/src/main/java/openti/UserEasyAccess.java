@@ -71,6 +71,24 @@ public class UserEasyAccess {
     public EnumTestMode getTestMode() {
         return EnumTestMode.valueOf(model.getProperty(ID.ID_TEST_MODE).getCurrentValue());
     }
+    public enum EnumModelname{
+        ID_MODELNAME_P1000A,
+        ID_MODELNAME_P2000B,
+    };
+    public void setModelname(EnumModelname value) {
+        model.requestChange(ID.ID_MODELNAME, value.toString());
+    }
+    public EnumModelname getModelname() {
+        return EnumModelname.valueOf(model.getProperty(ID.ID_MODELNAME).getCurrentValue());
+    }
+    public enum Enum1540282374361{
+    };
+    public void set1540282374361(Enum1540282374361 value) {
+        model.requestChange(ID.ID_1540282374361, value.toString());
+    }
+    public Enum1540282374361 get1540282374361() {
+        return Enum1540282374361.valueOf(model.getProperty(ID.ID_1540282374361).getCurrentValue());
+    }
     public enum EnumApplication{
         ID_APPLICATION_OTDR,
         ID_APPLICATION_SQA,

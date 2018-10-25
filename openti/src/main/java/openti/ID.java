@@ -1,11 +1,14 @@
 package openti;
 public class ID {
+	public static final String ID_OPTION_001="ID_OPTION_001";
 	public static final String ID_OTDR_TESTCONTROL="ID_OTDR_TESTCONTROL";
 	public static final String ID_OTDR_TESTCONTROL_START="ID_OTDR_TESTCONTROL_START";
 	public static final String ID_OTDR_TESTCONTROL_STOP="ID_OTDR_TESTCONTROL_STOP";
 	public static final String ID_ERROR="ID_ERROR";
 	public static final String ID_ERROR_NOERROR="ID_ERROR_NOERROR";
 	public static final String ID_ERROR_HARDWARE="ID_ERROR_HARDWARE";
+	public static final String ID_OPTION_003="ID_OPTION_003";
+	public static final String ID_OPTION_002="ID_OPTION_002";
 	public static final String ID_AVERAGE_RESULT="ID_AVERAGE_RESULT";
 	public static final String ID_TRACE="ID_TRACE";
 	public static final String ID_PULSEWIDTH="ID_PULSEWIDTH";
@@ -23,6 +26,10 @@ public class ID {
 	public static final String ID_TEST_MODE_AUTO="ID_TEST_MODE_AUTO";
 	public static final String ID_TEST_MODE_MANUAL="ID_TEST_MODE_MANUAL";
 	public static final String ID_OSC_EYEDIAGRAM="ID_OSC_EYEDIAGRAM";
+	public static final String ID_MODELNAME="ID_MODELNAME";
+	public static final String ID_MODELNAME_P1000A="ID_MODELNAME_P1000A";
+	public static final String ID_MODELNAME_P2000B="ID_MODELNAME_P2000B";
+	public static final String ID_1540282374361="ID_1540282374361";
 	public static final String ID_APPLICATION="ID_APPLICATION";
 	public static final String ID_APPLICATION_OTDR="ID_APPLICATION_OTDR";
 	public static final String ID_APPLICATION_SQA="ID_APPLICATION_SQA";

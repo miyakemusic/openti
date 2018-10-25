@@ -23,6 +23,8 @@ public class UserRegisterControl extends RegisterControl {
     public static int ADDR_PPGCONTROL = 0x23;
     public static int BIT_PPGCONTROL_STARTSTOP = 1;
     public static int BIT_PPGCONTROL_TESTPATTERN = 0;
+    public static int ADDR_NEWREGTHU = 0x27;
+    public static int ADDR_NEWREGTHU9 = 0x2b;
     private RegisterAccess registerAccess = null;
     public RegisterAccess getRegisterAccess() {
     	return registerAccess;
@@ -32,6 +34,66 @@ public class UserRegisterControl extends RegisterControl {
          this.registerAccess = registerAccess2;
     }
     public class OtdrTestControl{
+    /**
+    *   new bit
+    **/
+        public int get_duration() {
+    	    return readIoInteger(ADDR_OTDRTESTCONTROL, 24,21);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_duration(int value) {
+            writeIo(ADDR_OTDRTESTCONTROL, value, 21, 24);
+        }
+    /**
+    *   new bit
+    **/
+        public int get_points() {
+    	    return readIoInteger(ADDR_OTDRTESTCONTROL, 20,13);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_points(int value) {
+            writeIo(ADDR_OTDRTESTCONTROL, value, 13, 20);
+        }
+    /**
+    *   new bit
+    **/
+        public int get_power() {
+    	    return readIoInteger(ADDR_OTDRTESTCONTROL, 12,9);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_power(int value) {
+            writeIo(ADDR_OTDRTESTCONTROL, value, 9, 12);
+        }
+    /**
+    *   new bit
+    **/
+        public int get_range() {
+    	    return readIoInteger(ADDR_OTDRTESTCONTROL, 8,5);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_range(int value) {
+            writeIo(ADDR_OTDRTESTCONTROL, value, 5, 8);
+        }
+    /**
+    *   new bit
+    **/
+        public int get_pulse() {
+    	    return readIoInteger(ADDR_OTDRTESTCONTROL, 4,1);
+        }
+    /**
+    *   new bit
+    **/
+        public void set_pulse(int value) {
+            writeIo(ADDR_OTDRTESTCONTROL, value, 1, 4);
+        }
     /**
     *   new bit
     **/
@@ -232,4 +294,10 @@ public class UserRegisterControl extends RegisterControl {
         }
     }
     public Ppgcontrol ppgcontrol = new Ppgcontrol();
+    public class Newregthu{
+    }
+    public Newregthu newregthu = new Newregthu();
+    public class Newregthu9{
+    }
+    public Newregthu9 newregthu9 = new Newregthu9();
 }
