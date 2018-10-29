@@ -31,8 +31,10 @@ abstract public class AbstractUserSimulator extends SvSimulator {
     public void write_PPGControl_StartStop(int value) {};
     public void write_PPGControl_TestPattern(int value) {};
     public void read_PPGControl_PPGControl() {};
-    public void read_NewRegThu_NewRegThu() {};
-    public void read_NewRegThu9_NewRegThu9() {};
+    public void read_NewRegThu4_NewRegThu4() {};
+    public void read_NewRegTh555_NewRegTh555() {};
+    public void read_NewRegTh00_NewRegTh00() {};
+    public void read_NewRegThu000_NewRegThu000() {};
 	public void writeIo(long address, BitSet data, BitSet mask) {
 		if (address == SimRegisterControl.ADDR_OTDRTESTCONTROL) {
 			if (mask.get(21)) {
@@ -134,9 +136,13 @@ abstract public class AbstractUserSimulator extends SvSimulator {
 				write_PPGControl_TestPattern(value);
 			}
 		}
-		else if (address == SimRegisterControl.ADDR_NEWREGTHU) {
+		else if (address == SimRegisterControl.ADDR_NEWREGTHU4) {
 		}
-		else if (address == SimRegisterControl.ADDR_NEWREGTHU9) {
+		else if (address == SimRegisterControl.ADDR_NEWREGTH555) {
+		}
+		else if (address == SimRegisterControl.ADDR_NEWREGTH00) {
+		}
+		else if (address == SimRegisterControl.ADDR_NEWREGTHU000) {
 		}
 	}
 	public void readIo(long address) {
@@ -164,11 +170,17 @@ abstract public class AbstractUserSimulator extends SvSimulator {
 		else if (address == SimRegisterControl.ADDR_PPGCONTROL) {
 				read_PPGControl_PPGControl();
 		}
-		else if (address == SimRegisterControl.ADDR_NEWREGTHU) {
-				read_NewRegThu_NewRegThu();
+		else if (address == SimRegisterControl.ADDR_NEWREGTHU4) {
+				read_NewRegThu4_NewRegThu4();
 		}
-		else if (address == SimRegisterControl.ADDR_NEWREGTHU9) {
-				read_NewRegThu9_NewRegThu9();
+		else if (address == SimRegisterControl.ADDR_NEWREGTH555) {
+				read_NewRegTh555_NewRegTh555();
+		}
+		else if (address == SimRegisterControl.ADDR_NEWREGTH00) {
+				read_NewRegTh00_NewRegTh00();
+		}
+		else if (address == SimRegisterControl.ADDR_NEWREGTHU000) {
+				read_NewRegThu000_NewRegThu000();
 		}
 	}
 }

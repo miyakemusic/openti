@@ -4,6 +4,7 @@ import jp.silverbullet.SilverBulletServer;
 import jp.silverbullet.handlers.EasyAccessModel;
 import jp.silverbullet.handlers.RegisterAccess;
 import openti.UserEasyAccess.EnumCollecmode;
+import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
 
 public class Main extends SilverBulletServer {
@@ -30,14 +31,26 @@ public class Main extends SilverBulletServer {
 				
 				while(true) {
 					register.waitIntrrupt();
-					if (register.hardkey.get_Average()) {
+					if (register.hardkey.read_and_reset_Average()) {
 						props.setCollecmode(EnumCollecmode.ID_COLLECMODE_AVERAGE);
-						props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START);
+						toggleStartStop(props);
 					}
-					if (register.hardkey.get_Realtime()) {
+					if (register.hardkey.read_and_reset_Realtime()) {
 						props.setCollecmode(EnumCollecmode.ID_COLLECMODE_REALTIME);
-						props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START);
+						toggleStartStop(props);
 					}
+					if (register.otdrInterruptStatus.read_erroroccurs()) {
+						props.setError(EnumError.ID_ERROR_HARDWARE);
+					}
+				}
+			}
+
+			private void toggleStartStop(UserEasyAccess props) {
+				if (props.getOtdrTestcontrol().equals(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP)) {
+					props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START);
+				}
+				else {
+					props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
 				}
 			}
 			
