@@ -25,10 +25,10 @@ import openti.UserEasyAccess.EnumOtdrTestcontrol;
 public class TestSequencer {
 	private boolean stopRequested;
 
-	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) {
-		UserEasyAccess registers = new UserEasyAccess(model.getEasyAccessModel());
+	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
+		UserEasyAccess properties = new UserEasyAccess(model);
 
-		if (registers.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {
+		if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {
 			UserRegisterControl regiseters = new UserRegisterControl(model.getRegisterAccess());
 			
 			stopRequested = false;
@@ -36,7 +36,7 @@ public class TestSequencer {
 
 			long average = 1;//parameters.getOtdrAverage();
 			for (int loop = 0; loop < average; loop++) {
-				registers.setAverageResult(loop+1);
+				properties.setAverageResult(loop+1);
 				regiseters.otdrTestControl.write_teststart(true);
 				regiseters.waitIntrrupt();
 				
@@ -47,7 +47,7 @@ public class TestSequencer {
 				regiseters.otdrTestControl.write_range((int)(Math.random() * 30));
 				
 				if (regiseters.otdrInterruptStatus.read_and_reset_erroroccurs()) {
-					registers.setError(EnumError.ID_ERROR_HARDWARE);
+					properties.setError(EnumError.ID_ERROR_HARDWARE);
 					regiseters.otdrTestControl.write_teststart(false);
 					break;
 				}
@@ -122,13 +122,13 @@ public class TestSequencer {
 					} catch (RequestRejectedException e) {
 						e.printStackTrace();
 					}
-					if (registers.getCollecmode().equals(EnumCollecmode.ID_COLLECMODE_REALTIME)) {
+					if (properties.getCollecmode().equals(EnumCollecmode.ID_COLLECMODE_REALTIME)) {
 						loop--;
 					}
 
 				}
 			}
-			registers.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
+			properties.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
 		}
 		else {
 			stopRequested = true;
