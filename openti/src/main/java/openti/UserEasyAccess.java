@@ -6,6 +6,12 @@ public class UserEasyAccess {
     public UserEasyAccess(EasyAccessInterface model2) {
         this.model = model2;
     }
+    public void setLoss(double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_LOSS, String.valueOf(value));
+    }
+    public double getLoss() {
+        return Double.valueOf(model.getProperty(ID.ID_LOSS).getCurrentValue());
+    }
     public enum EnumOtdrTestcontrol{
         ID_OTDR_TESTCONTROL_START,
         ID_OTDR_TESTCONTROL_STOP,
@@ -46,12 +52,6 @@ public class UserEasyAccess {
     public EnumPulsewidth getPulsewidth() {
         return EnumPulsewidth.valueOf(model.getProperty(ID.ID_PULSEWIDTH).getCurrentValue());
     }
-    public void setTable(String value) throws RequestRejectedException {
-        model.requestChange(ID.ID_TABLE, value);
-    }
-    public String getTable() {
-        return model.getProperty(ID.ID_TABLE).getCurrentValue();
-    }
     public enum EnumOscTestcontrol{
         ID_OSC_TESTCONTROL_START,
         ID_OSC_TESTCONTROL_STOP,
@@ -72,6 +72,14 @@ public class UserEasyAccess {
     public EnumTestMode getTestMode() {
         return EnumTestMode.valueOf(model.getProperty(ID.ID_TEST_MODE).getCurrentValue());
     }
+    public enum Enum1541338882204{
+    };
+    public void set1541338882204(Enum1541338882204 value) throws RequestRejectedException {
+        model.requestChange(ID.ID_1541338882204, value.toString());
+    }
+    public Enum1541338882204 get1541338882204() {
+        return Enum1541338882204.valueOf(model.getProperty(ID.ID_1541338882204).getCurrentValue());
+    }
     public enum EnumModelname{
         ID_MODELNAME_P1000A,
         ID_MODELNAME_P2000B,
@@ -81,14 +89,6 @@ public class UserEasyAccess {
     }
     public EnumModelname getModelname() {
         return EnumModelname.valueOf(model.getProperty(ID.ID_MODELNAME).getCurrentValue());
-    }
-    public enum Enum1540282374361{
-    };
-    public void set1540282374361(Enum1540282374361 value) throws RequestRejectedException {
-        model.requestChange(ID.ID_1540282374361, value.toString());
-    }
-    public Enum1540282374361 get1540282374361() {
-        return Enum1540282374361.valueOf(model.getProperty(ID.ID_1540282374361).getCurrentValue());
     }
     public enum EnumApplication{
         ID_APPLICATION_OTDR,
@@ -115,6 +115,14 @@ public class UserEasyAccess {
     }
     public EnumCollecmode getCollecmode() {
         return EnumCollecmode.valueOf(model.getProperty(ID.ID_COLLECMODE).getCurrentValue());
+    }
+    public enum Enum1541338886483{
+    };
+    public void set1541338886483(Enum1541338886483 value) throws RequestRejectedException {
+        model.requestChange(ID.ID_1541338886483, value.toString());
+    }
+    public Enum1541338886483 get1541338886483() {
+        return Enum1541338886483.valueOf(model.getProperty(ID.ID_1541338886483).getCurrentValue());
     }
     public enum EnumDistancerange{
         ID_DISTANCERANGE_1KM,

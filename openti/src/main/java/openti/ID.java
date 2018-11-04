@@ -1,6 +1,7 @@
 package openti;
 public class ID {
 	public static final String ID_OPTION_001="ID_OPTION_001";
+	public static final String ID_LOSS="ID_LOSS";
 	public static final String ID_OTDR_TESTCONTROL="ID_OTDR_TESTCONTROL";
 	public static final String ID_OTDR_TESTCONTROL_START="ID_OTDR_TESTCONTROL_START";
 	public static final String ID_OTDR_TESTCONTROL_STOP="ID_OTDR_TESTCONTROL_STOP";
@@ -25,11 +26,11 @@ public class ID {
 	public static final String ID_TEST_MODE="ID_TEST_MODE";
 	public static final String ID_TEST_MODE_AUTO="ID_TEST_MODE_AUTO";
 	public static final String ID_TEST_MODE_MANUAL="ID_TEST_MODE_MANUAL";
+	public static final String ID_1541338882204="ID_1541338882204";
 	public static final String ID_OSC_EYEDIAGRAM="ID_OSC_EYEDIAGRAM";
 	public static final String ID_MODELNAME="ID_MODELNAME";
 	public static final String ID_MODELNAME_P1000A="ID_MODELNAME_P1000A";
 	public static final String ID_MODELNAME_P2000B="ID_MODELNAME_P2000B";
-	public static final String ID_1540282374361="ID_1540282374361";
 	public static final String ID_APPLICATION="ID_APPLICATION";
 	public static final String ID_APPLICATION_OTDR="ID_APPLICATION_OTDR";
 	public static final String ID_APPLICATION_SQA="ID_APPLICATION_SQA";
@@ -37,6 +38,7 @@ public class ID {
 	public static final String ID_COLLECMODE="ID_COLLECMODE";
 	public static final String ID_COLLECMODE_AVERAGE="ID_COLLECMODE_AVERAGE";
 	public static final String ID_COLLECMODE_REALTIME="ID_COLLECMODE_REALTIME";
+	public static final String ID_1541338886483="ID_1541338886483";
 	public static final String ID_DISTANCERANGE="ID_DISTANCERANGE";
 	public static final String ID_DISTANCERANGE_1KM="ID_DISTANCERANGE_1KM";
 	public static final String ID_DISTANCERANGE_10KM="ID_DISTANCERANGE_10KM";

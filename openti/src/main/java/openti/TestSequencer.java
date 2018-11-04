@@ -113,6 +113,7 @@ public class TestSequencer {
 					try {
 						model.requestChange(ID.ID_TRACE, new ObjectMapper().writeValueAsString(chartContent));
 						model.requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
+						properties.setLoss(Math.random() * 10.0 + 10.0);
 					} catch (JsonGenerationException e) {
 						e.printStackTrace();
 					} catch (JsonMappingException e) {
