@@ -24,7 +24,7 @@
 		<link>
 			<name>java</name>
 			<type>2</type>
-			<location>C:/Projects/git/silverbullet/silverbullet/src/main/java</location>
+			<locationURI>PARENT-2-PROJECT_LOC/silverbullet/silverbullet/src/main/java</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
