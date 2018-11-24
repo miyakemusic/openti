@@ -5,8 +5,6 @@ import jp.silverbullet.SilverBulletServer;
 import jp.silverbullet.SvProperty;
 import jp.silverbullet.dependency.RequestRejectedException;
 import jp.silverbullet.handlers.EasyAccessInterface;
-import jp.silverbullet.handlers.EasyAccessModel;
-import jp.silverbullet.handlers.RegisterAccess;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
