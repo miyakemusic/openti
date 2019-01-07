@@ -5,25 +5,19 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import jp.silverbullet.handlers.RegisterAccess;
 import openti.AbstractUserSimulator;
-import openti.SimRegisterControl;
-import openti.UserRegisterControl;
 
-public class SimOscillo extends AbstractUserSimulator{
+public class ObsoluteSimOscillo extends AbstractUserSimulator{
 
 	private boolean stopRequested;
 	private EyeImage data = new EyeImage(500,400);
-	private SimRegisterControl regControl;
+//	private SimRegisterControl regControl;
 	private boolean ppgRunning = false;
 	private int ppgBitRate;
 	private int ppgTestPattenr;
 	private double triggerPos = 0.0;
 	private long samplingCount = 0;
-	
-	public SimOscillo(RegisterAccess registerAccess) {
-		regControl = new SimRegisterControl(registerAccess);
-	}
+
 	
 
 	@Override
@@ -103,19 +97,19 @@ public class SimOscillo extends AbstractUserSimulator{
 
 
 	private void updateData() {
-		super.updateBlockData(UserRegisterControl.ADDR_ADDREYEDIAGRAM, getByteArray(data));
-		
-		if (samplingCount == 0) {
-			super.triggerInterrupt();
-		}
-		samplingCount++;
-		
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		super.updateBlockData(UserRegisterControl.ADDR_ADDREYEDIAGRAM, getByteArray(data));
+//		
+//		if (samplingCount == 0) {
+//			super.triggerInterrupt();
+//		}
+//		samplingCount++;
+//		
+//		try {
+//			Thread.sleep(100);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	private byte[] getByteArray(EyeImage data2) {
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
@@ -140,44 +134,44 @@ public class SimOscillo extends AbstractUserSimulator{
 		}
 	}
 
-	@Override
-	public void write_OSCControl_startstop(int value) {
-		if (value == 0) {
-			stopCollection();
-		}
-		else if (value == 1) {
-			startCollection();
-		}
-	}
+//	@Override
+//	public void write_OSCControl_startstop(int value) {
+//		if (value == 0) {
+//			stopCollection();
+//		}
+//		else if (value == 1) {
+//			startCollection();
+//		}
+//	}
 
-	@Override
-	public void write_PPGControl_TestPattern(int value) {
-		ppgTestPattenr = value;
-	}
-
-
-	@Override
-	public void write_PPGControl_StartStop(int value) {
-		ppgRunning = (value == 1);
-	}
-
-
-	@Override
-	public void write_PPGControl_BitRate(int value) {
-		ppgBitRate = value;
-	}
-
-	@Override
-	public void write_OSCControl_DataClear(int value) {
-		if (value == 1) {
-			this.data.clear();
-		}
-	}
-
-
-	@Override
-	public void write_OSCControl_Trigger(int value) {
-		triggerPos = ((double)value) * 1e-3;
-	}
+//	@Override
+//	public void write_PPGControl_TestPattern(int value) {
+//		ppgTestPattenr = value;
+//	}
+//
+//
+//	@Override
+//	public void write_PPGControl_StartStop(int value) {
+//		ppgRunning = (value == 1);
+//	}
+//
+//
+//	@Override
+//	public void write_PPGControl_BitRate(int value) {
+//		ppgBitRate = value;
+//	}
+//
+//	@Override
+//	public void write_OSCControl_DataClear(int value) {
+//		if (value == 1) {
+//			this.data.clear();
+//		}
+//	}
+//
+//
+//	@Override
+//	public void write_OSCControl_Trigger(int value) {
+//		triggerPos = ((double)value) * 1e-3;
+//	}
 
 }

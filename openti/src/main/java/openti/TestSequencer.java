@@ -13,52 +13,54 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jp.silverbullet.dependency.ChangedItemValue;
-import jp.silverbullet.dependency.RequestRejectedException;
+import jp.silverbullet.dependency2.ChangedItemValue;
+import jp.silverbullet.dependency2.RequestRejectedException;
 import jp.silverbullet.handlers.SvHandlerModel;
 import jp.silverbullet.property.ChartContent;
 import jp.silverbullet.web.JsTableContent;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
+import openti.UserRegister.Test_control;
 
 public class TestSequencer {
 	private boolean stopRequested;
 
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
-		UserEasyAccess properties = new UserEasyAccess(model);
+		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
 
 		if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {
-			UserRegisterControl regiseters = new UserRegisterControl(model.getRegisterAccess());
+			UserRegister registers = new UserRegister(model.getRegisterAccessor());
 			
 			stopRequested = false;
-
+			registers.test_control.set(Test_control.Start, 0x01).write();
 
 			long average = 1;//parameters.getOtdrAverage();
 			for (int loop = 0; loop < average; loop++) {
 				properties.setAverageResult(loop+1);
-				regiseters.otdrTestControl.write_teststart(true);
-				regiseters.waitIntrrupt();
+//				regiseters.otdrTestControl.write_teststart(true);
+				registers.waitInterrupt();
 				
-				regiseters.otdrTestControl.write_duration((int)(Math.random() * 3));
-				regiseters.otdrTestControl.write_points((int)(Math.random() * 1000));
-				regiseters.otdrTestControl.write_pulse((int)(Math.random() * 3));
-				regiseters.otdrTestControl.write_power((int)(Math.random() * 3));
-				regiseters.otdrTestControl.write_range((int)(Math.random() * 30));
-				
-				if (regiseters.otdrInterruptStatus.read_and_reset_erroroccurs()) {
-					properties.setError(EnumError.ID_ERROR_HARDWARE);
-					regiseters.otdrTestControl.write_teststart(false);
-					break;
-				}
-				else if (regiseters.otdrInterruptStatus.read_and_reset_tracedataready()) {
-					byte[] data = regiseters.getRegisterAccess().readBlock(UserRegisterControl.ADDR_ADDROTDRTRACEDATA, 25001*2);
+				byte[] data = registers.data.read();
+//				regiseters.otdrTestControl.write_duration((int)(Math.random() * 3));
+//				regiseters.otdrTestControl.write_points((int)(Math.random() * 1000));
+//				regiseters.otdrTestControl.write_pulse((int)(Math.random() * 3));
+//				regiseters.otdrTestControl.write_power((int)(Math.random() * 3));
+//				regiseters.otdrTestControl.write_range((int)(Math.random() * 30));
+//				
+//				if (regiseters.otdrInterruptStatus.read_and_reset_erroroccurs()) {
+//					properties.setError(EnumError.ID_ERROR_HARDWARE);
+//					regiseters.otdrTestControl.write_teststart(false);
+//					break;
+//				}
+//				else if (regiseters.otdrInterruptStatus.read_and_reset_tracedataready()) {
+//					byte[] data = regiseters.getRegisterAccess().readBlock(UserRegisterControl.ADDR_ADDROTDRTRACEDATA, 25001*2);
 					
-					try {
-						Files.write(Paths.get("data.bin"), data);
-					} catch (IOException e2) {
-						e2.printStackTrace();
-					}
+//					try {
+//						Files.write(Paths.get("data.bin"), data);
+//					} catch (IOException e2) {
+//						e2.printStackTrace();
+//					}
 
 					if (stopRequested) {
 						break;
@@ -109,10 +111,10 @@ public class TestSequencer {
 								);
 						tableContent.addRow(line);
 					}
-					regiseters.otdrTestControl.write_teststart(false);
+					registers.test_control.set(Test_control.Start, 0x00).write();
 					try {
-						model.requestChange(ID.ID_TRACE, new ObjectMapper().writeValueAsString(chartContent));
-						model.requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
+						model.getEasyAccessInterface().requestChange(ID.ID_TRACE, new ObjectMapper().writeValueAsString(chartContent));
+						model.getEasyAccessInterface().requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
 						properties.setLoss(Math.random() * 10.0 + 10.0);
 					} catch (JsonGenerationException e) {
 						e.printStackTrace();
@@ -131,9 +133,9 @@ public class TestSequencer {
 			}
 			properties.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
 		}
-		else {
-			stopRequested = true;
-		}
-	}
+//		else {
+//			stopRequested = true;
+//		}
+//	}
 }
 
