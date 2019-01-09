@@ -1,19 +1,15 @@
 package openti;
 
+import java.util.Arrays;
 import java.util.List;
 
 import jp.silverbullet.BuilderModelImpl;
 import jp.silverbullet.SilverBulletServer;
 import jp.silverbullet.dependency2.RequestRejectedException;
-import jp.silverbullet.handlers.EasyAccessInterface;
-import jp.silverbullet.property2.RuntimeProperty;
-import jp.silverbullet.register2.BitValue;
 import jp.silverbullet.register2.RegisterAccessor;
-import jp.silverbullet.register2.RegisterAccessorListener;
 import openti.UserEasyAccess.EnumCollecmode;
-import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
-import openti.UserRegister.Hardkey;
+import openti.UserRegister.HARDKEY;
 import openti.test.SimHardware;
 
 public class Main extends SilverBulletServer {
@@ -33,8 +29,7 @@ public class Main extends SilverBulletServer {
 	@Override
 	protected void onStart(BuilderModelImpl model) {
 		
-		model.getRuntimRegisterMap().addDevice(new SimHardware());
-		
+//		model.getRuntimRegisterMap().addDevice(new SimHardware());
 		
 		new Thread() {
 			@Override
@@ -46,11 +41,11 @@ public class Main extends SilverBulletServer {
 				try {
 					while(true) {
 						register.waitInterrupt();
-						if (register.hardkey.read(Hardkey.Average) == 0x01) {
+						if (register.hardkey.read(HARDKEY.AVERAGE) == 0x01) {
 							props.setCollecmode(EnumCollecmode.ID_COLLECMODE_AVERAGE);
 							toggleStartStop(props);						
 						}
-						else if (register.hardkey.read(Hardkey.Realtime) == 0x01) {
+						else if (register.hardkey.read(HARDKEY.REALTIME) == 0x01) {
 							
 						}
 						
@@ -85,5 +80,9 @@ public class Main extends SilverBulletServer {
 			}
 			
 		}.start();
+	}
+	@Override
+	protected List<RegisterAccessor> getSimulators() {
+		return Arrays.asList(new SimHardware());
 	}
 }

@@ -16,12 +16,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jp.silverbullet.dependency2.ChangedItemValue;
 import jp.silverbullet.dependency2.RequestRejectedException;
 import jp.silverbullet.handlers.SvHandlerModel;
-import jp.silverbullet.property.ChartContent;
+import jp.silverbullet.property2.ChartContent;
 import jp.silverbullet.web.JsTableContent;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
-import openti.UserRegister.Test_control;
+import openti.UserRegister.TEST_CONTROL;
 
 public class TestSequencer {
 	private boolean stopRequested;
@@ -33,7 +33,7 @@ public class TestSequencer {
 			UserRegister registers = new UserRegister(model.getRegisterAccessor());
 			
 			stopRequested = false;
-			registers.test_control.set(Test_control.Start, 0x01).write();
+			registers.test_control.set(TEST_CONTROL.START, 0x01).write();
 
 			long average = 1;//parameters.getOtdrAverage();
 			for (int loop = 0; loop < average; loop++) {
@@ -111,7 +111,7 @@ public class TestSequencer {
 								);
 						tableContent.addRow(line);
 					}
-					registers.test_control.set(Test_control.Start, 0x00).write();
+					registers.test_control.set(TEST_CONTROL.START, 0x00).write();
 					try {
 						model.getEasyAccessInterface().requestChange(ID.ID_TRACE, new ObjectMapper().writeValueAsString(chartContent));
 						model.getEasyAccessInterface().requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));

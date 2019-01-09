@@ -9,7 +9,6 @@ import jp.silverbullet.register2.RegisterAccessor;
 import jp.silverbullet.register2.RegisterAccessorListener;
 import openti.UserRegister;
 import openti.UserRegister.Register;
-import openti.UserRegister.Test_control;
 
 public class SimHardware implements RegisterAccessor {
 
@@ -18,16 +17,16 @@ public class SimHardware implements RegisterAccessor {
 	private OtdrHardware otdr = new OtdrHardware() {
 		@Override
 		protected void onCompleted() {
-			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.Data, otdr.getData()));
+			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.DATA, otdr.getData()));
 			listeners.forEach(listener -> listener.onInterrupt());
 		}		
 	};
 	
 	@Override
 	public void write(Object regName, List<BitValue> data) {
-		if (regName.equals(UserRegister.Register.Test_control)) {
+		if (regName.equals(UserRegister.Register.TEST_CONTROL)) {
 			data.forEach(v -> {
-				if (v.bitName.equals(UserRegister.Test_control.Start)) {
+				if (v.bitName.equals(UserRegister.TEST_CONTROL.START)) {
 					if (v.value == 0x01) {
 						otdr.start();
 					}
@@ -57,7 +56,7 @@ public class SimHardware implements RegisterAccessor {
 
 	@Override
 	public byte[] readRegister(Object regName) {
-		if (regName.equals(UserRegister.Register.Data)) {
+		if (regName.equals(UserRegister.Register.DATA)) {
 			return otdr.getData();
 		}
 		return null;

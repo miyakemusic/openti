@@ -7,27 +7,29 @@ public class UserRegister extends RuntimeRegisterHolder {
 		super(registerAccessor);
 	}
 	public enum Register {
-		Test_control, 
-		Test_setup, 
-		Hardkey, 
-		Data, 
+		TEST_CONTROL, 
+		TEST_SETUP, 
+		HARDKEY, 
+		DATA, 
 	}
-	public enum Test_control {
-		Pause, 
-		Stop, 
-		Start, 
+	public enum TEST_CONTROL {
+		TEST, 
+		PAUSE, 
+		STOP, 
+		START, 
 	}
-	public RuntimeRegister<Test_control> test_control = new RuntimeRegister<>(Register.Test_control, accessor);
-	public enum Test_setup {
-		Setup, 
+	public RuntimeRegister<TEST_CONTROL> test_control = new RuntimeRegister<>(Register.TEST_CONTROL, accessor);
+	public enum TEST_SETUP {
+		SETUP, 
 	}
-	public RuntimeRegister<Test_setup> test_setup = new RuntimeRegister<>(Register.Test_setup, accessor);
-	public enum Hardkey {
-		Realtime, 
-		Average, 
+	public RuntimeRegister<TEST_SETUP> test_setup = new RuntimeRegister<>(Register.TEST_SETUP, accessor);
+	public enum HARDKEY {
+		REALTIME, 
+		AVERAGE, 
 	}
-	public RuntimeRegister<Hardkey> hardkey = new RuntimeRegister<>(Register.Hardkey, accessor);
-	public enum Data {
+	public RuntimeRegister<HARDKEY> hardkey = new RuntimeRegister<>(Register.HARDKEY, accessor);
+	public enum DATA {
+		NEW1546947679311, 
 	}
-	public RuntimeRegister<Data> data = new RuntimeRegister<>(Register.Data, accessor);
+	public RuntimeRegister<DATA> data = new RuntimeRegister<>(Register.DATA, accessor);
 }
