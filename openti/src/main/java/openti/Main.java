@@ -28,9 +28,6 @@ public class Main extends SilverBulletServer {
 	}
 	@Override
 	protected void onStart(BuilderModelImpl model) {
-		
-//		model.getRuntimRegisterMap().addDevice(new SimHardware());
-		
 		new Thread() {
 			@Override
 			public void run() {

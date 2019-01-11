@@ -2,9 +2,7 @@ package openti.test;
 
 import java.util.BitSet;
 
-import openti.AbstractUserSimulator;
-
-public class ObsoluteSimOtdr extends AbstractUserSimulator {
+public class ObsoluteSimOtdr  {
 	private OtdrHardware otdr = new OtdrHardware() {
 		@Override
 		protected void onCompleted() {
@@ -17,9 +15,6 @@ public class ObsoluteSimOtdr extends AbstractUserSimulator {
 		}
 	};
 
-
-
-	@Override
 	protected void writeBlock(long address, byte[] data) {
 		// TODO Auto-generated method stub
 		

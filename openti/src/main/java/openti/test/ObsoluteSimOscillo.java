@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import openti.AbstractUserSimulator;
-
-public class ObsoluteSimOscillo extends AbstractUserSimulator{
+public class ObsoluteSimOscillo {
 
 	private boolean stopRequested;
 	private EyeImage data = new EyeImage(500,400);
@@ -20,7 +18,6 @@ public class ObsoluteSimOscillo extends AbstractUserSimulator{
 
 	
 
-	@Override
 	protected void writeBlock(long address, byte[] data) {
 		// TODO Auto-generated method stub
 		

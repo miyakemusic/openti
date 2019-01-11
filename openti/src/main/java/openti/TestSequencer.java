@@ -33,10 +33,11 @@ public class TestSequencer {
 			UserRegister registers = new UserRegister(model.getRegisterAccessor());
 			
 			stopRequested = false;
-			registers.test_control.set(TEST_CONTROL.START, 0x01).write();
+			
 
 			long average = 1;//parameters.getOtdrAverage();
 			for (int loop = 0; loop < average; loop++) {
+				registers.test_control.set(TEST_CONTROL.START, 0x01).write();
 				properties.setAverageResult(loop+1);
 //				regiseters.otdrTestControl.write_teststart(true);
 				registers.waitInterrupt();
