@@ -10,26 +10,41 @@ public class UserRegister extends RuntimeRegisterHolder {
 		TEST_CONTROL, 
 		TEST_SETUP, 
 		HARDKEY, 
+		TEST_CONFIG1, 
+		ERROR_STATUS, 
 		DATA, 
 	}
 	public enum TEST_CONTROL {
 		TEST, 
-		PAUSE, 
-		STOP, 
-		START, 
+		PAU, 
+		STP, 
+		STA, 
 	}
 	public RuntimeRegister<TEST_CONTROL> test_control = new RuntimeRegister<>(Register.TEST_CONTROL, accessor);
 	public enum TEST_SETUP {
-		SETUP, 
+		POINTS, 
+		DURATION, 
 	}
 	public RuntimeRegister<TEST_SETUP> test_setup = new RuntimeRegister<>(Register.TEST_SETUP, accessor);
 	public enum HARDKEY {
-		REALTIME, 
-		AVERAGE, 
+		REL, 
+		AVG, 
 	}
 	public RuntimeRegister<HARDKEY> hardkey = new RuntimeRegister<>(Register.HARDKEY, accessor);
+	public enum TEST_CONFIG1 {
+		DISTANCE, 
+		PULSE, 
+	}
+	public RuntimeRegister<TEST_CONFIG1> test_config1 = new RuntimeRegister<>(Register.TEST_CONFIG1, accessor);
+	public enum ERROR_STATUS {
+		BAT, 
+		DISK, 
+		CUR, 
+		TEMP, 
+	}
+	public RuntimeRegister<ERROR_STATUS> error_status = new RuntimeRegister<>(Register.ERROR_STATUS, accessor);
 	public enum DATA {
-		NEW1546947679311, 
+		NEW1546957728577, 
 	}
 	public RuntimeRegister<DATA> data = new RuntimeRegister<>(Register.DATA, accessor);
 }

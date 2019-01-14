@@ -1,6 +1,6 @@
 package openti;
 import jp.silverbullet.dependency2.RequestRejectedException;
-import jp.silverbullet.handlers.EasyAccessInterface;
+import jp.silverbullet.sequncer.EasyAccessInterface;
 public class UserEasyAccess {
     private EasyAccessInterface model;
     public UserEasyAccess(EasyAccessInterface model2) {

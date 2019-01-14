@@ -26,7 +26,7 @@ public class SimHardware implements RegisterAccessor {
 	public void write(Object regName, List<BitValue> data) {
 		if (regName.equals(UserRegister.Register.TEST_CONTROL)) {
 			data.forEach(v -> {
-				if (v.bitName.equals(UserRegister.TEST_CONTROL.START)) {
+				if (v.bitName.equals(UserRegister.TEST_CONTROL.STA)) {
 					if (v.value == 0x01) {
 						otdr.start();
 					}
@@ -38,7 +38,7 @@ public class SimHardware implements RegisterAccessor {
 	}
 
 	@Override
-	public int readRegister(Object regName, Object bitName) {
+	public long readRegister(Object regName, Object bitName) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

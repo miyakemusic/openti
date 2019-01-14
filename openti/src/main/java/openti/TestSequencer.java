@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -15,17 +16,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.silverbullet.dependency2.ChangedItemValue;
 import jp.silverbullet.dependency2.RequestRejectedException;
-import jp.silverbullet.handlers.SvHandlerModel;
 import jp.silverbullet.property2.ChartContent;
+import jp.silverbullet.sequncer.SvHandlerModel;
+import jp.silverbullet.sequncer.UserSequencer;
 import jp.silverbullet.web.JsTableContent;
 import openti.UserEasyAccess.EnumCollecmode;
+import openti.UserEasyAccess.EnumDistancerange;
 import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
+import openti.UserEasyAccess.EnumPulsewidth;
+import openti.UserRegister.TEST_CONFIG1;
 import openti.UserRegister.TEST_CONTROL;
+import openti.UserRegister.TEST_SETUP;
 
-public class TestSequencer {
+public class TestSequencer implements UserSequencer {
 	private boolean stopRequested;
 
+	/* (non-Javadoc)
+	 * @see openti.UserSequencer#handle(jp.silverbullet.handlers.SvHandlerModel, java.util.Map)
+	 */
+	@Override
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
 		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
 
@@ -37,12 +47,17 @@ public class TestSequencer {
 
 			long average = 1;//parameters.getOtdrAverage();
 			for (int loop = 0; loop < average; loop++) {
-				registers.test_control.set(TEST_CONTROL.START, 0x01).write();
+				registers.test_control.set(TEST_CONTROL.STA, 0x01).write();
 				properties.setAverageResult(loop+1);
 //				regiseters.otdrTestControl.write_teststart(true);
 				registers.waitInterrupt();
 				
 				byte[] data = registers.data.read();
+				registers.test_setup.set(TEST_SETUP.DURATION, 5).set(TEST_SETUP.POINTS, 501).write();
+				
+				int range = Arrays.asList(EnumDistancerange.values()).indexOf(properties.getDistancerange());
+				int pulse = Arrays.asList(EnumPulsewidth.values()).indexOf(properties.getPulsewidth());
+				registers.test_config1.set(TEST_CONFIG1.DISTANCE, range).set(TEST_CONFIG1.PULSE, pulse).write();
 //				regiseters.otdrTestControl.write_duration((int)(Math.random() * 3));
 //				regiseters.otdrTestControl.write_points((int)(Math.random() * 1000));
 //				regiseters.otdrTestControl.write_pulse((int)(Math.random() * 3));
@@ -112,7 +127,7 @@ public class TestSequencer {
 								);
 						tableContent.addRow(line);
 					}
-					registers.test_control.set(TEST_CONTROL.START, 0x00).write();
+					registers.test_control.set(TEST_CONTROL.STA, 0x00).write();
 					try {
 						model.getEasyAccessInterface().requestChange(ID.ID_TRACE, new ObjectMapper().writeValueAsString(chartContent));
 						model.getEasyAccessInterface().requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
@@ -130,13 +145,17 @@ public class TestSequencer {
 						loop--;
 					}
 
-				}
 			}
-			properties.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
 		}
-//		else {
-//			stopRequested = true;
-//		}
-//	}
+		else {
+			this.stopRequested = true;
+		}
+		properties.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
+	}
+	
+	@Override
+	public List<String> targetIds() {
+		return Arrays.asList(ID.ID_OTDR_TESTCONTROL);
+	}
 }
 
