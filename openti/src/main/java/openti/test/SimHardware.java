@@ -8,12 +8,11 @@ import jp.silverbullet.register2.BitValue;
 import jp.silverbullet.register2.RegisterAccessor;
 import jp.silverbullet.register2.RegisterAccessorListener;
 import openti.UserRegister;
-import openti.UserRegister.Register;
 
 public class SimHardware implements RegisterAccessor {
 
 	private Set<RegisterAccessorListener> listeners = new HashSet<>();
-
+	
 	private OtdrHardware otdr = new OtdrHardware() {
 		@Override
 		protected void onCompleted() {

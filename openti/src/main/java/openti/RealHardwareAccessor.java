@@ -3,6 +3,7 @@ package openti;
 import java.util.BitSet;
 import java.util.List;
 
+import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 
@@ -20,27 +21,32 @@ public class RealHardwareAccessor implements RegisterAccessor {
 
 	public interface NativeDll extends Library {
 		NativeDll INSTANCE = (NativeDll)
-            Native.loadLibrary("C:\\workspace\\Dll1", NativeDll.class);
+            Native.loadLibrary("nativecpp.dll", NativeDll.class);
 		int writeReg(long addr, long val);
 		int writeBlock(long addr, byte[] bytes, int size);
 		long readReg(long addr);
 		int readBlock(long addr, byte[] bytes, int size);
+		
+		public interface Interrupt extends Callback {
+		    boolean callback(int id, int value);
+		}
+		public void setCallback(Interrupt evnHnd);
     }
 	
 	public RealHardwareAccessor(RegisterSpecHolder specs) {
 		this.specHolder = specs;
-		
-		NativeDll.INSTANCE.writeReg(0x01, 5);
-		long ret = NativeDll.INSTANCE.readReg(0x01);
-		System.out.println(ret);
-		
-		byte[] bytes = new String("hello").getBytes();
-		NativeDll.INSTANCE.writeBlock(0x01, bytes, bytes.length);
-		
-		byte[] bytes2 = new byte[4];
-		NativeDll.INSTANCE.readBlock(0x01, bytes2, bytes2.length);
-		String s = new String(bytes2);
-		System.out.println(s);
+//		
+//		NativeDll.INSTANCE.writeReg(0x01, 5);
+//		long ret = NativeDll.INSTANCE.readReg(0x01);
+//		System.out.println(ret);
+//		
+//		byte[] bytes = new String("hello").getBytes();
+//		NativeDll.INSTANCE.writeBlock(0x01, bytes, bytes.length);
+//		
+//		byte[] bytes2 = new byte[4];
+//		NativeDll.INSTANCE.readBlock(0x01, bytes2, bytes2.length);
+//		String s = new String(bytes2);
+//		System.out.println(s);
 	}
 
 	@Override
@@ -86,8 +92,8 @@ public class RealHardwareAccessor implements RegisterAccessor {
 	@Override
 	public byte[] readRegister(Object regName) {
 		SvRegister reg = this.specHolder.getRegisterByName(regName.toString());	
-		String from = reg.getAddress().split("-")[0];
-		String to = reg.getAddress().split("-")[1];
+		String from = reg.getAddress().split("-")[0].replace("0x", "");
+		String to = reg.getAddress().split("-")[1].replace("0x", "");
 		long fromDec = Long.parseLong(from, 16 );
 		long toDec = Long.parseLong(to, 16 );
 		int size = (int)(toDec - fromDec);
