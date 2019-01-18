@@ -1,0 +1,41 @@
+package openti.test;
+
+import java.util.List;
+
+import jp.silverbullet.register2.BitValue;
+import jp.silverbullet.register2.RegisterAccessor;
+import jp.silverbullet.register2.RegisterAccessorListener;
+
+public class SimBrokenHardware implements RegisterAccessor {
+
+	@Override
+	public void write(Object regName, List<BitValue> data) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public long readRegister(Object regName, Object bitName) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear(Object regName) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addListener(RegisterAccessorListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public byte[] readRegister(Object regName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
