@@ -44,6 +44,5 @@ public class ID {
 	public static final String ID_OPTION_002="ID_OPTION_002";
 	public static final String ID_OPTION_003="ID_OPTION_003";
 	public static final String ID_LOSS="ID_LOSS";
-	public static final String ID_1541338882204="ID_1541338882204";
-	public static final String ID_1541338886483="ID_1541338886483";
+	public static final String ID_FATALERROR="ID_FATALERROR";
 }

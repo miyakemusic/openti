@@ -1,5 +1,6 @@
 package openti.test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,5 +60,10 @@ public class SimHardware implements RegisterAccessor {
 			return otdr.getData();
 		}
 		return null;
+	}
+
+	@Override
+	public void write(Object regName, Object bitName, int value) {
+		this.write(regName, Arrays.asList(new BitValue(bitName, value)));
 	}
 }

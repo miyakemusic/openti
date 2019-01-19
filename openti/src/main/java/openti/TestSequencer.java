@@ -38,20 +38,21 @@ public class TestSequencer implements UserSequencer {
 	@Override
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
 		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
-
-		if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {
-			UserRegister registers = new UserRegister(model.getRegisterAccessor());
-			
+		UserRegister registers = new UserRegister(model.getRegisterAccessor());
+		
+		if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {			
 			stopRequested = false;
 			
-
 			long average = 1;//parameters.getOtdrAverage();
-			for (int loop = 0; loop < average; loop++) {
+			for (long loop = 0; loop < average; loop++) {
 				registers.test_control.set(TEST_CONTROL.STA, 0x01).write();
 				properties.setAverageResult(loop+1);
 //				regiseters.otdrTestControl.write_teststart(true);
 				registers.waitInterrupt();
 				
+				if (properties.getFatalerror()) {
+					return;
+				}
 				byte[] data = registers.data.read();
 				registers.test_setup.set(TEST_SETUP.DURATION, 5).set(TEST_SETUP.POINTS, 501).write();
 				

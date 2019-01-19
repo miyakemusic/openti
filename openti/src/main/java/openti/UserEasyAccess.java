@@ -45,10 +45,10 @@ public class UserEasyAccess {
         return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE).getCurrentValue());
     }
     public void setTable(String value) throws RequestRejectedException {
-        model.requestChange(ID.ID_TABLE, value);
+        model.requestChange(ID.ID_TABLE, String.valueOf(value));
     }
     public String getTable() {
-        return model.getProperty(ID.ID_TABLE).getCurrentValue();
+        return String.valueOf(model.getProperty(ID.ID_TABLE).getCurrentValue());
     }
     public enum EnumOtdrTestcontrol{
         ID_OTDR_TESTCONTROL_START,
@@ -60,10 +60,10 @@ public class UserEasyAccess {
     public EnumOtdrTestcontrol getOtdrTestcontrol() {
         return EnumOtdrTestcontrol.valueOf(model.getProperty(ID.ID_OTDR_TESTCONTROL).getCurrentValue());
     }
-    public void setAveragetime(double value) throws RequestRejectedException {
+    public void setAveragetime(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_AVERAGETIME, String.valueOf(value));
     }
-    public double getAveragetime() {
+    public Double getAveragetime() {
         return Double.valueOf(model.getProperty(ID.ID_AVERAGETIME).getCurrentValue());
     }
     public enum EnumOscTestcontrol{
@@ -96,10 +96,10 @@ public class UserEasyAccess {
     public EnumTestMode getTestMode() {
         return EnumTestMode.valueOf(model.getProperty(ID.ID_TEST_MODE).getCurrentValue());
     }
-    public void setAverageResult(long value) throws RequestRejectedException {
+    public void setAverageResult(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_AVERAGE_RESULT, String.valueOf(value));
     }
-    public long getAverageResult() {
+    public Long getAverageResult() {
         return Long.valueOf(model.getProperty(ID.ID_AVERAGE_RESULT).getCurrentValue());
     }
     public enum EnumCollecmode{
@@ -122,26 +122,34 @@ public class UserEasyAccess {
     public EnumModelname getModelname() {
         return EnumModelname.valueOf(model.getProperty(ID.ID_MODELNAME).getCurrentValue());
     }
-    public void setLoss(double value) throws RequestRejectedException {
+    public void setOption001(Boolean value) throws RequestRejectedException {
+        model.requestChange(ID.ID_OPTION_001, String.valueOf(value));
+    }
+    public Boolean getOption001() {
+        return Boolean.valueOf(model.getProperty(ID.ID_OPTION_001).getCurrentValue());
+    }
+    public void setOption002(Boolean value) throws RequestRejectedException {
+        model.requestChange(ID.ID_OPTION_002, String.valueOf(value));
+    }
+    public Boolean getOption002() {
+        return Boolean.valueOf(model.getProperty(ID.ID_OPTION_002).getCurrentValue());
+    }
+    public void setOption003(Boolean value) throws RequestRejectedException {
+        model.requestChange(ID.ID_OPTION_003, String.valueOf(value));
+    }
+    public Boolean getOption003() {
+        return Boolean.valueOf(model.getProperty(ID.ID_OPTION_003).getCurrentValue());
+    }
+    public void setLoss(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_LOSS, String.valueOf(value));
     }
-    public double getLoss() {
+    public Double getLoss() {
         return Double.valueOf(model.getProperty(ID.ID_LOSS).getCurrentValue());
     }
-    public enum Enum1541338882204{
-    };
-    public void set1541338882204(Enum1541338882204 value) throws RequestRejectedException {
-        model.requestChange(ID.ID_1541338882204, value.toString());
+    public void setFatalerror(Boolean value) throws RequestRejectedException {
+        model.requestChange(ID.ID_FATALERROR, String.valueOf(value));
     }
-    public Enum1541338882204 get1541338882204() {
-        return Enum1541338882204.valueOf(model.getProperty(ID.ID_1541338882204).getCurrentValue());
-    }
-    public enum Enum1541338886483{
-    };
-    public void set1541338886483(Enum1541338886483 value) throws RequestRejectedException {
-        model.requestChange(ID.ID_1541338886483, value.toString());
-    }
-    public Enum1541338886483 get1541338886483() {
-        return Enum1541338886483.valueOf(model.getProperty(ID.ID_1541338886483).getCurrentValue());
+    public Boolean getFatalerror() {
+        return Boolean.valueOf(model.getProperty(ID.ID_FATALERROR).getCurrentValue());
     }
 }

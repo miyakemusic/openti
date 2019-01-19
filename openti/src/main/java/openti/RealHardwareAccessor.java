@@ -1,5 +1,6 @@
 package openti;
 
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
@@ -101,6 +102,11 @@ public class RealHardwareAccessor implements RegisterAccessor {
 		NativeDll.INSTANCE.readBlock(reg.getDecAddress(), bytes, size);
 		
 		return bytes;
+	}
+
+	@Override
+	public void write(Object regName, Object bitName, int value) {
+		this.write(regName, Arrays.asList(new BitValue(bitName, value)));
 	}
 
 }

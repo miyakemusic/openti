@@ -38,4 +38,10 @@ public class SimBrokenHardware implements RegisterAccessor {
 		return null;
 	}
 
+	@Override
+	public void write(Object regName, Object bitName, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

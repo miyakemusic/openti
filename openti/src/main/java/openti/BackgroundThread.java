@@ -25,24 +25,24 @@ public class BackgroundThread extends Thread {
 		try {
 			while(true) {
 				register.waitInterrupt();
-				if (register.hardkey.read(HARDKEY.AVG) == 0x01) {
+				if (register.hardkey.readAndReset(HARDKEY.AVG) == 0x01) {
 					props.setCollecmode(EnumCollecmode.ID_COLLECMODE_AVERAGE);
 					toggleStartStop(props);						
 				}
-				else if (register.hardkey.read(HARDKEY.REL) == 0x01) {
+				else if (register.hardkey.readAndReset(HARDKEY.REL) == 0x01) {
 				
 				}
 				
-				if (register.error_status.read(ERROR_STATUS.BAT) == 0x01) {
+				if (register.error_status.readAndReset(ERROR_STATUS.BAT) == 0x01) {
 					props.setError(EnumError.ID_ERROR_HARDWARE);
 				}
-				if (register.error_status.read(ERROR_STATUS.CUR) == 0x01) {
+				if (register.error_status.readAndReset(ERROR_STATUS.CUR) == 0x01) {
 					props.setError(EnumError.ID_ERROR_HARDWARE);
 				}
-				if (register.error_status.read(ERROR_STATUS.DISK) == 0x01) {
+				if (register.error_status.readAndReset(ERROR_STATUS.DISK) == 0x01) {
 					props.setError(EnumError.ID_ERROR_HARDWARE);
 				}
-				if (register.error_status.read(ERROR_STATUS.TEMP) == 0x01) {
+				if (register.error_status.readAndReset(ERROR_STATUS.TEMP) == 0x01) {
 					props.setError(EnumError.ID_ERROR_HARDWARE);
 				}
 //				if (register.hardkey.read_and_reset_Average()) {
