@@ -40,9 +40,4 @@ public class Main extends SilverBulletServer {
 	protected List<UserSequencer> getUserSequencers(BuilderModelImpl model) {
 		return Arrays.asList(new TestSequencer());
 	}
-	@Override
-	protected int getInstanceCount() {
-		return 1;
-	}
-
 }
