@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<registerShortCutHolder>
+    <shortcuts>
+        <bitName>Average</bitName>
+        <interrupt>true</interrupt>
+        <regName>Hardkey</regName>
+    </shortcuts>
+    <shortcuts>
+        <bitName>Realtime</bitName>
+        <interrupt>true</interrupt>
+        <regName>Hardkey</regName>
+    </shortcuts>
+</registerShortCutHolder>

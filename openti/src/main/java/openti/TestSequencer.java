@@ -3,9 +3,6 @@ package openti;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +19,6 @@ import jp.silverbullet.sequncer.UserSequencer;
 import jp.silverbullet.web.JsTableContent;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumDistancerange;
-import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
 import openti.UserEasyAccess.EnumPulsewidth;
 import openti.UserRegister.TEST_CONFIG1;
@@ -43,8 +39,14 @@ public class TestSequencer implements UserSequencer {
 		if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {			
 			stopRequested = false;
 			
-			long average = 1;//parameters.getOtdrAverage();
+			long average = properties.getAveragetime().intValue();
 			for (long loop = 0; loop < average; loop++) {
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
 				registers.test_control.set(TEST_CONTROL.STA, 0x01).write();
 				properties.setAverageResult(loop+1);
 //				regiseters.otdrTestControl.write_teststart(true);
@@ -84,7 +86,7 @@ public class TestSequencer implements UserSequencer {
 					}
 					
 					try {
-						Thread.sleep(200);
+						Thread.sleep(100);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
@@ -145,7 +147,11 @@ public class TestSequencer implements UserSequencer {
 					if (properties.getCollecmode().equals(EnumCollecmode.ID_COLLECMODE_REALTIME)) {
 						loop--;
 					}
-
+					else if (properties.getCollecmode().equals(EnumCollecmode.ID_COLLECMODE_AVERAGE)) {
+						if (loop == average) {
+							break;
+						}
+					}
 			}
 		}
 		else {
