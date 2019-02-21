@@ -38,6 +38,6 @@ public class Main extends SilverBulletServer {
 	}
 	@Override
 	protected List<UserSequencer> getUserSequencers(BuilderModelImpl model) {
-		return Arrays.asList(new TestSequencer());
+		return Arrays.asList(new TestSequencer(), new OscilloTestSequencer());
 	}
 }

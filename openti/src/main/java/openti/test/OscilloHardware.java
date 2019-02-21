@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-public class ObsoluteSimOscillo {
+public abstract class OscilloHardware {
 
 	private boolean stopRequested;
 	private EyeImage data = new EyeImage(500,400);
@@ -17,17 +17,13 @@ public class ObsoluteSimOscillo {
 	private long samplingCount = 0;
 
 	
-
-	protected void writeBlock(long address, byte[] data) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	abstract protected void onUpdate();
+	
 	private void stopCollection() {
 		stopRequested = true;
 	}
 
-	private void startCollection() {
+	public void start() {
 		stopRequested = false;
 		this.samplingCount = 0;
 		new Thread() {
@@ -45,11 +41,6 @@ public class ObsoluteSimOscillo {
 		this.data.clear();
 		
 		while(!stopRequested) {
-			if (!this.ppgRunning) {
-				this.updateData();
-				continue;
-			}
-			
 			double amp = 5;
 			
 			for (int x = 0; x < width; x++) {
@@ -87,28 +78,18 @@ public class ObsoluteSimOscillo {
 				}
 			}
 			
-			updateData();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			onUpdate();
 		}
 
 	}
 
-
-	private void updateData() {
-//		super.updateBlockData(UserRegisterControl.ADDR_ADDREYEDIAGRAM, getByteArray(data));
-//		
-//		if (samplingCount == 0) {
-//			super.triggerInterrupt();
-//		}
-//		samplingCount++;
-//		
-//		try {
-//			Thread.sleep(100);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-	}
-	private byte[] getByteArray(EyeImage data2) {
+	public byte[] getData() {
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(bao);

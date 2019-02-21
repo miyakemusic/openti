@@ -13,6 +13,8 @@ public class UserRegister extends RuntimeRegisterHolder {
 		TEST_CONFIG1, 
 		ERROR_STATUS, 
 		DATA, 
+		OSCILLO_TEST, 
+		EYEDIAGRAM, 
 	}
 	public enum TEST_CONTROL {
 		TEST, 
@@ -47,4 +49,12 @@ public class UserRegister extends RuntimeRegisterHolder {
 		NEW1546957728577, 
 	}
 	public RuntimeRegister<DATA> data = new RuntimeRegister<>(Register.DATA, accessor);
+	public enum OSCILLO_TEST {
+		TEST, 
+	}
+	public RuntimeRegister<OSCILLO_TEST> oscillo_test = new RuntimeRegister<>(Register.OSCILLO_TEST, accessor);
+	public enum EYEDIAGRAM {
+		EYEDIAGRAM, 
+	}
+	public RuntimeRegister<EYEDIAGRAM> eyediagram = new RuntimeRegister<>(Register.EYEDIAGRAM, accessor);
 }

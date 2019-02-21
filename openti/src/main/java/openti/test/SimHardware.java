@@ -22,6 +22,16 @@ public class SimHardware implements RegisterAccessor {
 		}		
 	};
 	
+	private OscilloHardware oscillo = new OscilloHardware() {
+
+		@Override
+		protected void onUpdate() {
+			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.EYEDIAGRAM, oscillo.getData()));
+			listeners.forEach(listener -> listener.onInterrupt());			
+		}
+		
+	};
+	
 	@Override
 	public void write(Object regName, List<BitValue> data) {
 		if (regName.equals(UserRegister.Register.TEST_CONTROL)) {
@@ -33,6 +43,15 @@ public class SimHardware implements RegisterAccessor {
 				}
 			});
 			
+		}
+		else if (regName.equals(UserRegister.Register.OSCILLO_TEST)) {
+			data.forEach(v -> {
+				if (v.bitName.equals(UserRegister.OSCILLO_TEST.TEST)) {
+					if (v.value == 0x01) {
+						oscillo.start();
+					}
+				}
+			});			
 		}
 
 	}

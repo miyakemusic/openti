@@ -44,6 +44,12 @@ public class UserEasyAccess {
     public EnumDistancerange getDistancerange() {
         return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE).getCurrentValue());
     }
+    public void setDistancerange(EnumDistancerange value, int index) throws RequestRejectedException {
+        model.requestChange(ID.ID_DISTANCERANGE, index, value.toString());
+    }
+    public EnumDistancerange getDistancerange(int index) {
+        return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE + "#" + index).getCurrentValue());
+    }
     public void setTable(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_TABLE, String.valueOf(value));
     }
@@ -60,11 +66,11 @@ public class UserEasyAccess {
     public EnumOtdrTestcontrol getOtdrTestcontrol() {
         return EnumOtdrTestcontrol.valueOf(model.getProperty(ID.ID_OTDR_TESTCONTROL).getCurrentValue());
     }
-    public void setAveragetime(Double value) throws RequestRejectedException {
+    public void setAveragetime(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_AVERAGETIME, String.valueOf(value));
     }
-    public Double getAveragetime() {
-        return Double.valueOf(model.getProperty(ID.ID_AVERAGETIME).getCurrentValue());
+    public Long getAveragetime() {
+        return Long.valueOf(model.getProperty(ID.ID_AVERAGETIME).getCurrentValue());
     }
     public enum EnumOscTestcontrol{
         ID_OSC_TESTCONTROL_START,
