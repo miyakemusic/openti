@@ -26,7 +26,7 @@ public class SimHardware implements RegisterAccessor {
 
 		@Override
 		protected void onUpdate() {
-			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.EYEDIAGRAM, oscillo.getData()));
+			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.EYEDIAGRAM, oscillo.get()));
 			listeners.forEach(listener -> listener.onInterrupt());			
 		}
 		
@@ -50,6 +50,12 @@ public class SimHardware implements RegisterAccessor {
 					if (v.value == 0x01) {
 						oscillo.start();
 					}
+					else if ( v.value == 0x00) {
+						oscillo.stop();
+					}
+				}
+				else if (v.bitName.equals(UserRegister.OSCILLO_TEST.TRGPOS)) {
+					oscillo.setTriggerPos(v.value);
 				}
 			});			
 		}

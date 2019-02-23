@@ -44,12 +44,6 @@ public class UserEasyAccess {
     public EnumDistancerange getDistancerange() {
         return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE).getCurrentValue());
     }
-    public void setDistancerange(EnumDistancerange value, int index) throws RequestRejectedException {
-        model.requestChange(ID.ID_DISTANCERANGE, index, value.toString());
-    }
-    public EnumDistancerange getDistancerange(int index) {
-        return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE + "#" + index).getCurrentValue());
-    }
     public void setTable(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_TABLE, String.valueOf(value));
     }
@@ -157,5 +151,11 @@ public class UserEasyAccess {
     }
     public Boolean getFatalerror() {
         return Boolean.valueOf(model.getProperty(ID.ID_FATALERROR).getCurrentValue());
+    }
+    public void setOscTrigger(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_OSC_TRIGGER, String.valueOf(value));
+    }
+    public Double getOscTrigger() {
+        return Double.valueOf(model.getProperty(ID.ID_OSC_TRIGGER).getCurrentValue());
     }
 }

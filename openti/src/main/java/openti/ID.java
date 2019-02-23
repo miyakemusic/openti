@@ -45,4 +45,5 @@ public class ID {
 	public static final String ID_OPTION_003="ID_OPTION_003";
 	public static final String ID_LOSS="ID_LOSS";
 	public static final String ID_FATALERROR="ID_FATALERROR";
+	public static final String ID_OSC_TRIGGER="ID_OSC_TRIGGER";
 }
