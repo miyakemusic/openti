@@ -1,6 +1,8 @@
 package openti;
 public class ID {
 	public static final String ID_APPLICATION="ID_APPLICATION";
+	public static final String ID_APPLICATION_OSA="ID_APPLICATION_OSA";
+	public static final String ID_APPLICATION_OSCILLO="ID_APPLICATION_OSCILLO";
 	public static final String ID_APPLICATION_OTDR="ID_APPLICATION_OTDR";
 	public static final String ID_APPLICATION_SQA="ID_APPLICATION_SQA";
 	public static final String ID_PULSEWIDTH="ID_PULSEWIDTH";
@@ -33,7 +35,6 @@ public class ID {
 	public static final String ID_TEST_MODE="ID_TEST_MODE";
 	public static final String ID_TEST_MODE_AUTO="ID_TEST_MODE_AUTO";
 	public static final String ID_TEST_MODE_MANUAL="ID_TEST_MODE_MANUAL";
-	public static final String ID_AVERAGE_RESULT="ID_AVERAGE_RESULT";
 	public static final String ID_COLLECMODE="ID_COLLECMODE";
 	public static final String ID_COLLECMODE_AVERAGE="ID_COLLECMODE_AVERAGE";
 	public static final String ID_COLLECMODE_REALTIME="ID_COLLECMODE_REALTIME";
@@ -46,4 +47,24 @@ public class ID {
 	public static final String ID_LOSS="ID_LOSS";
 	public static final String ID_FATALERROR="ID_FATALERROR";
 	public static final String ID_OSC_TRIGGER="ID_OSC_TRIGGER";
+	public static final String ID_AVERAGE_RESULT="ID_AVERAGE_RESULT";
+	public static final String ID_PPG_PATTERN="ID_PPG_PATTERN";
+	public static final String ID_PPG_PATTERN_PRBS15="ID_PPG_PATTERN_PRBS15";
+	public static final String ID_PPG_PATTERN_PRBS23="ID_PPG_PATTERN_PRBS23";
+	public static final String ID_PPG_PATTERN_PRBS9="ID_PPG_PATTERN_PRBS9";
+	public static final String ID_ED_PATTERN="ID_ED_PATTERN";
+	public static final String ID_ED_PATTERN_PRBS15="ID_ED_PATTERN_PRBS15";
+	public static final String ID_ED_PATTERN_PRBS23="ID_ED_PATTERN_PRBS23";
+	public static final String ID_ED_PATTERN_PRBS9="ID_ED_PATTERN_PRBS9";
+	public static final String ID_PPG_FREQUENCY="ID_PPG_FREQUENCY";
+	public static final String ID_PPG_MODULATION="ID_PPG_MODULATION";
+	public static final String ID_PPG_MODULATION_CSRZ="ID_PPG_MODULATION_CSRZ";
+	public static final String ID_PPG_MODULATION_NRZ="ID_PPG_MODULATION_NRZ";
+	public static final String ID_PPG_MODULATION_RZ="ID_PPG_MODULATION_RZ";
+	public static final String ID_ED_FREQUENCY="ID_ED_FREQUENCY";
+	public static final String ID_ED_MODULATION="ID_ED_MODULATION";
+	public static final String ID_ED_MODULATION_CSRZ="ID_ED_MODULATION_CSRZ";
+	public static final String ID_ED_MODULATION_NRZ="ID_ED_MODULATION_NRZ";
+	public static final String ID_ED_MODULATION_RZ="ID_ED_MODULATION_RZ";
+	public static final String ID_OTDR_SAMPLINGPOINTS="ID_OTDR_SAMPLINGPOINTS";
 }

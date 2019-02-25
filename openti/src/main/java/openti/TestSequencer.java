@@ -56,7 +56,8 @@ public class TestSequencer implements UserSequencer {
 					return;
 				}
 				byte[] data = registers.data.read();
-				registers.test_setup.set(TEST_SETUP.DURATION, 5).set(TEST_SETUP.POINTS, 501).write();
+				int sampling = properties.getOtdrSamplingpoints().intValue();
+				registers.test_setup.set(TEST_SETUP.DURATION, 5).set(TEST_SETUP.POINTS, sampling).write();
 				
 				int range = Arrays.asList(EnumDistancerange.values()).indexOf(properties.getDistancerange());
 				int pulse = Arrays.asList(EnumPulsewidth.values()).indexOf(properties.getPulsewidth());
@@ -163,6 +164,11 @@ public class TestSequencer implements UserSequencer {
 	@Override
 	public List<String> targetIds() {
 		return Arrays.asList(ID.ID_OTDR_TESTCONTROL);
+	}
+
+	@Override
+	public boolean isAsync() {
+		return true;
 	}
 }
 

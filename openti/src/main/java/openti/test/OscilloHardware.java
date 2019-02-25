@@ -4,7 +4,9 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,9 +24,35 @@ public abstract class OscilloHardware {
 			}
 		};
 		sci.start();
+		
+		new Thread() {
+			@Override
+			public void run() {
+				for (int i = 0; i < 10; i++) {
+					try {
+						Thread.sleep(0);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						byte[] b = sci.save();
+						FileOutputStream out = new FileOutputStream("C:\\Users\\miyak\\git\\openti\\openti\\eye_" + i + ".png");
+						out.write(b);
+						out.close();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
 	}
 	private boolean stopRequested;
-	private EyeImage data = new EyeImage(800,600);
+	private EyeImage data = new EyeImage(800,500);
 //	private SimRegisterControl regControl;
 	private boolean ppgRunning = false;
 	private int ppgBitRate;
@@ -34,7 +62,7 @@ public abstract class OscilloHardware {
 
 	private Object sync = new Object();
 	private Thread thread;
-	
+
 	abstract protected void onUpdate();
 
 	public OscilloHardware() {
@@ -45,7 +73,7 @@ public abstract class OscilloHardware {
 				work();
 			}
 		};
-		thread.start();			
+		thread.start();		
 	}
 	
 	public void start() {
@@ -76,44 +104,19 @@ public abstract class OscilloHardware {
 				}
 			}
 			double amp = 5;
-			
+			int yoffset = 0;
 			for (int x = 0; x < width; x++) {
 				double dWidth = width;
 				double dHeight = height;
 				double dX = x;
 				//dX += Math.PI / 2.0 / (dWidth/2.0);
 				double phase = triggerPos/10;
-				{
-					double v_plus = Math.sin(dX / (dWidth/2.0) * Math.PI + phase) * (amp /5 * dHeight / 4.0)+ getNoise(random);
-					v_plus += dHeight / 2;
-					int y = (int)v_plus;
-					increment(x, y);
-				}
-				{
-					double v_minus = Math.sin(dX / (dWidth/2.0) * Math.PI + phase) * (amp /5 * dHeight / 4.0)+ getNoise(random);
-					v_minus *= -1;
-					v_minus += dHeight / 2;
-					int y = (int)v_minus;
-					increment(x, y);
-				}
-				
-				{
-					double v_plus = (amp /5 * dHeight / 4.0)+ getNoise(random);
-					v_plus += dHeight / 2;
-					int y = (int)v_plus;
-					increment(x, y);
-				}
-				{
-					double v_minus = (amp /5 * dHeight / 4.0)+ getNoise(random);
-					v_minus *= -1;
-					v_minus += dHeight / 2;
-					int y = (int)v_minus;
-					increment(x, y);
-				}
+				createOne(random, amp, 0, x, dWidth, dHeight, dX, phase);
+//				createOne(random, amp, height/4, x, dWidth, dHeight, dX, phase);
 			}
 			
 			try {
-				Thread.sleep(1);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -121,6 +124,72 @@ public abstract class OscilloHardware {
 			onUpdate();
 		}
 
+	}
+
+	private void createOne(Random random, double amp, int yoffset, int x, double dWidth, double dHeight, double dX,
+			double phase) {
+		double half = 2;
+		
+		double level = (amp /5 * dHeight / 4.0);
+		{ // upper line
+			double v_plus = level + getNoise(random);
+			v_plus += dHeight / 2;
+			int y = (int)v_plus + yoffset;;
+			increment(x, y);
+		}
+		{ // zero line 
+			double v_zero = getNoise(random);
+			v_zero += dHeight / 2;
+			int y = (int)v_zero + yoffset;;
+			increment(x, y);
+		}
+		{ // lower line
+			double v_minus = level + getNoise(random);
+			v_minus *= -1;
+			v_minus += dHeight / 2;
+			int y = (int)v_minus + yoffset;;
+			increment(x, y);
+		}
+		{ // upper sine plus half
+			double v_plus = Math.sin(dX / (dWidth/2.0) * Math.PI + phase) * level/ half + getNoise(random);
+			v_plus += dHeight / 2 - level /2 ;
+			int y = (int)v_plus + yoffset;
+			increment(x, y);
+		}
+		{ // upper sine minus half
+			double v_minus = Math.sin(dX / (dWidth/2.0) * Math.PI + phase) * level / half + getNoise(random);
+			v_minus *= -1;
+			v_minus += dHeight / 2 - level /2;
+			int y = (int)v_minus + yoffset;;
+			increment(x, y);
+		}
+		{ // lower sine plus half
+			double v_plus = Math.sin(dX / (dWidth/2.0) * Math.PI + phase) * level/ half + getNoise(random);
+			v_plus += dHeight / 2 + level /2 ;
+			int y = (int)v_plus + yoffset;
+			increment(x, y);
+		}
+		{ // lower sine minus half
+			double v_minus = Math.sin(dX / (dWidth/2.0) * Math.PI + phase) * level / half + getNoise(random);
+			v_minus *= -1;
+			v_minus += dHeight / 2 + level /2;
+			int y = (int)v_minus + yoffset;;
+			increment(x, y);
+		}
+		
+		{ // upper sine plus full
+			double v_plus = Math.sin(dX / (dWidth/2.0) * Math.PI + phase) * level + getNoise(random);
+			v_plus += dHeight / 2;
+			int y = (int)v_plus + yoffset;
+			increment(x, y);
+		}
+		{ // upper sine minus full
+			double v_minus = Math.sin(dX / (dWidth/2.0) * Math.PI + phase) * level + getNoise(random);
+			v_minus *= -1;
+			v_minus += dHeight / 2;
+			int y = (int)v_minus + yoffset;;
+			increment(x, y);
+		}
 	}
 
 	public byte[] getData() {
@@ -163,7 +232,6 @@ public abstract class OscilloHardware {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		BufferedOutputStream os = new BufferedOutputStream( bos );
 		image.flush();
-//		ImageIO.write( image, "png", new File("C:\\Users\\miyak\\git\\openti\\openti\\eye.png") );
 		ImageIO.write( image, "png", os);
 		return bos.toByteArray();
 	}

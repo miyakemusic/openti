@@ -7,6 +7,8 @@ public class UserEasyAccess {
         this.model = model2;
     }
     public enum EnumApplication{
+        ID_APPLICATION_OSA,
+        ID_APPLICATION_OSCILLO,
         ID_APPLICATION_OTDR,
         ID_APPLICATION_SQA,
     };
@@ -96,12 +98,6 @@ public class UserEasyAccess {
     public EnumTestMode getTestMode() {
         return EnumTestMode.valueOf(model.getProperty(ID.ID_TEST_MODE).getCurrentValue());
     }
-    public void setAverageResult(Long value) throws RequestRejectedException {
-        model.requestChange(ID.ID_AVERAGE_RESULT, String.valueOf(value));
-    }
-    public Long getAverageResult() {
-        return Long.valueOf(model.getProperty(ID.ID_AVERAGE_RESULT).getCurrentValue());
-    }
     public enum EnumCollecmode{
         ID_COLLECMODE_AVERAGE,
         ID_COLLECMODE_REALTIME,
@@ -152,10 +148,78 @@ public class UserEasyAccess {
     public Boolean getFatalerror() {
         return Boolean.valueOf(model.getProperty(ID.ID_FATALERROR).getCurrentValue());
     }
-    public void setOscTrigger(Double value) throws RequestRejectedException {
+    public void setOscTrigger(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_OSC_TRIGGER, String.valueOf(value));
     }
-    public Double getOscTrigger() {
-        return Double.valueOf(model.getProperty(ID.ID_OSC_TRIGGER).getCurrentValue());
+    public Long getOscTrigger() {
+        return Long.valueOf(model.getProperty(ID.ID_OSC_TRIGGER).getCurrentValue());
+    }
+    public void setAverageResult(Long value) throws RequestRejectedException {
+        model.requestChange(ID.ID_AVERAGE_RESULT, String.valueOf(value));
+    }
+    public Long getAverageResult() {
+        return Long.valueOf(model.getProperty(ID.ID_AVERAGE_RESULT).getCurrentValue());
+    }
+    public enum EnumPpgPattern{
+        ID_PPG_PATTERN_PRBS15,
+        ID_PPG_PATTERN_PRBS23,
+        ID_PPG_PATTERN_PRBS9,
+    };
+    public void setPpgPattern(EnumPpgPattern value) throws RequestRejectedException {
+        model.requestChange(ID.ID_PPG_PATTERN, value.toString());
+    }
+    public EnumPpgPattern getPpgPattern() {
+        return EnumPpgPattern.valueOf(model.getProperty(ID.ID_PPG_PATTERN).getCurrentValue());
+    }
+    public enum EnumEdPattern{
+        ID_ED_PATTERN_PRBS15,
+        ID_ED_PATTERN_PRBS23,
+        ID_ED_PATTERN_PRBS9,
+    };
+    public void setEdPattern(EnumEdPattern value) throws RequestRejectedException {
+        model.requestChange(ID.ID_ED_PATTERN, value.toString());
+    }
+    public EnumEdPattern getEdPattern() {
+        return EnumEdPattern.valueOf(model.getProperty(ID.ID_ED_PATTERN).getCurrentValue());
+    }
+    public void setPpgFrequency(Long value) throws RequestRejectedException {
+        model.requestChange(ID.ID_PPG_FREQUENCY, String.valueOf(value));
+    }
+    public Long getPpgFrequency() {
+        return Long.valueOf(model.getProperty(ID.ID_PPG_FREQUENCY).getCurrentValue());
+    }
+    public enum EnumPpgModulation{
+        ID_PPG_MODULATION_CSRZ,
+        ID_PPG_MODULATION_NRZ,
+        ID_PPG_MODULATION_RZ,
+    };
+    public void setPpgModulation(EnumPpgModulation value) throws RequestRejectedException {
+        model.requestChange(ID.ID_PPG_MODULATION, value.toString());
+    }
+    public EnumPpgModulation getPpgModulation() {
+        return EnumPpgModulation.valueOf(model.getProperty(ID.ID_PPG_MODULATION).getCurrentValue());
+    }
+    public void setEdFrequency(Long value) throws RequestRejectedException {
+        model.requestChange(ID.ID_ED_FREQUENCY, String.valueOf(value));
+    }
+    public Long getEdFrequency() {
+        return Long.valueOf(model.getProperty(ID.ID_ED_FREQUENCY).getCurrentValue());
+    }
+    public enum EnumEdModulation{
+        ID_ED_MODULATION_CSRZ,
+        ID_ED_MODULATION_NRZ,
+        ID_ED_MODULATION_RZ,
+    };
+    public void setEdModulation(EnumEdModulation value) throws RequestRejectedException {
+        model.requestChange(ID.ID_ED_MODULATION, value.toString());
+    }
+    public EnumEdModulation getEdModulation() {
+        return EnumEdModulation.valueOf(model.getProperty(ID.ID_ED_MODULATION).getCurrentValue());
+    }
+    public void setOtdrSamplingpoints(Long value) throws RequestRejectedException {
+        model.requestChange(ID.ID_OTDR_SAMPLINGPOINTS, String.valueOf(value));
+    }
+    public Long getOtdrSamplingpoints() {
+        return Long.valueOf(model.getProperty(ID.ID_OTDR_SAMPLINGPOINTS).getCurrentValue());
     }
 }
