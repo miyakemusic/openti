@@ -111,7 +111,7 @@ public abstract class OscilloHardware {
 				double dX = x;
 				//dX += Math.PI / 2.0 / (dWidth/2.0);
 				double phase = triggerPos/10;
-				createOne(random, amp, 0, x, dWidth, dHeight, dX, phase);
+				createOne2(random, amp, 0, x, dWidth, dHeight, dX, phase);
 //				createOne(random, amp, height/4, x, dWidth, dHeight, dX, phase);
 			}
 			
@@ -124,6 +124,32 @@ public abstract class OscilloHardware {
 			onUpdate();
 		}
 
+	}
+	private void createOne2(Random random, double amp, int yoffset, int x, double dWidth, double dHeight, double dX,
+			double phase) {
+			
+		double base = dHeight;
+		double baseAmp = amp;
+		double baseLine = dHeight / 4;
+		double lineStep = dHeight / 5;
+		
+		createLine(x, baseLine, random);
+		createLine(x, baseLine + lineStep, random);
+		createLine(x, baseLine + lineStep * 2, random);
+		createLine(x, baseLine + lineStep * 3, random);
+		
+		createSine(x, baseLine, lineStep/2, phase, dWidth, random);
+	}
+	
+	private void createSine(int x, double baseLine, double amp, double phase, double dWidth, Random random) {
+		double xx = (double)x / (dWidth/2.0) * Math.PI + phase;
+		int y = (int)(Math.sin(xx) * amp + getNoise(random) + baseLine + amp /2);
+		increment(x, y);
+	}
+
+	private void createLine(int x, double value, Random random) {
+		int y = (int)(value + getNoise(random));
+		increment(x, y);
 	}
 
 	private void createOne(Random random, double amp, int yoffset, int x, double dWidth, double dHeight, double dX,
