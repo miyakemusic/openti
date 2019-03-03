@@ -138,12 +138,42 @@ public abstract class OscilloHardware {
 		createLine(x, baseLine + lineStep * 2, random);
 		createLine(x, baseLine + lineStep * 3, random);
 		
-		createSine(x, baseLine, lineStep/2, phase, dWidth, random);
+		boolean sin = true;
+		boolean cos = true;
+		/// sin ///
+		if (sin) {
+			// from 1
+			createSine(x, baseLine, lineStep/2, phase, dWidth, random);
+			createSine(x, baseLine, lineStep/2*2, phase, dWidth, random);
+			createSine(x, baseLine, lineStep/2*3, phase, dWidth, random);
+			
+			// from2
+			createSine(x, baseLine + lineStep, lineStep/2, phase, dWidth, random);
+			createSine(x, baseLine + lineStep, lineStep/2*2, phase, dWidth, random);
+	
+			// from3
+			createSine(x, baseLine + lineStep * 2, lineStep/2, phase, dWidth, random);
+		}
+		/// cos ///
+		
+		if (cos) {
+			// from 3
+			createSine(x, baseLine + lineStep * 3, -lineStep/2, phase, dWidth, random);
+			createSine(x, baseLine + lineStep * 3, -lineStep/2*2, phase, dWidth, random);
+			createSine(x, baseLine + lineStep * 3, -lineStep/2*3, phase, dWidth, random);
+			
+			// from 2
+			createSine(x, baseLine + lineStep * 2, -lineStep/2, phase, dWidth, random);
+			createSine(x, baseLine + lineStep * 2, -lineStep/2*2, phase, dWidth, random);
+			
+			// from 1
+			createSine(x, baseLine + lineStep, -lineStep/2, phase, dWidth, random);
+		}
 	}
 	
 	private void createSine(int x, double baseLine, double amp, double phase, double dWidth, Random random) {
 		double xx = (double)x / (dWidth/2.0) * Math.PI + phase;
-		int y = (int)(Math.sin(xx) * amp + getNoise(random) + baseLine + amp /2);
+		int y = (int)((Math.sin(xx)+1) * amp + getNoise(random) + (baseLine));
 		increment(x, y);
 	}
 
