@@ -90,6 +90,10 @@ public class Main extends SilverBulletServer {
 		averagePane.createTextField("ID_AVERAGETIME", PropertyField.VALUE).css("width","50").css("height", "24");
 		averagePane.createLabel("ID_AVERAGE_RESULT", PropertyField.VALUE);
 		
+		Pane modelPane = otdrPane.createPane(Layout.HORIZONTAL);
+		modelPane.css("width", "250");
+		helper.generateToggleButton(ID.ID_MODELNAME, modelPane);
+		
 		helper.generateTitledSetting("ID_OTDR_SAMPLINGPOINTS", otdrPane);
 		otdrPane.createChart("ID_TRACE").css("width","600").css("height", "300");
 		otdrPane.createTable("ID_TABLE").css("width","600").css("height", "200");
