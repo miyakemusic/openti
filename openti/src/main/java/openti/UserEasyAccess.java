@@ -7,10 +7,10 @@ public class UserEasyAccess {
         this.model = model2;
     }
     public enum EnumApplication{
+        ID_APPLICATION_BERTS,
         ID_APPLICATION_OSA,
         ID_APPLICATION_OSCILLO,
         ID_APPLICATION_OTDR,
-        ID_APPLICATION_SQA,
     };
     public void setApplication(EnumApplication value) throws RequestRejectedException {
         model.requestChange(ID.ID_APPLICATION, value.toString());
@@ -45,6 +45,12 @@ public class UserEasyAccess {
     }
     public EnumDistancerange getDistancerange() {
         return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE).getCurrentValue());
+    }
+    public void setDistancerange(EnumDistancerange value, int index) throws RequestRejectedException {
+        model.requestChange(ID.ID_DISTANCERANGE, index, value.toString());
+    }
+    public EnumDistancerange getDistancerange(int index) {
+        return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE + "#" + index).getCurrentValue());
     }
     public void setTable(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_TABLE, String.valueOf(value));
@@ -191,6 +197,7 @@ public class UserEasyAccess {
     public enum EnumPpgModulation{
         ID_PPG_MODULATION_CSRZ,
         ID_PPG_MODULATION_NRZ,
+        ID_PPG_MODULATION_PAM4,
         ID_PPG_MODULATION_RZ,
     };
     public void setPpgModulation(EnumPpgModulation value) throws RequestRejectedException {
@@ -208,6 +215,7 @@ public class UserEasyAccess {
     public enum EnumEdModulation{
         ID_ED_MODULATION_CSRZ,
         ID_ED_MODULATION_NRZ,
+        ID_ED_MODULATION_PAM4,
         ID_ED_MODULATION_RZ,
     };
     public void setEdModulation(EnumEdModulation value) throws RequestRejectedException {
@@ -221,5 +229,16 @@ public class UserEasyAccess {
     }
     public Long getOtdrSamplingpoints() {
         return Long.valueOf(model.getProperty(ID.ID_OTDR_SAMPLINGPOINTS).getCurrentValue());
+    }
+    public enum EnumStatus{
+        ID_STATUS_IDLE,
+        ID_STATUS_PRESETTING,
+        ID_STATUS_TESTING,
+    };
+    public void setStatus(EnumStatus value) throws RequestRejectedException {
+        model.requestChange(ID.ID_STATUS, value.toString());
+    }
+    public EnumStatus getStatus() {
+        return EnumStatus.valueOf(model.getProperty(ID.ID_STATUS).getCurrentValue());
     }
 }

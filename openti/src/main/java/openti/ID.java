@@ -1,10 +1,10 @@
 package openti;
 public class ID {
 	public static final String ID_APPLICATION="ID_APPLICATION";
+	public static final String ID_APPLICATION_BERTS="ID_APPLICATION_BERTS";
 	public static final String ID_APPLICATION_OSA="ID_APPLICATION_OSA";
 	public static final String ID_APPLICATION_OSCILLO="ID_APPLICATION_OSCILLO";
 	public static final String ID_APPLICATION_OTDR="ID_APPLICATION_OTDR";
-	public static final String ID_APPLICATION_SQA="ID_APPLICATION_SQA";
 	public static final String ID_PULSEWIDTH="ID_PULSEWIDTH";
 	public static final String ID_PULSEWIDTH_1NS="ID_PULSEWIDTH_1NS";
 	public static final String ID_PULSEWIDTH_10NS="ID_PULSEWIDTH_10NS";
@@ -60,11 +60,17 @@ public class ID {
 	public static final String ID_PPG_MODULATION="ID_PPG_MODULATION";
 	public static final String ID_PPG_MODULATION_CSRZ="ID_PPG_MODULATION_CSRZ";
 	public static final String ID_PPG_MODULATION_NRZ="ID_PPG_MODULATION_NRZ";
+	public static final String ID_PPG_MODULATION_PAM4="ID_PPG_MODULATION_PAM4";
 	public static final String ID_PPG_MODULATION_RZ="ID_PPG_MODULATION_RZ";
 	public static final String ID_ED_FREQUENCY="ID_ED_FREQUENCY";
 	public static final String ID_ED_MODULATION="ID_ED_MODULATION";
 	public static final String ID_ED_MODULATION_CSRZ="ID_ED_MODULATION_CSRZ";
 	public static final String ID_ED_MODULATION_NRZ="ID_ED_MODULATION_NRZ";
+	public static final String ID_ED_MODULATION_PAM4="ID_ED_MODULATION_PAM4";
 	public static final String ID_ED_MODULATION_RZ="ID_ED_MODULATION_RZ";
 	public static final String ID_OTDR_SAMPLINGPOINTS="ID_OTDR_SAMPLINGPOINTS";
+	public static final String ID_STATUS="ID_STATUS";
+	public static final String ID_STATUS_IDLE="ID_STATUS_IDLE";
+	public static final String ID_STATUS_PRESETTING="ID_STATUS_PRESETTING";
+	public static final String ID_STATUS_TESTING="ID_STATUS_TESTING";
 }

@@ -54,79 +54,79 @@ public class Main extends SilverBulletServer {
 		WidgetGeneratorHelper helper = new WidgetGeneratorHelper(StaticInstances.getInstance().getBuilderModel().getPropertiesHolder2());
 		
 		Pane applicationPane = pane.createPane(Layout.HORIZONTAL);
-		helper.generateToggleButton("ID_APPLICATION", applicationPane).css("width", "100").css("height", "40").css("background-color", "lightgray");
-//		applicationPane.createLabel("ID_APPLICATION", PropertyField.VALUE);
+		helper.generateToggleButton(ID.ID_APPLICATION, applicationPane).css("width", "200").css("height", "40").css("background-color", "lightgray");
+//		applicationPane.createLabel(ID.ID_APPLICATION", PropertyField.VALUE);
 		
 		//// OTDR
-		Pane otdrPane = pane.createPane(Layout.VERTICAL).condition("ID_APPLICATION", "ID_APPLICATION_OTDR");
+		Pane otdrPane = pane.createPane(Layout.VERTICAL).condition(ID.ID_APPLICATION, ID.ID_APPLICATION_OTDR);
 		otdrPane./*size(1000, 800).*/css("border-width", "1px").css("background-color", "lightgray").css("width", "1000").css("height", "800px");
 		
 		Pane distPane = otdrPane.createPane(Layout.HORIZONTAL);
 		otdrPane.css("padding", "5");
-		distPane.createLabel("ID_DISTANCERANGE", PropertyField.TITLE).css("width","150").css("height", "30").css("font-size", "16px").css("font-weight", "bold");
+		distPane.createLabel(ID.ID_DISTANCERANGE, PropertyField.TITLE).css("width","150").css("height", "30").css("font-size", "16px").css("font-weight", "bold");
 		distPane.createStaticText(":");
 		distPane.css("border-width", "1px").css("border-color", "black").css("border-style", "solid");
-		helper.generateToggleButton("ID_DISTANCERANGE", distPane).css("width","80").css("height", "30");
+		helper.generateToggleButton(ID.ID_DISTANCERANGE, distPane).css("width","80").css("height", "30");
 		
 		Pane pulsePane = otdrPane.createPane(Layout.HORIZONTAL);
 		pulsePane.css(distPane.css);
-		pulsePane.createLabel("ID_PULSEWIDTH", PropertyField.TITLE).css("width","150").css("height", "30");
+		pulsePane.createLabel(ID.ID_PULSEWIDTH, PropertyField.TITLE).css("width","150").css("height", "30");
 		pulsePane.createStaticText(":");
-		helper.generateToggleButton("ID_PULSEWIDTH", pulsePane).css("width","80").css("height", "30");
+		helper.generateToggleButton(ID.ID_PULSEWIDTH, pulsePane).css("width","80").css("height", "30");
 		
 		Pane otdrSetupPane = otdrPane.createPane(Layout.HORIZONTAL);
-		Pane collectionPane = otdrSetupPane.createPane(Layout.HORIZONTAL).title("ID_COLLECMODE", PropertyField.TITLE);
-		helper.generateToggleButton("ID_COLLECMODE", collectionPane).css("margin", "5");
-		otdrSetupPane.createButton("ID_OTDR_TESTCONTROL").css("width","100").css("height", "60");
-		otdrSetupPane.createButton("ID_COLLECMODE").css("width","130").css("height", "60");
-		otdrSetupPane.createComboBox("ID_COLLECMODE").css("font-size", "29px");
+		Pane collectionPane = otdrSetupPane.createPane(Layout.HORIZONTAL).title(ID.ID_COLLECMODE, PropertyField.TITLE);
+		helper.generateToggleButton(ID.ID_COLLECMODE, collectionPane).css("margin", "5");
+		otdrSetupPane.createButton(ID.ID_OTDR_TESTCONTROL).css("width","100").css("height", "60");
+		otdrSetupPane.createButton(ID.ID_COLLECMODE).css("width","130").css("height", "60");
+		otdrSetupPane.createComboBox(ID.ID_COLLECMODE).css("font-size", "29px");
 		
 		Pane averagePane = otdrSetupPane.createPane(Layout.HORIZONTAL);
 		averagePane.css("width","250").css("height", "35");
 		averagePane.css(distPane.css);
 		averagePane.css("font-size", "20px");
-		averagePane.createLabel("ID_AVERAGETIME", PropertyField.TITLE);
+		averagePane.createLabel(ID.ID_AVERAGETIME, PropertyField.TITLE);
 		averagePane.createStaticText(":");
-		averagePane.createTextField("ID_AVERAGETIME", PropertyField.VALUE).css("width","50").css("height", "24");
-		averagePane.createLabel("ID_AVERAGE_RESULT", PropertyField.VALUE);
+		averagePane.createTextField(ID.ID_AVERAGETIME, PropertyField.VALUE).css("width","50").css("height", "24");
+		averagePane.createLabel(ID.ID_AVERAGE_RESULT, PropertyField.VALUE);
 		
 		Pane modelPane = otdrPane.createPane(Layout.HORIZONTAL);
 		modelPane.css("width", "250");
 		helper.generateToggleButton(ID.ID_MODELNAME, modelPane);
 		
-		helper.generateTitledSetting("ID_OTDR_SAMPLINGPOINTS", otdrPane);
-		otdrPane.createChart("ID_TRACE").css("width","600").css("height", "300");
-		otdrPane.createTable("ID_TABLE").css("width","600").css("height", "200");
+		helper.generateTitledSetting(ID.ID_OTDR_SAMPLINGPOINTS, otdrPane);
+		otdrPane.createChart(ID.ID_TRACE).css("width","600").css("height", "300");
+		otdrPane.createTable(ID.ID_TABLE).css("width","600").css("height", "200");
 		
 		//// SQA
-		Pane sqaPane = pane.createPane(Layout.VERTICAL).condition("ID_APPLICATION", "ID_APPLICATION_SQA");
+		Pane sqaPane = pane.createPane(Layout.VERTICAL).condition(ID.ID_APPLICATION, ID.ID_APPLICATION_BERTS);
 		sqaPane.css("font-size", "24px");
 		sqaPane.css(otdrPane.css);
 		
 		Pane sqaSetupPane = sqaPane.createPane(Layout.HORIZONTAL);
 		Pane ppgPane = sqaPane.createPane(Layout.HORIZONTAL).title("Pulse Pattern Generator");
 	
-		helper.generateTitledSetting("ID_PPG_PATTERN", ppgPane);
-		helper.generateTitledSetting("ID_PPG_MODULATION", ppgPane);
-		helper.generateTitledSetting("ID_PPG_FREQUENCY", ppgPane);
+		helper.generateTitledSetting(ID.ID_PPG_PATTERN, ppgPane);
+		helper.generateTitledSetting(ID.ID_PPG_MODULATION, ppgPane);
+		helper.generateTitledSetting(ID.ID_PPG_FREQUENCY, ppgPane);
 		
 		Pane edPane = sqaPane.createPane(Layout.HORIZONTAL).title("Error Detector");
-		helper.generateTitledSetting("ID_ED_PATTERN", edPane);
-		helper.generateTitledSetting("ID_ED_MODULATION", edPane);
-		helper.generateTitledSetting("ID_ED_FREQUENCY", edPane);
+		helper.generateTitledSetting(ID.ID_ED_PATTERN, edPane);
+		helper.generateTitledSetting(ID.ID_ED_MODULATION, edPane);
+		helper.generateTitledSetting(ID.ID_ED_FREQUENCY, edPane);
 		
 		/// OSCILLO
-		Pane oscilloPane = pane.createPane(Layout.VERTICAL).condition("ID_APPLICATION", "ID_APPLICATION_OSCILLO");
+		Pane oscilloPane = pane.createPane(Layout.VERTICAL).condition(ID.ID_APPLICATION, ID.ID_APPLICATION_OSCILLO);
 		oscilloPane.css(otdrPane.css);
 //		Pane optionPane = sqaPane.createPane(Layout.HORIZONTAL);
-//		optionPane.createCheckBox("ID_OPTION_001").size(300, 20).position(10, 10);
-//		optionPane.createToggleButton("ID_OPTION_001").size(100, 50).position(10, 10).css("line-height", "25px");;
-//		optionPane.createButton("ID_OPTION_001").size(100, 50).position(10, 10).css("line-height", "25px");;
-		oscilloPane.createButton("ID_OSC_TESTCONTROL").css("width","100").css("height", "50").css("line-height", "25px");
-		Pane triggerPane = oscilloPane.createPane(Layout.VERTICAL).title("ID_OSC_TRIGGER", PropertyField.TITLE);
-		triggerPane.createTextField("ID_OSC_TRIGGER", PropertyField.VALUE);
-		triggerPane.createSlider("ID_OSC_TRIGGER");//.size(500, 30);
-		oscilloPane.createImage("ID_OSC_EYEDIAGRAM").css("width","1000").css("height", "600");
+//		optionPane.createCheckBox(ID.ID_OPTION_001").size(300, 20).position(10, 10);
+//		optionPane.createToggleButton(ID.ID_OPTION_001").size(100, 50).position(10, 10).css("line-height", "25px");;
+//		optionPane.createButton(ID.ID_OPTION_001").size(100, 50).position(10, 10).css("line-height", "25px");;
+		oscilloPane.createButton(ID.ID_OSC_TESTCONTROL).css("width","100").css("height", "50").css("line-height", "25px");
+		Pane triggerPane = oscilloPane.createPane(Layout.VERTICAL).title(ID.ID_OSC_TRIGGER, PropertyField.TITLE);
+		triggerPane.createTextField(ID.ID_OSC_TRIGGER, PropertyField.VALUE);
+		triggerPane.createSlider(ID.ID_OSC_TRIGGER);//.size(500, 30);
+		oscilloPane.createImage(ID.ID_OSC_EYEDIAGRAM).css("width","1000").css("height", "600");
 		return builder;
 
 	}
