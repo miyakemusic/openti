@@ -73,4 +73,17 @@ public class ID {
 	public static final String ID_STATUS_IDLE="ID_STATUS_IDLE";
 	public static final String ID_STATUS_PRESETTING="ID_STATUS_PRESETTING";
 	public static final String ID_STATUS_TESTING="ID_STATUS_TESTING";
+	public static final String ID_TRIGGER="ID_TRIGGER";
+	public static final String ID_TRIGGER_A="ID_TRIGGER_A";
+	public static final String ID_TRIGGER_B="ID_TRIGGER_B";
+	public static final String ID_TRIGGER_C="ID_TRIGGER_C";
+	public static final String ID_TRIGGER_D="ID_TRIGGER_D";
+	public static final String ID_TARGET="ID_TARGET";
+	public static final String ID_TARGET_A="ID_TARGET_A";
+	public static final String ID_TARGET_B="ID_TARGET_B";
+	public static final String ID_TARGET_C="ID_TARGET_C";
+	public static final String ID_TARGET_D="ID_TARGET_D";
+	public static final String ID_MODE="ID_MODE";
+	public static final String ID_MODE_A="ID_MODE_A";
+	public static final String ID_MODE_B="ID_MODE_B";
 }

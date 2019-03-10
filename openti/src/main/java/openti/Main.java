@@ -127,6 +127,12 @@ public class Main extends SilverBulletServer {
 		triggerPane.createTextField(ID.ID_OSC_TRIGGER, PropertyField.VALUE);
 		triggerPane.createSlider(ID.ID_OSC_TRIGGER);//.size(500, 30);
 		oscilloPane.createImage(ID.ID_OSC_EYEDIAGRAM).css("width","1000").css("height", "600");
+		
+		// OSA
+		Pane osaPane = pane.createPane(Layout.VERTICAL).condition(ID.ID_APPLICATION, ID.ID_APPLICATION_OSA);
+		helper.generateToggleButton(ID.ID_TRIGGER, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_TRIGGER, PropertyField.TITLE)).css("width","80").css("height", "30");
+		helper.generateToggleButton(ID.ID_TARGET, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_TARGET, PropertyField.TITLE)).css("width","80").css("height", "30");
+		helper.generateToggleButton(ID.ID_MODE, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_MODE, PropertyField.TITLE)).css("width","80").css("height", "30");
 		return builder;
 
 	}

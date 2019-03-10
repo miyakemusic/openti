@@ -241,4 +241,38 @@ public class UserEasyAccess {
     public EnumStatus getStatus() {
         return EnumStatus.valueOf(model.getProperty(ID.ID_STATUS).getCurrentValue());
     }
+    public enum EnumTrigger{
+        ID_TRIGGER_A,
+        ID_TRIGGER_B,
+        ID_TRIGGER_C,
+        ID_TRIGGER_D,
+    };
+    public void setTrigger(EnumTrigger value) throws RequestRejectedException {
+        model.requestChange(ID.ID_TRIGGER, value.toString());
+    }
+    public EnumTrigger getTrigger() {
+        return EnumTrigger.valueOf(model.getProperty(ID.ID_TRIGGER).getCurrentValue());
+    }
+    public enum EnumTarget{
+        ID_TARGET_A,
+        ID_TARGET_B,
+        ID_TARGET_C,
+        ID_TARGET_D,
+    };
+    public void setTarget(EnumTarget value) throws RequestRejectedException {
+        model.requestChange(ID.ID_TARGET, value.toString());
+    }
+    public EnumTarget getTarget() {
+        return EnumTarget.valueOf(model.getProperty(ID.ID_TARGET).getCurrentValue());
+    }
+    public enum EnumMode{
+        ID_MODE_A,
+        ID_MODE_B,
+    };
+    public void setMode(EnumMode value) throws RequestRejectedException {
+        model.requestChange(ID.ID_MODE, value.toString());
+    }
+    public EnumMode getMode() {
+        return EnumMode.valueOf(model.getProperty(ID.ID_MODE).getCurrentValue());
+    }
 }
