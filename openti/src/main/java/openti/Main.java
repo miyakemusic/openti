@@ -8,10 +8,10 @@ import jp.silverbullet.SilverBulletServer;
 import jp.silverbullet.StaticInstances;
 import jp.silverbullet.register2.RegisterAccessor;
 import jp.silverbullet.sequncer.UserSequencer;
+import jp.silverbullet.web.ui.part2.Layout;
 import jp.silverbullet.web.ui.part2.Pane;
 import jp.silverbullet.web.ui.part2.UiBuilder;
 import jp.silverbullet.web.ui.part2.WidgetGeneratorHelper;
-import jp.silverbullet.web.ui.part2.UiBuilder.Layout;
 import jp.silverbullet.web.ui.part2.UiBuilder.PropertyField;
 import openti.test.SimBrokenHardware;
 import openti.test.SimHardware;
@@ -49,7 +49,7 @@ public class Main extends SilverBulletServer {
 	@Override
 	protected UiBuilder getUi() {
 		UiBuilder builder = new UiBuilder();
-		Pane pane = builder.createPane(UiBuilder.Layout.VERTICAL);
+		Pane pane = builder.createPane(Layout.VERTICAL);
 		pane.css("width", "1000").css("height", "1000");
 		WidgetGeneratorHelper helper = new WidgetGeneratorHelper(StaticInstances.getInstance().getBuilderModel().getPropertiesHolder2());
 		
@@ -133,7 +133,8 @@ public class Main extends SilverBulletServer {
 		helper.generateToggleButton(ID.ID_TRIGGER, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_TRIGGER, PropertyField.TITLE)).css("width","80").css("height", "30");
 		helper.generateToggleButton(ID.ID_TARGET, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_TARGET, PropertyField.TITLE)).css("width","80").css("height", "30");
 		helper.generateToggleButton(ID.ID_MODE, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_MODE, PropertyField.TITLE)).css("width","80").css("height", "30");
+		
 		return builder;
-
+//return null;
 	}
 }
