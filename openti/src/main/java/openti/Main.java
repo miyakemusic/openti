@@ -49,7 +49,7 @@ public class Main extends SilverBulletServer {
 	@Override
 	protected UiBuilder getUi() {
 		UiBuilder builder = new UiBuilder();
-		Pane pane = builder.createPane(Layout.VERTICAL);
+		Pane pane = builder.getRootPane();
 		pane.css("width", "1000").css("height", "1000");
 		WidgetGeneratorHelper helper = new WidgetGeneratorHelper(StaticInstances.getInstance().getBuilderModel().getPropertiesHolder2());
 		
@@ -134,7 +134,7 @@ public class Main extends SilverBulletServer {
 		helper.generateToggleButton(ID.ID_TARGET, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_TARGET, PropertyField.TITLE)).css("width","80").css("height", "30");
 		helper.generateToggleButton(ID.ID_MODE, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_MODE, PropertyField.TITLE)).css("width","80").css("height", "30");
 		
-		return builder;
-//		return null;
+//		return builder;
+		return null;
 	}
 }
