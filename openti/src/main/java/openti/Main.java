@@ -49,6 +49,17 @@ public class Main extends SilverBulletServer {
 	@Override
 	protected UiBuilder getUi() {
 		UiBuilder builder = new UiBuilder();
+		return null;
+		//return getDesignSimple(builder);
+	}
+	private UiBuilder getDesignSimple(UiBuilder builder) {
+		Pane pane = builder.getRootPane();
+		pane.css("width", "800").css("height", "600").css("top", "150px").css("border-style", "dashed").css("border-width", "1px");
+//		pane.createButton(ID.ID_APPLICATION);
+//		return builder;
+		return builder;
+	}
+	private UiBuilder getDesign(UiBuilder builder) {
 		Pane pane = builder.getRootPane();
 		pane.css("width", "1000").css("height", "1000");
 		WidgetGeneratorHelper helper = new WidgetGeneratorHelper(StaticInstances.getInstance().getBuilderModel().getPropertiesHolder2());
@@ -134,7 +145,6 @@ public class Main extends SilverBulletServer {
 		helper.generateToggleButton(ID.ID_TARGET, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_TARGET, PropertyField.TITLE)).css("width","80").css("height", "30");
 		helper.generateToggleButton(ID.ID_MODE, osaPane.createPane(Layout.HORIZONTAL).title(ID.ID_MODE, PropertyField.TITLE)).css("width","80").css("height", "30");
 		
-//		return builder;
-		return null;
+		return builder;
 	}
 }
