@@ -1,6 +1,7 @@
 package openti.test;
 
 import java.nio.ByteBuffer;
+import java.util.Random;
 
 public abstract class OtdrHardware {
 	protected abstract void onCompleted();
@@ -13,19 +14,17 @@ public abstract class OtdrHardware {
 		new Thread() {
 			@Override
 			public void run() {
-				while(!stopRequested) {
-					int size = 25001;
-					ByteBuffer byteBuf = ByteBuffer.allocate(size*2);
-					for (int i = 0; i < size; i++) {
-						double v = Math.sin((double)i/100.0) * 100 + Math.random() * 10;
-						short shortV = (short)(v);
-						byteBuf.putShort(shortV);
-					}
-					
-					data = byteBuf.array();
-					
-					break;
+				Random random = new Random();
+				int size = 2001;
+				ByteBuffer byteBuf = ByteBuffer.allocate(size*2);
+				for (int i = 0; i < size; i++) {
+					double v = Math.sin((double)i/1000.0) * 100 + random.nextGaussian() * 20;
+					short shortV = (short)(v);
+					byteBuf.putShort(shortV);
 				}
+				
+				data = byteBuf.array();
+	
 				
 				onCompleted();
 			}

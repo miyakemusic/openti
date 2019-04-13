@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.silverbullet.StaticInstances;
 import jp.silverbullet.dependency2.ChangedItemValue;
 import jp.silverbullet.dependency2.RequestRejectedException;
 import jp.silverbullet.property2.ChartContent;
@@ -40,18 +42,21 @@ public class TestSequencer implements UserSequencer {
 			stopRequested = false;
 			
 			long average = properties.getAveragetime().intValue();
+			boolean newFlag = true;
 			for (long loop = 0; loop < average; loop++) {
 				try {
-					Thread.sleep(10);
+					Thread.sleep(50);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
 				
+				long startTime = System.nanoTime();
 				registers.test_control.set(TEST_CONTROL.STA, 0x01).write();
-				properties.setAverageResult(loop+1);
+				
 //				regiseters.otdrTestControl.write_teststart(true);
 				registers.waitInterrupt();
 				
+				properties.setAverageResult(loop+1);
 				if (properties.getFatalerror()) {
 					return;
 				}
@@ -85,12 +90,7 @@ public class TestSequencer implements UserSequencer {
 					if (stopRequested) {
 						break;
 					}
-					
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
+
 					
 					short[] shorts = new short[data.length/2];
 					// to turn bytes to shorts as either big endian or little endian. 
@@ -111,6 +111,8 @@ public class TestSequencer implements UserSequencer {
 					chartContent.setY(y);
 					
 					JsTableContent tableContent = new JsTableContent();
+					tableContent.setNewFlag(newFlag);
+					newFlag = false;
 					tableContent.setHeaders(Arrays.asList("Element", "F1A", "F2A", "F3A", "F5A", "F6A", "F7A", "Total"));
 					
 					points = 10;		
@@ -133,7 +135,9 @@ public class TestSequencer implements UserSequencer {
 					}
 					registers.test_control.set(TEST_CONTROL.STA, 0x00).write();
 					try {
-						model.getEasyAccessInterface().requestChange(ID.ID_TRACE, new ObjectMapper().writeValueAsString(chartContent));
+						//String url = StaticInstances.getInstance().blobStore.put(ID.ID_TRACE, chartContent);
+						model.getEasyAccessInterface().requestChange(ID.ID_TRACE, chartContent, String.valueOf(Calendar.getInstance().getTime().getTime()));
+
 						model.getEasyAccessInterface().requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
 						properties.setLoss(Math.random() * 10.0 + 10.0);
 					} catch (JsonGenerationException e) {
@@ -152,6 +156,13 @@ public class TestSequencer implements UserSequencer {
 						if (loop == average) {
 							break;
 						}
+					}
+					
+//					System.out.println(System.nanoTime() - startTime);
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
 					}
 			}
 		}
