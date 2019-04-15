@@ -46,11 +46,10 @@ public class Main extends SilverBulletServer {
 	protected List<UserSequencer> getUserSequencers(BuilderModelImpl model) {
 		return Arrays.asList(new TestSequencer(), new OscilloTestSequencer());
 	}
-	@Override
-	protected UiBuilder getUi() {
+//	@Override
+	protected UiBuilder getUi2() {
 		UiBuilder builder = new UiBuilder();
-		return null;
-		//return getDesignSimple(builder);
+		return getDesignSimple(builder);
 	}
 	private UiBuilder getDesignSimple(UiBuilder builder) {
 		Pane pane = builder.getRootPane();
