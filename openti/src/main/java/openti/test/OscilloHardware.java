@@ -304,23 +304,18 @@ public abstract class OscilloHardware {
 	private static final double M_PI = 3.141592;
 	int getColorScaleBCGYR( double in_value )
 	{
-	    // 0.0～1.0 の範囲の値をサーモグラフィみたいな色にする
-	    // 0.0                    1.0
-	    // 青    水    緑    黄    赤
-	    // 最小値以下 = 青
-	    // 最大値以上 = 赤
 	    int ret;
-	    int a = 255;    // alpha値
-	    int r, g, b;    // RGB値
+	    int a = 255; 
+	    int r, g, b; 
 	    double  value = in_value;
 	    double  tmp_val = Math.cos( 4 * M_PI * value );
 	    int     col_val = (int)( ( -tmp_val / 2 + 0.5 ) * 255 );
-	         if ( value >= ( 4.0 / 4.0 ) ) { r = 255;     g = 0;       b = 0;       }   // 赤
-	    else if ( value >= ( 3.0 / 4.0 ) ) { r = 255;     g = col_val; b = 0;       }   // 黄～赤
-	    else if ( value >= ( 2.0 / 4.0 ) ) { r = col_val; g = 255;     b = 0;       }   // 緑～黄
-	    else if ( value >= ( 1.0 / 4.0 ) ) { r = 0;       g = 255;     b = col_val; }   // 水～緑
-	    else if ( value >= ( 0.0 / 4.0 ) ) { r = 0;       g = col_val; b = 0/*255*/;     }   // 青～水
-	    else {                               r = 0;       g = 0;       b = 255;     }   // 青
+	         if ( value >= ( 4.0 / 4.0 ) ) { r = 255;     g = 0;       b = 0;       }
+	    else if ( value >= ( 3.0 / 4.0 ) ) { r = 255;     g = col_val; b = 0;       }
+	    else if ( value >= ( 2.0 / 4.0 ) ) { r = col_val; g = 255;     b = 0;       }
+	    else if ( value >= ( 1.0 / 4.0 ) ) { r = 0;       g = 255;     b = col_val; }
+	    else if ( value >= ( 0.0 / 4.0 ) ) { r = 0;       g = col_val; b = 0;     }
+	    else {                               r = 0;       g = 0;       b = 255;     }
 	    ret = (a&0x000000FF) << 24
 	        | (r&0x000000FF) << 16
 	        | (g&0x000000FF) <<  8

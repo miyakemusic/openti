@@ -61,7 +61,7 @@ public class Main extends SilverBulletServer {
 	private UiBuilder getDesign(UiBuilder builder) {
 		Pane pane = builder.getRootPane();
 		pane.css("width", "1000").css("height", "1000");
-		WidgetGeneratorHelper helper = new WidgetGeneratorHelper(StaticInstances.getInstance().getBuilderModel().getPropertiesHolder2());
+		WidgetGeneratorHelper helper = new WidgetGeneratorHelper(SilverBulletServer.getStaticInstance().getBuilderModel().getPropertiesHolder2());
 		
 		Pane applicationPane = pane.createPane(Layout.HORIZONTAL);
 		helper.generateToggleButton(ID.ID_APPLICATION, applicationPane).css("width", "200").css("height", "40").css("background-color", "lightgray");
