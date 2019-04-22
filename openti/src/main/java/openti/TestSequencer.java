@@ -66,6 +66,9 @@ public class TestSequencer implements UserSequencer {
 				
 				int range = Arrays.asList(EnumDistancerange.values()).indexOf(properties.getDistancerange());
 				int pulse = Arrays.asList(EnumPulsewidth.values()).indexOf(properties.getPulsewidth());
+				
+				range = (int)(Math.random() * 10);
+				pulse = range + 1;
 				registers.test_config1.set(TEST_CONFIG1.DISTANCE, range).set(TEST_CONFIG1.PULSE, pulse).write();
 //				regiseters.otdrTestControl.write_duration((int)(Math.random() * 3));
 //				regiseters.otdrTestControl.write_points((int)(Math.random() * 1000));
