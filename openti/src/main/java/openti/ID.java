@@ -2,9 +2,11 @@ package openti;
 public class ID {
 	public static final String ID_APPLICATION="ID_APPLICATION";
 	public static final String ID_APPLICATION_BERTS="ID_APPLICATION_BERTS";
+	public static final String ID_APPLICATION_CONFIG="ID_APPLICATION_CONFIG";
 	public static final String ID_APPLICATION_OSA="ID_APPLICATION_OSA";
 	public static final String ID_APPLICATION_OSCILLO="ID_APPLICATION_OSCILLO";
 	public static final String ID_APPLICATION_OTDR="ID_APPLICATION_OTDR";
+	public static final String ID_APPLICATION_TOP="ID_APPLICATION_TOP";
 	public static final String ID_PULSEWIDTH="ID_PULSEWIDTH";
 	public static final String ID_PULSEWIDTH_1NS="ID_PULSEWIDTH_1NS";
 	public static final String ID_PULSEWIDTH_10NS="ID_PULSEWIDTH_10NS";
@@ -86,4 +88,22 @@ public class ID {
 	public static final String ID_MODE="ID_MODE";
 	public static final String ID_MODE_A="ID_MODE_A";
 	public static final String ID_MODE_B="ID_MODE_B";
+	public static final String ID_BAND="ID_BAND";
+	public static final String ID_BAND_0S="ID_BAND_0S";
+	public static final String ID_BAND_1C="ID_BAND_1C";
+	public static final String ID_BAND_2L="ID_BAND_2L";
+	public static final String ID_BAND_AUTO="ID_BAND_AUTO";
+	public static final String ID_BAND_USER="ID_BAND_USER";
+	public static final String ID_START_WAVELENGTH="ID_START_WAVELENGTH";
+	public static final String ID_STOP_WAVELENGTH="ID_STOP_WAVELENGTH";
+	public static final String ID_PLACE="ID_PLACE";
+	public static final String ID_PLACE_HERE="ID_PLACE_HERE";
+	public static final String ID_PLACE_TOGO="ID_PLACE_TOGO";
+	public static final String ID_EDSYNC="ID_EDSYNC";
+	public static final String ID_USERNAME="ID_USERNAME";
+	public static final String ID_PASSWORD="ID_PASSWORD";
+	public static final String ID_LOGIN="ID_LOGIN";
+	public static final String ID_LOGIN_LOGIN="ID_LOGIN_LOGIN";
+	public static final String ID_LOGIN_LOGOUT="ID_LOGIN_LOGOUT";
+	public static final String ID_LOGIN_MESSAGE="ID_LOGIN_MESSAGE";
 }

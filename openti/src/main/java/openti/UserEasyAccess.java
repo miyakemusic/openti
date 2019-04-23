@@ -8,9 +8,11 @@ public class UserEasyAccess {
     }
     public enum EnumApplication{
         ID_APPLICATION_BERTS,
+        ID_APPLICATION_CONFIG,
         ID_APPLICATION_OSA,
         ID_APPLICATION_OSCILLO,
         ID_APPLICATION_OTDR,
+        ID_APPLICATION_TOP,
     };
     public void setApplication(EnumApplication value) throws RequestRejectedException {
         model.requestChange(ID.ID_APPLICATION, value.toString());
@@ -274,5 +276,74 @@ public class UserEasyAccess {
     }
     public EnumMode getMode() {
         return EnumMode.valueOf(model.getProperty(ID.ID_MODE).getCurrentValue());
+    }
+    public enum EnumBand{
+        ID_BAND_0S,
+        ID_BAND_1C,
+        ID_BAND_2L,
+        ID_BAND_AUTO,
+        ID_BAND_USER,
+    };
+    public void setBand(EnumBand value) throws RequestRejectedException {
+        model.requestChange(ID.ID_BAND, value.toString());
+    }
+    public EnumBand getBand() {
+        return EnumBand.valueOf(model.getProperty(ID.ID_BAND).getCurrentValue());
+    }
+    public void setStartWavelength(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_START_WAVELENGTH, String.valueOf(value));
+    }
+    public Double getStartWavelength() {
+        return Double.valueOf(model.getProperty(ID.ID_START_WAVELENGTH).getCurrentValue());
+    }
+    public void setStopWavelength(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_STOP_WAVELENGTH, String.valueOf(value));
+    }
+    public Double getStopWavelength() {
+        return Double.valueOf(model.getProperty(ID.ID_STOP_WAVELENGTH).getCurrentValue());
+    }
+    public enum EnumPlace{
+        ID_PLACE_HERE,
+        ID_PLACE_TOGO,
+    };
+    public void setPlace(EnumPlace value) throws RequestRejectedException {
+        model.requestChange(ID.ID_PLACE, value.toString());
+    }
+    public EnumPlace getPlace() {
+        return EnumPlace.valueOf(model.getProperty(ID.ID_PLACE).getCurrentValue());
+    }
+    public void setEdsync(Boolean value) throws RequestRejectedException {
+        model.requestChange(ID.ID_EDSYNC, String.valueOf(value));
+    }
+    public Boolean getEdsync() {
+        return Boolean.valueOf(model.getProperty(ID.ID_EDSYNC).getCurrentValue());
+    }
+    public void setUsername(String value) throws RequestRejectedException {
+        model.requestChange(ID.ID_USERNAME, String.valueOf(value));
+    }
+    public String getUsername() {
+        return String.valueOf(model.getProperty(ID.ID_USERNAME).getCurrentValue());
+    }
+    public void setPassword(String value) throws RequestRejectedException {
+        model.requestChange(ID.ID_PASSWORD, String.valueOf(value));
+    }
+    public String getPassword() {
+        return String.valueOf(model.getProperty(ID.ID_PASSWORD).getCurrentValue());
+    }
+    public enum EnumLogin{
+        ID_LOGIN_LOGIN,
+        ID_LOGIN_LOGOUT,
+    };
+    public void setLogin(EnumLogin value) throws RequestRejectedException {
+        model.requestChange(ID.ID_LOGIN, value.toString());
+    }
+    public EnumLogin getLogin() {
+        return EnumLogin.valueOf(model.getProperty(ID.ID_LOGIN).getCurrentValue());
+    }
+    public void setLoginMessage(String value) throws RequestRejectedException {
+        model.requestChange(ID.ID_LOGIN_MESSAGE, String.valueOf(value));
+    }
+    public String getLoginMessage() {
+        return String.valueOf(model.getProperty(ID.ID_LOGIN_MESSAGE).getCurrentValue());
     }
 }
