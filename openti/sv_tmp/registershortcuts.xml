@@ -10,4 +10,9 @@
         <interrupt>true</interrupt>
         <regName>Hardkey</regName>
     </shortcuts>
+    <shortcuts>
+        <bitName>MENU</bitName>
+        <interrupt>true</interrupt>
+        <regName>HARDKEY</regName>
+    </shortcuts>
 </registerShortCutHolder>

@@ -2,6 +2,7 @@ package openti;
 
 import jp.silverbullet.BuilderModelImpl;
 import jp.silverbullet.dependency2.RequestRejectedException;
+import openti.UserEasyAccess.EnumApplication;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumError;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;
@@ -32,7 +33,9 @@ public class BackgroundThread extends Thread {
 				else if (register.hardkey.readAndReset(HARDKEY.REL) == 0x01) {
 				
 				}
-				
+				else if (register.hardkey.readAndReset(HARDKEY.MENU) == 0x01) {
+					props.setApplication(EnumApplication.ID_APPLICATION_TOP);
+				}
 				if (register.error_status.readAndReset(ERROR_STATUS.BAT) == 0x01) {
 					props.setError(EnumError.ID_ERROR_HARDWARE);
 				}
@@ -45,6 +48,7 @@ public class BackgroundThread extends Thread {
 				if (register.error_status.readAndReset(ERROR_STATUS.TEMP) == 0x01) {
 					props.setError(EnumError.ID_ERROR_HARDWARE);
 				}
+				
 //				if (register.hardkey.read_and_reset_Average()) {
 //					props.setCollecmode(EnumCollecmode.ID_COLLECMODE_AVERAGE);
 //

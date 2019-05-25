@@ -29,6 +29,7 @@ public class UserRegister extends RuntimeRegisterHolder {
 	}
 	public RuntimeRegister<TEST_SETUP> test_setup = new RuntimeRegister<>(Register.TEST_SETUP, accessor);
 	public enum HARDKEY {
+		MENU, 
 		REL, 
 		AVG, 
 	}
