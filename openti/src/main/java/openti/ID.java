@@ -106,4 +106,7 @@ public class ID {
 	public static final String ID_LOGIN_LOGIN="ID_LOGIN_LOGIN";
 	public static final String ID_LOGIN_LOGOUT="ID_LOGIN_LOGOUT";
 	public static final String ID_LOGIN_MESSAGE="ID_LOGIN_MESSAGE";
+	public static final String ID_SETUPDIALOG="ID_SETUPDIALOG";
+	public static final String ID_CENTER_WAVELENGTH="ID_CENTER_WAVELENGTH";
+	public static final String ID_SPAN_WAVELENGTH="ID_SPAN_WAVELENGTH";
 }

@@ -346,4 +346,22 @@ public class UserEasyAccess {
     public String getLoginMessage() {
         return String.valueOf(model.getProperty(ID.ID_LOGIN_MESSAGE).getCurrentValue());
     }
+    public void setSetupdialog(String value) throws RequestRejectedException {
+        model.requestChange(ID.ID_SETUPDIALOG, String.valueOf(value));
+    }
+    public String getSetupdialog() {
+        return String.valueOf(model.getProperty(ID.ID_SETUPDIALOG).getCurrentValue());
+    }
+    public void setCenterWavelength(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_CENTER_WAVELENGTH, String.valueOf(value));
+    }
+    public Double getCenterWavelength() {
+        return Double.valueOf(model.getProperty(ID.ID_CENTER_WAVELENGTH).getCurrentValue());
+    }
+    public void setSpanWavelength(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_SPAN_WAVELENGTH, String.valueOf(value));
+    }
+    public Double getSpanWavelength() {
+        return Double.valueOf(model.getProperty(ID.ID_SPAN_WAVELENGTH).getCurrentValue());
+    }
 }
