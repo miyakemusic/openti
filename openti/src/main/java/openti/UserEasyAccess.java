@@ -364,4 +364,16 @@ public class UserEasyAccess {
     public Double getSpanWavelength() {
         return Double.valueOf(model.getProperty(ID.ID_SPAN_WAVELENGTH).getCurrentValue());
     }
+    public void setCursorA(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_CURSOR_A, String.valueOf(value));
+    }
+    public Double getCursorA() {
+        return Double.valueOf(model.getProperty(ID.ID_CURSOR_A).getCurrentValue());
+    }
+    public void setCursorB(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_CURSOR_B, String.valueOf(value));
+    }
+    public Double getCursorB() {
+        return Double.valueOf(model.getProperty(ID.ID_CURSOR_B).getCurrentValue());
+    }
 }

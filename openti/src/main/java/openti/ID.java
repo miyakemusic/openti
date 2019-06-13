@@ -109,4 +109,10 @@ public class ID {
 	public static final String ID_SETUPDIALOG="ID_SETUPDIALOG";
 	public static final String ID_CENTER_WAVELENGTH="ID_CENTER_WAVELENGTH";
 	public static final String ID_SPAN_WAVELENGTH="ID_SPAN_WAVELENGTH";
+	public static final String ID_CURSOR_A="ID_CURSOR_A";
+	public static final String ID_CURSOR_B="ID_CURSOR_B";
+	public static final String ID_CURSOR_A_DOWN="ID_CURSOR_A_DOWN";
+	public static final String ID_CURSOR_A_UP="ID_CURSOR_A_UP";
+	public static final String ID_CURSOR_B_DOWN="ID_CURSOR_B_DOWN";
+	public static final String ID_CURSOR_B_UP="ID_CURSOR_B_UP";
 }
