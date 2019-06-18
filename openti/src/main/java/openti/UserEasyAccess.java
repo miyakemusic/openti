@@ -376,4 +376,28 @@ public class UserEasyAccess {
     public Double getCursorB() {
         return Double.valueOf(model.getProperty(ID.ID_CURSOR_B).getCurrentValue());
     }
+    public void setWavelengthUpperlimit(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_WAVELENGTH_UPPERLIMIT, String.valueOf(value));
+    }
+    public Double getWavelengthUpperlimit() {
+        return Double.valueOf(model.getProperty(ID.ID_WAVELENGTH_UPPERLIMIT).getCurrentValue());
+    }
+    public void setWavelengthLowerlimit(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_WAVELENGTH_LOWERLIMIT, String.valueOf(value));
+    }
+    public Double getWavelengthLowerlimit() {
+        return Double.valueOf(model.getProperty(ID.ID_WAVELENGTH_LOWERLIMIT).getCurrentValue());
+    }
+    public void setFileList(String value) throws RequestRejectedException {
+        model.requestChange(ID.ID_FILE_LIST, String.valueOf(value));
+    }
+    public String getFileList() {
+        return String.valueOf(model.getProperty(ID.ID_FILE_LIST).getCurrentValue());
+    }
+    public void setFileFolder(String value) throws RequestRejectedException {
+        model.requestChange(ID.ID_FILE_FOLDER, String.valueOf(value));
+    }
+    public String getFileFolder() {
+        return String.valueOf(model.getProperty(ID.ID_FILE_FOLDER).getCurrentValue());
+    }
 }

@@ -114,9 +114,9 @@ public class TestSequencer implements UserSequencer {
 					chartContent.setY(y);
 					
 					JsTableContent tableContent = new JsTableContent();
-					tableContent.setNewFlag(newFlag);
+					tableContent.newFlag = newFlag;
 					newFlag = false;
-					tableContent.setHeaders(Arrays.asList("Element", "F1A", "F2A", "F3A", "F5A", "F6A", "F7A", "Total"));
+					tableContent.headers = Arrays.asList("Element", "F1A", "F2A", "F3A", "F5A", "F6A", "F7A", "Total");
 					
 					points = 10;		
 					

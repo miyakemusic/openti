@@ -115,4 +115,11 @@ public class ID {
 	public static final String ID_CURSOR_A_UP="ID_CURSOR_A_UP";
 	public static final String ID_CURSOR_B_DOWN="ID_CURSOR_B_DOWN";
 	public static final String ID_CURSOR_B_UP="ID_CURSOR_B_UP";
+	public static final String ID_WAVELENGTH_UPPERLIMIT="ID_WAVELENGTH_UPPERLIMIT";
+	public static final String ID_WAVELENGTH_LOWERLIMIT="ID_WAVELENGTH_LOWERLIMIT";
+	public static final String ID_FILE_SAVE="ID_FILE_SAVE";
+	public static final String ID_FILE_LOAD="ID_FILE_LOAD";
+	public static final String ID_FILE_LIST="ID_FILE_LIST";
+	public static final String ID_FILE_LIST_UPDATE="ID_FILE_LIST_UPDATE";
+	public static final String ID_FILE_FOLDER="ID_FILE_FOLDER";
 }
