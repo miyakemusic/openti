@@ -15,4 +15,9 @@
         <interrupt>true</interrupt>
         <regName>HARDKEY</regName>
     </shortcuts>
+    <shortcuts>
+        <bitName>FILE</bitName>
+        <interrupt>true</interrupt>
+        <regName>HARDKEY</regName>
+    </shortcuts>
 </registerShortCutHolder>

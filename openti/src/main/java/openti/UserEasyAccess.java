@@ -9,6 +9,7 @@ public class UserEasyAccess {
     public enum EnumApplication{
         ID_APPLICATION_BERTS,
         ID_APPLICATION_CONFIG,
+        ID_APPLICATION_FILE_MANAGER,
         ID_APPLICATION_OSA,
         ID_APPLICATION_OSCILLO,
         ID_APPLICATION_OTDR,
@@ -47,12 +48,6 @@ public class UserEasyAccess {
     }
     public EnumDistancerange getDistancerange() {
         return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE).getCurrentValue());
-    }
-    public void setDistancerange(EnumDistancerange value, int index) throws RequestRejectedException {
-        model.requestChange(ID.ID_DISTANCERANGE, index, value.toString());
-    }
-    public EnumDistancerange getDistancerange(int index) {
-        return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE + "#" + index).getCurrentValue());
     }
     public void setTable(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_TABLE, String.valueOf(value));
@@ -399,5 +394,24 @@ public class UserEasyAccess {
     }
     public String getFileFolder() {
         return String.valueOf(model.getProperty(ID.ID_FILE_FOLDER).getCurrentValue());
+    }
+    public enum EnumFileFilter{
+        ID_FILE_FILTER_ALL,
+        ID_FILE_FILTER_DLL,
+        ID_FILE_FILTER_INI,
+        ID_FILE_FILTER_TXT,
+        ID_FILE_FILTER_XML,
+    };
+    public void setFileFilter(EnumFileFilter value) throws RequestRejectedException {
+        model.requestChange(ID.ID_FILE_FILTER, value.toString());
+    }
+    public EnumFileFilter getFileFilter() {
+        return EnumFileFilter.valueOf(model.getProperty(ID.ID_FILE_FILTER).getCurrentValue());
+    }
+    public void setFileName(String value) throws RequestRejectedException {
+        model.requestChange(ID.ID_FILE_NAME, String.valueOf(value));
+    }
+    public String getFileName() {
+        return String.valueOf(model.getProperty(ID.ID_FILE_NAME).getCurrentValue());
     }
 }

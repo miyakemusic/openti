@@ -36,6 +36,10 @@ public class BackgroundThread extends Thread {
 				else if (register.hardkey.readAndReset(HARDKEY.MENU) == 0x01) {
 					props.setApplication(EnumApplication.ID_APPLICATION_TOP);
 				}
+				else if (register.hardkey.readAndReset(HARDKEY.FILE) == 0x01) {
+					props.setApplication(EnumApplication.ID_APPLICATION_FILE_MANAGER);
+				}
+				
 				if (register.error_status.readAndReset(ERROR_STATUS.BAT) == 0x01) {
 					props.setError(EnumError.ID_ERROR_HARDWARE);
 				}

@@ -3,6 +3,7 @@ public class ID {
 	public static final String ID_APPLICATION="ID_APPLICATION";
 	public static final String ID_APPLICATION_BERTS="ID_APPLICATION_BERTS";
 	public static final String ID_APPLICATION_CONFIG="ID_APPLICATION_CONFIG";
+	public static final String ID_APPLICATION_FILE_MANAGER="ID_APPLICATION_FILE_MANAGER";
 	public static final String ID_APPLICATION_OSA="ID_APPLICATION_OSA";
 	public static final String ID_APPLICATION_OSCILLO="ID_APPLICATION_OSCILLO";
 	public static final String ID_APPLICATION_OTDR="ID_APPLICATION_OTDR";
@@ -122,4 +123,11 @@ public class ID {
 	public static final String ID_FILE_LIST="ID_FILE_LIST";
 	public static final String ID_FILE_LIST_UPDATE="ID_FILE_LIST_UPDATE";
 	public static final String ID_FILE_FOLDER="ID_FILE_FOLDER";
+	public static final String ID_FILE_FILTER="ID_FILE_FILTER";
+	public static final String ID_FILE_FILTER_ALL="ID_FILE_FILTER_ALL";
+	public static final String ID_FILE_FILTER_DLL="ID_FILE_FILTER_DLL";
+	public static final String ID_FILE_FILTER_INI="ID_FILE_FILTER_INI";
+	public static final String ID_FILE_FILTER_TXT="ID_FILE_FILTER_TXT";
+	public static final String ID_FILE_FILTER_XML="ID_FILE_FILTER_XML";
+	public static final String ID_FILE_NAME="ID_FILE_NAME";
 }
