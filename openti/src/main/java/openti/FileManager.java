@@ -30,11 +30,11 @@ abstract class ActionManager {
 		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
 		for (String id2 : changed.keySet()) {
 			Id id = new Id(id2);
-			handle(id, properties);
+			handle(id, changed.get(id2), properties);
 		}
 	}
 
-	abstract protected void handle(Id id, UserEasyAccess properties);
+	abstract protected void handle(Id id, List<ChangedItemValue> list, UserEasyAccess properties);
 
 }
 
@@ -46,7 +46,7 @@ public class FileManager implements UserSequencer {
 
 		new ActionManager(model, changed) {
 			@Override
-			protected void handle(Id id, UserEasyAccess properties) {
+			protected void handle(Id id, List<ChangedItemValue> list, UserEasyAccess properties) {
 				if (id.getId().equals(ID.ID_FILE_LIST_UPDATE) || id.getId().equals(ID.ID_FILE_FOLDER)
 						|| id.getId().equals(ID.ID_FILE_FILTER)) {
 					try {
@@ -58,10 +58,10 @@ public class FileManager implements UserSequencer {
 				else if (id.getId().equals(ID.ID_FILE_LIST)){
 					String str = properties.getFileList();
 					JsTableContent obj = JsTableContent.read(str);//new ObjectMapper().readValue(str, JsTableContent.class);
-					System.out.println(obj.selectedRow);
+					//System.out.println(obj.selectedRow);
 					try {
-						if (obj.data.size() > obj.selectedRow) {
-							properties.setFileName(obj.data.get(obj.selectedRow).get(0));
+						if (obj.getData().size() > obj.getSelectedRow()) {
+							properties.setFileName(obj.getSelectedData().get(0));
 						}
 					} catch (RequestRejectedException e) {
 						// TODO Auto-generated catch block
@@ -94,6 +94,7 @@ public class FileManager implements UserSequencer {
 					}
 				}
 			}
+
 		};
 	}
 
@@ -101,16 +102,21 @@ public class FileManager implements UserSequencer {
 		String value = model.getEasyAccessInterface().getProperty(ID.ID_FILE_LIST).getCurrentValue();
 		JsTableContent tableContent = new JsTableContent();
 		if (!value.isEmpty()) {
-			tableContent = new ObjectMapper().readValue(value, JsTableContent.class);//new JsTableContent();
+			try {
+				tableContent = new ObjectMapper().readValue(value, JsTableContent.class);//new JsTableContent();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
-		tableContent.newFlag = true;
+//		tableContent.structureChanged = true;
 		tableContent.headers = Arrays.asList("Name", "Modified", "Size");
 		
 		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
 		File folder = new File(properties.getFileFolder());
 		
-		tableContent.data.clear();
+		tableContent.clear();
 		tableContent.dataChanged = true;
 		for (File file : folder.listFiles()) {
 			boolean qual = false;

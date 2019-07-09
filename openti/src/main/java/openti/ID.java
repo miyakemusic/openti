@@ -127,7 +127,21 @@ public class ID {
 	public static final String ID_FILE_FILTER_ALL="ID_FILE_FILTER_ALL";
 	public static final String ID_FILE_FILTER_DLL="ID_FILE_FILTER_DLL";
 	public static final String ID_FILE_FILTER_INI="ID_FILE_FILTER_INI";
+	public static final String ID_FILE_FILTER_JSON="ID_FILE_FILTER_JSON";
 	public static final String ID_FILE_FILTER_TXT="ID_FILE_FILTER_TXT";
 	public static final String ID_FILE_FILTER_XML="ID_FILE_FILTER_XML";
 	public static final String ID_FILE_NAME="ID_FILE_NAME";
+	public static final String ID_ED_SYNC="ID_ED_SYNC";
+	public static final String ID_CURSOR_STEP="ID_CURSOR_STEP";
+	public static final String ID_START_ACTION="ID_START_ACTION";
+	public static final String ID_STOP_ACTION="ID_STOP_ACTION";
+	public static final String ID_BERTS_STATE="ID_BERTS_STATE";
+	public static final String ID_BERTS_STATE_ANALYZING="ID_BERTS_STATE_ANALYZING";
+	public static final String ID_BERTS_STATE_IDLE="ID_BERTS_STATE_IDLE";
+	public static final String ID_BERTS_STATE_PREPARE_TEST="ID_BERTS_STATE_PREPARE_TEST";
+	public static final String ID_BERTS_STATE_SAVING_FILE="ID_BERTS_STATE_SAVING_FILE";
+	public static final String ID_BERTS_STATE_TESING="ID_BERTS_STATE_TESING";
+	public static final String ID_BERTS_TEST_CONTROL="ID_BERTS_TEST_CONTROL";
+	public static final String ID_BERTS_TEST_CONTROL_START="ID_BERTS_TEST_CONTROL_START";
+	public static final String ID_BERTS_TEST_CONTROL_STOP="ID_BERTS_TEST_CONTROL_STOP";
 }

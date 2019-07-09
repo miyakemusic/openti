@@ -399,6 +399,7 @@ public class UserEasyAccess {
         ID_FILE_FILTER_ALL,
         ID_FILE_FILTER_DLL,
         ID_FILE_FILTER_INI,
+        ID_FILE_FILTER_JSON,
         ID_FILE_FILTER_TXT,
         ID_FILE_FILTER_XML,
     };
@@ -413,5 +414,40 @@ public class UserEasyAccess {
     }
     public String getFileName() {
         return String.valueOf(model.getProperty(ID.ID_FILE_NAME).getCurrentValue());
+    }
+    public void setEdSync(Boolean value) throws RequestRejectedException {
+        model.requestChange(ID.ID_ED_SYNC, String.valueOf(value));
+    }
+    public Boolean getEdSync() {
+        return Boolean.valueOf(model.getProperty(ID.ID_ED_SYNC).getCurrentValue());
+    }
+    public void setCursorStep(Double value) throws RequestRejectedException {
+        model.requestChange(ID.ID_CURSOR_STEP, String.valueOf(value));
+    }
+    public Double getCursorStep() {
+        return Double.valueOf(model.getProperty(ID.ID_CURSOR_STEP).getCurrentValue());
+    }
+    public enum EnumBertsState{
+        ID_BERTS_STATE_ANALYZING,
+        ID_BERTS_STATE_IDLE,
+        ID_BERTS_STATE_PREPARE_TEST,
+        ID_BERTS_STATE_SAVING_FILE,
+        ID_BERTS_STATE_TESING,
+    };
+    public void setBertsState(EnumBertsState value) throws RequestRejectedException {
+        model.requestChange(ID.ID_BERTS_STATE, value.toString());
+    }
+    public EnumBertsState getBertsState() {
+        return EnumBertsState.valueOf(model.getProperty(ID.ID_BERTS_STATE).getCurrentValue());
+    }
+    public enum EnumBertsTestControl{
+        ID_BERTS_TEST_CONTROL_START,
+        ID_BERTS_TEST_CONTROL_STOP,
+    };
+    public void setBertsTestControl(EnumBertsTestControl value) throws RequestRejectedException {
+        model.requestChange(ID.ID_BERTS_TEST_CONTROL, value.toString());
+    }
+    public EnumBertsTestControl getBertsTestControl() {
+        return EnumBertsTestControl.valueOf(model.getProperty(ID.ID_BERTS_TEST_CONTROL).getCurrentValue());
     }
 }
