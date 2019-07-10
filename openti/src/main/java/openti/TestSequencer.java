@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jp.silverbullet.StaticInstances;
 import jp.silverbullet.dependency2.ChangedItemValue;
 import jp.silverbullet.dependency2.RequestRejectedException;
 import jp.silverbullet.property2.ChartContent;
