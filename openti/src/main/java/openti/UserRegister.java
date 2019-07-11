@@ -15,6 +15,8 @@ public class UserRegister extends RuntimeRegisterHolder {
 		DATA, 
 		OSCILLO_TEST, 
 		EYEDIAGRAM, 
+		PPG, 
+		ED, 
 	}
 	public enum TEST_CONTROL {
 		TEST, 
@@ -60,4 +62,12 @@ public class UserRegister extends RuntimeRegisterHolder {
 		EYEDIAGRAM, 
 	}
 	public RuntimeRegister<EYEDIAGRAM> eyediagram = new RuntimeRegister<>(Register.EYEDIAGRAM, accessor);
+	public enum PPG {
+		START_STOP, 
+	}
+	public RuntimeRegister<PPG> ppg = new RuntimeRegister<>(Register.PPG, accessor);
+	public enum ED {
+		START_STOP, 
+	}
+	public RuntimeRegister<ED> ed = new RuntimeRegister<>(Register.ED, accessor);
 }

@@ -35,11 +35,6 @@ public class Main extends SilverBulletServer {
 	}
 		
 	@Override
-	protected String getBaseFolderAndPackage() {
-		//return "src/main/java;openti";
-		return "C:\\Users\\miyak\\Desktop\\tmp;openti";
-	}
-	@Override
 	protected RegisterAccessor getHardwareAccessor(BuilderModelImpl model) {
 		return new RealHardwareAccessor(model.getRegisterSpecHolder());
 	}

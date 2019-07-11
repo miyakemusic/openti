@@ -22,6 +22,7 @@ import jp.silverbullet.sequncer.SvHandlerModel;
 import jp.silverbullet.sequncer.SystemAccessor.DialogAnswer;
 import jp.silverbullet.sequncer.UserSequencer;
 import jp.silverbullet.web.JsTableContent;
+import openti.UserEasyAccess.EnumBertsState;
 import openti.UserEasyAccess.EnumFileFilter;
 
 abstract class ActionManager {
@@ -69,17 +70,24 @@ public class FileManager implements UserSequencer {
 					}
 				}
 				else if (id.getId().equals(ID.ID_FILE_SAVE)) {
+					
 					try {
+						
 						String path = properties.getFileFolder() + "/" + properties.getFileName();
 						if (Files.exists(Paths.get(path))) {
 							if (model.getSystem().dialog("File exists, Overwrite?\n" + properties.getFileName()).compareTo(DialogAnswer.OK) != 0) {
 								return;
 							}
 						}
+						properties.setBertsState(EnumBertsState.ID_BERTS_STATE_SAVING_FILE);
 						model.getSystem().saveProperties(path);
 						model.getSystem().message("Saved");
-						
-					} catch (SvFileException e) {
+						Thread.sleep(1000);
+						properties.setBertsState(EnumBertsState.ID_BERTS_STATE_IDLE);
+					} catch (SvFileException | RequestRejectedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -158,8 +166,7 @@ public class FileManager implements UserSequencer {
 
 	@Override
 	public boolean isAsync() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
