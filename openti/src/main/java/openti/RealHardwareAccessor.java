@@ -28,7 +28,7 @@ public class RealHardwareAccessor implements RegisterAccessor {
 
 	public interface NativeDll extends Library {
 		NativeDll INSTANCE = (NativeDll)
-            Native.loadLibrary(Platform.isWindows() ? "NativeDll.dll" : "NativeDll", NativeDll.class);
+            Native.loadLibrary(Platform.isWindows() ? "NativeDll.dll" : "NativeSoLinux", NativeDll.class);
 		int writeReg32(long addr, int val);
 		int writeBlock(long addr, byte[] bytes, int size);
 		int readReg32(long addr);
