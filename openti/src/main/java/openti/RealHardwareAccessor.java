@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
+import com.sun.jna.Platform;
 
 import jp.silverbullet.register2.BitValue;
 import jp.silverbullet.register2.RegisterAccessor;
@@ -27,12 +28,13 @@ public class RealHardwareAccessor implements RegisterAccessor {
 
 	public interface NativeDll extends Library {
 		NativeDll INSTANCE = (NativeDll)
-            Native.loadLibrary("NativeDll.dll", NativeDll.class);
+            Native.loadLibrary(Platform.isWindows() ? "NativeDll.dll" : "NativeDll", NativeDll.class);
 		int writeReg32(long addr, int val);
 		int writeBlock(long addr, byte[] bytes, int size);
 		int readReg32(long addr);
 		int readBlock(long addr, byte[] bytes, int size);
 		int waitInterrupt();
+		int init();
 		
 		public interface Interrupt extends Callback {
 		    boolean callback(int id, int value);
@@ -42,6 +44,8 @@ public class RealHardwareAccessor implements RegisterAccessor {
 	
 	public RealHardwareAccessor(RegisterSpecHolder specs) {
 		this.specHolder = specs;
+		NativeDll.INSTANCE.init();
+		
 		new Thread() {
 			@Override
 			public void run() {
