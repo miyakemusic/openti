@@ -432,6 +432,7 @@ public class UserEasyAccess {
         ID_BERTS_STATE_IDLE,
         ID_BERTS_STATE_PREPARE_TEST,
         ID_BERTS_STATE_SAVING_FILE,
+        ID_BERTS_STATE_SAVING_FILE_ACTION,
         ID_BERTS_STATE_TESING,
     };
     public void setBertsState(EnumBertsState value) throws RequestRejectedException {
@@ -439,6 +440,52 @@ public class UserEasyAccess {
     }
     public EnumBertsState getBertsState() {
         return EnumBertsState.valueOf(model.getProperty(ID.ID_BERTS_STATE).getCurrentValue());
+    }
+    public enum EnumBertsModule1Teststate{
+        ID_BERTS_MODULE1_TESTSTATE_START,
+        ID_BERTS_MODULE1_TESTSTATE_STOP,
+    };
+    public void setBertsModule1Teststate(EnumBertsModule1Teststate value) throws RequestRejectedException {
+        model.requestChange(ID.ID_BERTS_MODULE1_TESTSTATE, value.toString());
+    }
+    public EnumBertsModule1Teststate getBertsModule1Teststate() {
+        return EnumBertsModule1Teststate.valueOf(model.getProperty(ID.ID_BERTS_MODULE1_TESTSTATE).getCurrentValue());
+    }
+    public enum EnumBertsModule2Teststate{
+        ID_BERTS_MODULE2_TESTSTATE_START,
+        ID_BERTS_MODULE2_TESTSTATE_STOP,
+    };
+    public void setBertsModule2Teststate(EnumBertsModule2Teststate value) throws RequestRejectedException {
+        model.requestChange(ID.ID_BERTS_MODULE2_TESTSTATE, value.toString());
+    }
+    public EnumBertsModule2Teststate getBertsModule2Teststate() {
+        return EnumBertsModule2Teststate.valueOf(model.getProperty(ID.ID_BERTS_MODULE2_TESTSTATE).getCurrentValue());
+    }
+    public enum EnumBertStateModule1{
+        ID_BERT_STATE_MODULE1_ANALYZING,
+        ID_BERT_STATE_MODULE1_IDLE,
+        ID_BERT_STATE_MODULE1_PREPARING,
+        ID_BERT_STATE_MODULE1_SAVING,
+        ID_BERT_STATE_MODULE1_TESTING,
+    };
+    public void setBertStateModule1(EnumBertStateModule1 value) throws RequestRejectedException {
+        model.requestChange(ID.ID_BERT_STATE_MODULE1, value.toString());
+    }
+    public EnumBertStateModule1 getBertStateModule1() {
+        return EnumBertStateModule1.valueOf(model.getProperty(ID.ID_BERT_STATE_MODULE1).getCurrentValue());
+    }
+    public enum EnumBertStateModule2{
+        ID_BERT_STATE_MODULE2_ANALYZING,
+        ID_BERT_STATE_MODULE2_IDLE,
+        ID_BERT_STATE_MODULE2_PREPARING,
+        ID_BERT_STATE_MODULE2_SAVING,
+        ID_BERT_STATE_MODULE2_TESTING,
+    };
+    public void setBertStateModule2(EnumBertStateModule2 value) throws RequestRejectedException {
+        model.requestChange(ID.ID_BERT_STATE_MODULE2, value.toString());
+    }
+    public EnumBertStateModule2 getBertStateModule2() {
+        return EnumBertStateModule2.valueOf(model.getProperty(ID.ID_BERT_STATE_MODULE2).getCurrentValue());
     }
     public enum EnumBertsTestControl{
         ID_BERTS_TEST_CONTROL_START,
