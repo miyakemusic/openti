@@ -29,11 +29,27 @@ import openti.UserRegister.TEST_SETUP;
 public class TestSequencer implements UserSequencer {
 	private boolean stopRequested;
 
+	@Override
+	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
+		new Thread() {
+
+			@Override
+			public void run() {
+				try {
+					handleAsync(model, changed);
+				} catch (RequestRejectedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		}.start();
+	}
 	/* (non-Javadoc)
 	 * @see openti.UserSequencer#handle(jp.silverbullet.handlers.SvHandlerModel, java.util.Map)
 	 */
-	@Override
-	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
+
+	public void handleAsync(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
 		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
 		UserRegister registers = new UserRegister(model.getRegisterAccessor());
 		
@@ -177,11 +193,6 @@ public class TestSequencer implements UserSequencer {
 	@Override
 	public List<String> targetIds() {
 		return Arrays.asList(ID.ID_OTDR_TESTCONTROL);
-	}
-
-	@Override
-	public boolean isAsync() {
-		return true;
 	}
 }
 

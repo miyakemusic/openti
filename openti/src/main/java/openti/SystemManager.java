@@ -39,10 +39,4 @@ public class SystemManager implements UserSequencer {
 		return Arrays.asList(ID.ID_LOGIN);
 	}
 
-	@Override
-	public boolean isAsync() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

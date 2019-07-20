@@ -164,9 +164,4 @@ public class FileManager implements UserSequencer {
 				ID.ID_FILE_SAVE);
 	}
 
-	@Override
-	public boolean isAsync() {
-		return true;
-	}
-
 }

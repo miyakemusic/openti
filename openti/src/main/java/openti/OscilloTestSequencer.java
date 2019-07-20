@@ -67,9 +67,4 @@ public class OscilloTestSequencer implements UserSequencer {
 		return Arrays.asList(ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TRIGGER);
 	}
 
-	@Override
-	public boolean isAsync() {
-		return true;
-	}
-
 }

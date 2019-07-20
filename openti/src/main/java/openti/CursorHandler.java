@@ -39,10 +39,4 @@ public class CursorHandler implements UserSequencer {
 		return Arrays.asList(ID.ID_CURSOR_A_UP, ID.ID_CURSOR_A_DOWN, ID.ID_CURSOR_B_DOWN, ID.ID_CURSOR_B_UP);
 	}
 
-	@Override
-	public boolean isAsync() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
