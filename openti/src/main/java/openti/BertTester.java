@@ -35,20 +35,15 @@ public abstract class BertTester implements UserSequencer {
 
 	private boolean stopRequest = false;
 	private boolean running = false;
-	private int count = 0;
 	
 	@Override
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed)
 			throws RequestRejectedException {
 		
-		count = 0;
 //		System.out.println("BertTester");
 		new ChangeSelector(model, changed, this.targetIds()) {
 			@Override
 			void handle(Id id, String value) {
-				if (count++ > 0) {
-					return;
-				}
 				for (KeyValue startCond : startIds()) {
 					if (id.getId().equals(startCond.getKey()) && (value.equals(startCond.getValue())|| startCond.getValue().isEmpty())) {
 						startTest(model);	
@@ -60,26 +55,7 @@ public abstract class BertTester implements UserSequencer {
 					}					
 				}	
 			}
-		};
-		
-//		new ActionManager(model, changed) {
-//			@Override
-//			protected void handle(Id id, List<ChangedItemValue> list, UserEasyAccess properties) {
-//				
-//				
-//				if (id.getId().equals(targetIds().get(0)) && list.get(0).getElement().equals(DependencySpec.Value)) {
-//					if (model.getEasyAccessInterface().getProperty(id.toString()).getCurrentValue().equals(startId())) {
-//						startTest(model);					
-//					}
-//					else {
-//						stopRequest = true;
-//					}
-//				}
-//
-//			}
-//
-//		};
-		
+		};		
 	}
 	
 	abstract protected List<KeyValue> startIds();
@@ -169,8 +145,6 @@ public abstract class BertTester implements UserSequencer {
 		synchronized(startTrigger) {
 			try {
 				startTrigger.wait();
-
-				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -188,6 +162,8 @@ public abstract class BertTester implements UserSequencer {
 		}
 		
 		if (this.running) {
+			this.stopRequest = true;
+//			this.waitStop();
 			restart = true;
 		}
 	}

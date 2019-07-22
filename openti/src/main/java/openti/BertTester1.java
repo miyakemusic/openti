@@ -56,7 +56,7 @@ public class BertTester1 extends BertTester {
 	@Override
 	protected List<KeyValue> stopIds() {
 		return Arrays.asList(
-				new KeyValue(ID.ID_BERTS_TEST_CONTROL, ID.ID_BERTS_TEST_CONTROL_START),
+				new KeyValue(ID.ID_BERTS_TEST_CONTROL, ID.ID_BERTS_TEST_CONTROL_STOP),
 				new KeyValue(ID.ID_BERTS_MODULE1_TESTSTATE, ID.ID_BERTS_MODULE1_TESTSTATE_STOP),
 				new KeyValue(ID.ID_STOP_ACTION, "")
 				);
