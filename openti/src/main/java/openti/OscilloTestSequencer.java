@@ -43,18 +43,33 @@ public class OscilloTestSequencer implements UserSequencer {
 			registers.oscillo_test.set(OSCILLO_TEST.TRGPOS, properties.getOscTrigger().intValue()).write();
 			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x01).write();
 			registers.waitInterrupt();
-			stop = false;
-			while (!stop) {
-				try {					  
-					byte[] b = Base64.encode(registers.eyediagram.read());
-					String base64 = "data:image/png;base64," + new String(b);
-					model.getEasyAccessInterface().requestChange(ID.ID_OSC_EYEDIAGRAM, base64);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-			}
+			
+			new Thread() {
+
+				@Override
+				public void run() {
+					stop = false;
+					while (!stop) {
+						try {					  
+							byte[] b = Base64.encode(registers.eyediagram.read());
+							String base64 = "data:image/png;base64," + new String(b);
+							try {
+								model.getEasyAccessInterface().requestChange(ID.ID_OSC_EYEDIAGRAM, base64);
+							} catch (RequestRejectedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} 
+					}
+				}
+				
+			}.start();
+			
+
 		}
 		else {
 			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x00).write();
