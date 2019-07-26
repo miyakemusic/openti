@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +17,6 @@ import javax.imageio.ImageIO;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.BiMap;
-import com.sun.jersey.core.util.Base64;
-
 import jp.silverbullet.dependency2.ChangedItemValue;
 import jp.silverbullet.dependency2.RequestRejectedException;
 import jp.silverbullet.sequncer.SvHandlerModel;
@@ -51,7 +50,7 @@ public class OscilloTestSequencer implements UserSequencer {
 					stop = false;
 					while (!stop) {
 						try {					  
-							byte[] b = Base64.encode(registers.eyediagram.read());
+							byte[] b = Base64.getEncoder().encode(registers.eyediagram.read());
 							String base64 = "data:image/png;base64," + new String(b);
 							try {
 								model.getEasyAccessInterface().requestChange(ID.ID_OSC_EYEDIAGRAM, base64);
