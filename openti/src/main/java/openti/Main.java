@@ -5,14 +5,10 @@ import java.util.List;
 
 import jp.silverbullet.BuilderModelImpl;
 import jp.silverbullet.SilverBulletServer;
-import jp.silverbullet.StaticInstances;
 import jp.silverbullet.register2.RegisterAccessor;
 import jp.silverbullet.sequncer.UserSequencer;
-import jp.silverbullet.web.ui.part2.Layout;
 import jp.silverbullet.web.ui.part2.Pane;
 import jp.silverbullet.web.ui.part2.UiBuilder;
-import jp.silverbullet.web.ui.part2.WidgetGeneratorHelper;
-import jp.silverbullet.web.ui.part2.UiBuilder.PropertyField;
 import openti.test.SimBrokenHardware;
 import openti.test.SimHardware;
 
