@@ -36,7 +36,7 @@ public class Main extends SilverBulletServer {
 		
 	@Override
 	protected RegisterAccessor getHardwareAccessor(BuilderModelImpl model) {
-		return new RealHardwareAccessor(model.getRegisterSpecHolder());
+		return null;//;new RealHardwareAccessor(model.getRegisterSpecHolder());
 	}
 	@Override
 	protected List<UserSequencer> getUserSequencers(BuilderModelImpl model) {
