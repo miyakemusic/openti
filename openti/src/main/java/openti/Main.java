@@ -3,12 +3,12 @@ package openti;
 import java.util.Arrays;
 import java.util.List;
 
-import jp.silverbullet.BuilderModelImpl;
-import jp.silverbullet.SilverBulletServer;
-import jp.silverbullet.register2.RegisterAccessor;
-import jp.silverbullet.sequncer.UserSequencer;
-import jp.silverbullet.web.ui.part2.Pane;
-import jp.silverbullet.web.ui.part2.UiBuilder;
+import jp.silverbullet.core.register2.RegisterAccessor;
+import jp.silverbullet.core.sequncer.UserSequencer;
+import jp.silverbullet.core.ui.part2.Pane;
+import jp.silverbullet.core.ui.part2.UiBuilder;
+import jp.silverbullet.dev.BuilderModelImpl;
+import jp.silverbullet.web.SilverBulletServer;
 import openti.test.SimBrokenHardware;
 import openti.test.SimHardware;
 

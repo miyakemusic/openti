@@ -1,6 +1,6 @@
 package openti;
-import jp.silverbullet.dependency2.RequestRejectedException;
-import jp.silverbullet.sequncer.EasyAccessInterface;
+import jp.silverbullet.core.dependency2.RequestRejectedException;
+import jp.silverbullet.core.sequncer.EasyAccessInterface;
 public class UserEasyAccess {
     private EasyAccessInterface model;
     public UserEasyAccess(EasyAccessInterface model2) {
@@ -496,5 +496,15 @@ public class UserEasyAccess {
     }
     public EnumBertsTestControl getBertsTestControl() {
         return EnumBertsTestControl.valueOf(model.getProperty(ID.ID_BERTS_TEST_CONTROL).getCurrentValue());
+    }
+    public enum EnumStopActionStatus{
+        ID_STOP_ACTION_STATUS_DISABLED,
+        ID_STOP_ACTION_STATUS_ENABLED,
+    };
+    public void setStopActionStatus(EnumStopActionStatus value) throws RequestRejectedException {
+        model.requestChange(ID.ID_STOP_ACTION_STATUS, value.toString());
+    }
+    public EnumStopActionStatus getStopActionStatus() {
+        return EnumStopActionStatus.valueOf(model.getProperty(ID.ID_STOP_ACTION_STATUS).getCurrentValue());
     }
 }

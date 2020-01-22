@@ -1,7 +1,7 @@
 package openti;
 
-import jp.silverbullet.BuilderModelImpl;
-import jp.silverbullet.dependency2.RequestRejectedException;
+import jp.silverbullet.core.dependency2.RequestRejectedException;
+import jp.silverbullet.dev.BuilderModelImpl;
 import openti.UserEasyAccess.EnumApplication;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumError;

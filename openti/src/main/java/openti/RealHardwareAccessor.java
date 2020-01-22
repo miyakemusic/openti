@@ -13,12 +13,12 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 
-import jp.silverbullet.register2.BitValue;
-import jp.silverbullet.register2.RegisterAccessor;
-import jp.silverbullet.register2.RegisterAccessorListener;
-import jp.silverbullet.register2.RegisterBit;
-import jp.silverbullet.register2.RegisterSpecHolder;
-import jp.silverbullet.register2.SvRegister;
+import jp.silverbullet.core.register2.BitValue;
+import jp.silverbullet.core.register2.RegisterAccessor;
+import jp.silverbullet.core.register2.RegisterAccessorListener;
+import jp.silverbullet.core.register2.RegisterBit;
+import jp.silverbullet.core.register2.RegisterSpecHolder;
+import jp.silverbullet.core.register2.SvRegister;
 
 public class RealHardwareAccessor implements RegisterAccessor {
 

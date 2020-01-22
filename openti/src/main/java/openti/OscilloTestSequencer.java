@@ -1,31 +1,16 @@
 package openti;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.BiMap;
-import jp.silverbullet.dependency2.ChangedItemValue;
-import jp.silverbullet.dependency2.RequestRejectedException;
-import jp.silverbullet.sequncer.SvHandlerModel;
-import jp.silverbullet.sequncer.UserSequencer;
+import jp.silverbullet.core.dependency2.ChangedItemValue;
+import jp.silverbullet.core.dependency2.RequestRejectedException;
+import jp.silverbullet.core.sequncer.SvHandlerModel;
+import jp.silverbullet.core.sequncer.UserSequencer;
 import openti.UserEasyAccess.EnumOscTestcontrol;
-import openti.UserEasyAccess.EnumOtdrTestcontrol;
 import openti.UserRegister.OSCILLO_TEST;
-import openti.UserRegister.TEST_CONTROL;
-import openti.test.EyeImage;
 
 public class OscilloTestSequencer implements UserSequencer {
 

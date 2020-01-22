@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jp.silverbullet.register2.BitValue;
-import jp.silverbullet.register2.RegisterAccessor;
-import jp.silverbullet.register2.RegisterAccessorListener;
+import jp.silverbullet.core.register2.BitValue;
+import jp.silverbullet.core.register2.RegisterAccessor;
+import jp.silverbullet.core.register2.RegisterAccessorListener;
 import openti.UserRegister;
 
 public class SimHardware implements RegisterAccessor {

@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import jp.silverbullet.dependency2.ChangedItemValue;
-import jp.silverbullet.dependency2.RequestRejectedException;
-import jp.silverbullet.sequncer.SvHandlerModel;
-import jp.silverbullet.sequncer.UserSequencer;
+import jp.silverbullet.core.dependency2.ChangedItemValue;
+import jp.silverbullet.core.dependency2.RequestRejectedException;
+import jp.silverbullet.core.sequncer.SvHandlerModel;
+import jp.silverbullet.core.sequncer.UserSequencer;
 
 public class CursorHandler implements UserSequencer {
 

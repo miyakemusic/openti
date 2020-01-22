@@ -3,11 +3,9 @@ package openti;
 import java.util.Arrays;
 import java.util.List;
 
-import jp.silverbullet.dependency2.RequestRejectedException;
+import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.web.KeyValue;
-import openti.UserEasyAccess.EnumBertStateModule1;
 import openti.UserEasyAccess.EnumBertStateModule2;
-import openti.UserEasyAccess.EnumBertsModule1Teststate;
 import openti.UserEasyAccess.EnumBertsModule2Teststate;
 
 public class BertTester2 extends BertTester {
