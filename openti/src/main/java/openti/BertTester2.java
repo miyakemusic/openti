@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import jp.silverbullet.core.dependency2.RequestRejectedException;
-import jp.silverbullet.web.KeyValue;
+import jp.silverbullet.core.KeyValue;
 import openti.UserEasyAccess.EnumBertStateModule2;
 import openti.UserEasyAccess.EnumBertsModule2Teststate;
 

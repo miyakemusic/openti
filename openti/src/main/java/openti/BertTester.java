@@ -3,13 +3,13 @@ package openti;
 import java.util.List;
 import java.util.Map;
 
+import jp.silverbullet.core.KeyValue;
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.DependencySpec;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import jp.silverbullet.web.KeyValue;
 import openti.UserRegister.ED;
 import openti.UserRegister.PPG;
 
