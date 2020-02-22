@@ -17,7 +17,7 @@ import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.ChartContent;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import jp.silverbullet.web.JsTableContent;
+import jp.silverbullet.core.property2.JsTableContent;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumDistancerange;
 import openti.UserEasyAccess.EnumOtdrTestcontrol;

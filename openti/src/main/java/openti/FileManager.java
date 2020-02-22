@@ -21,7 +21,7 @@ import jp.silverbullet.core.property2.SvFileException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor.DialogAnswer;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import jp.silverbullet.web.JsTableContent;
+import jp.silverbullet.core.property2.JsTableContent;
 import openti.UserEasyAccess.EnumBertsState;
 import openti.UserEasyAccess.EnumFileFilter;
 
