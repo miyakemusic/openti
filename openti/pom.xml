@@ -44,7 +44,7 @@
 		        </descriptorRefs>
 		        <archive>
 		            <manifest>
-		                <mainClass>openti.Main</mainClass>
+		                <mainClass>openti.IndependentMain</mainClass>
 		            </manifest>
 		        </archive>
 		    </configuration>
@@ -201,5 +201,18 @@
 	    <artifactId>jfreechart</artifactId>
 	    <version>1.5.0</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.19</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+	<dependency>
+	    <groupId>org.mybatis</groupId>
+	    <artifactId>mybatis</artifactId>
+	    <version>3.5.4</version>
+	</dependency>
+	
   </dependencies>
 </project>

@@ -18,7 +18,7 @@ public abstract class OtdrHardware {
 				int size = 2001;
 				ByteBuffer byteBuf = ByteBuffer.allocate(size*2);
 				for (int i = 0; i < size; i++) {
-					double v = Math.sin((double)i/1000.0) * 100 + random.nextGaussian() * 20;
+					double v = Math.sin((double)i/10.0) * 100 + random.nextGaussian() * 20;
 					short shortV = (short)(v);
 					byteBuf.putShort(shortV);
 				}

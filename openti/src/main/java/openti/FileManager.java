@@ -107,7 +107,7 @@ public class FileManager implements UserSequencer {
 	}
 
 	protected void updateFileList(SvHandlerModel model) throws JsonParseException, JsonMappingException, IOException {
-		String value = model.getEasyAccessInterface().getProperty(ID.ID_FILE_LIST).getCurrentValue();
+		String value = model.getEasyAccessInterface().getCurrentValue(ID.ID_FILE_LIST);
 		JsTableContent tableContent = new JsTableContent();
 		if (!value.isEmpty()) {
 			try {
@@ -128,7 +128,7 @@ public class FileManager implements UserSequencer {
 		tableContent.dataChanged = true;
 		for (File file : folder.listFiles()) {
 			boolean qual = false;
-			String suffix = model.getEasyAccessInterface().getProperty(ID.ID_FILE_FILTER).getSelectedListTitle();
+			String suffix = model.getEasyAccessInterface().getSelectedListTitle(ID.ID_FILE_FILTER);
 			if (properties.getFileFilter().compareTo(EnumFileFilter.ID_FILE_FILTER_ALL) == 0) {
 				qual = true;
 			}

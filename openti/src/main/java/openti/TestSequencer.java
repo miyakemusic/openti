@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,6 +18,7 @@ import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.ChartContent;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
+import jp.silverbullet.web.WebSocketBroadcaster;
 import jp.silverbullet.core.property2.JsTableContent;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumDistancerange;
@@ -32,7 +34,6 @@ public class TestSequencer implements UserSequencer {
 	@Override
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
 		new Thread() {
-
 			@Override
 			public void run() {
 				try {
@@ -42,7 +43,6 @@ public class TestSequencer implements UserSequencer {
 					e.printStackTrace();
 				}
 			}
-			
 		}.start();
 	}
 	/* (non-Javadoc)
@@ -154,7 +154,8 @@ public class TestSequencer implements UserSequencer {
 					registers.test_control.set(TEST_CONTROL.STA, 0x00).write();
 					try {
 						//String url = StaticInstances.getInstance().blobStore.put(ID.ID_TRACE, chartContent);
-						model.getEasyAccessInterface().requestChange(ID.ID_TRACE, chartContent, String.valueOf(Calendar.getInstance().getTime().getTime()));
+						model.getEasyAccessInterface().requestChange(ID.ID_TRACE, chartContent, 
+								String.valueOf(Calendar.getInstance().getTime().getTime()));
 
 						model.getEasyAccessInterface().requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
 						properties.setLoss(Math.random() * 10.0 + 10.0);

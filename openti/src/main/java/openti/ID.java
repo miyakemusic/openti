@@ -40,6 +40,7 @@ public class ID {
 	public static final String ID_TEST_MODE_MANUAL="ID_TEST_MODE_MANUAL";
 	public static final String ID_COLLECMODE="ID_COLLECMODE";
 	public static final String ID_COLLECMODE_AVERAGE="ID_COLLECMODE_AVERAGE";
+	public static final String ID_COLLECMODE_OPTIMIZED="ID_COLLECMODE_OPTIMIZED";
 	public static final String ID_COLLECMODE_REALTIME="ID_COLLECMODE_REALTIME";
 	public static final String ID_MODELNAME="ID_MODELNAME";
 	public static final String ID_MODELNAME_P1000A="ID_MODELNAME_P1000A";

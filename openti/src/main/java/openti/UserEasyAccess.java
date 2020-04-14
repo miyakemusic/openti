@@ -19,7 +19,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_APPLICATION, value.toString());
     }
     public EnumApplication getApplication() {
-        return EnumApplication.valueOf(model.getProperty(ID.ID_APPLICATION).getCurrentValue());
+        return EnumApplication.valueOf(model.getCurrentValue(ID.ID_APPLICATION));
     }
     public enum EnumPulsewidth{
         ID_PULSEWIDTH_1NS,
@@ -33,7 +33,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_PULSEWIDTH, value.toString());
     }
     public EnumPulsewidth getPulsewidth() {
-        return EnumPulsewidth.valueOf(model.getProperty(ID.ID_PULSEWIDTH).getCurrentValue());
+        return EnumPulsewidth.valueOf(model.getCurrentValue(ID.ID_PULSEWIDTH));
     }
     public enum EnumDistancerange{
         ID_DISTANCERANGE_1KM,
@@ -47,13 +47,13 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_DISTANCERANGE, value.toString());
     }
     public EnumDistancerange getDistancerange() {
-        return EnumDistancerange.valueOf(model.getProperty(ID.ID_DISTANCERANGE).getCurrentValue());
+        return EnumDistancerange.valueOf(model.getCurrentValue(ID.ID_DISTANCERANGE));
     }
     public void setTable(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_TABLE, String.valueOf(value));
     }
     public String getTable() {
-        return String.valueOf(model.getProperty(ID.ID_TABLE).getCurrentValue());
+        return String.valueOf(model.getCurrentValue(ID.ID_TABLE));
     }
     public enum EnumOtdrTestcontrol{
         ID_OTDR_TESTCONTROL_START,
@@ -63,13 +63,13 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_OTDR_TESTCONTROL, value.toString());
     }
     public EnumOtdrTestcontrol getOtdrTestcontrol() {
-        return EnumOtdrTestcontrol.valueOf(model.getProperty(ID.ID_OTDR_TESTCONTROL).getCurrentValue());
+        return EnumOtdrTestcontrol.valueOf(model.getCurrentValue(ID.ID_OTDR_TESTCONTROL));
     }
     public void setAveragetime(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_AVERAGETIME, String.valueOf(value));
     }
     public Long getAveragetime() {
-        return Long.valueOf(model.getProperty(ID.ID_AVERAGETIME).getCurrentValue());
+        return Long.valueOf(model.getCurrentValue(ID.ID_AVERAGETIME));
     }
     public enum EnumOscTestcontrol{
         ID_OSC_TESTCONTROL_START,
@@ -79,7 +79,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_OSC_TESTCONTROL, value.toString());
     }
     public EnumOscTestcontrol getOscTestcontrol() {
-        return EnumOscTestcontrol.valueOf(model.getProperty(ID.ID_OSC_TESTCONTROL).getCurrentValue());
+        return EnumOscTestcontrol.valueOf(model.getCurrentValue(ID.ID_OSC_TESTCONTROL));
     }
     public enum EnumError{
         ID_ERROR_NOERROR,
@@ -89,7 +89,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_ERROR, value.toString());
     }
     public EnumError getError() {
-        return EnumError.valueOf(model.getProperty(ID.ID_ERROR).getCurrentValue());
+        return EnumError.valueOf(model.getCurrentValue(ID.ID_ERROR));
     }
     public enum EnumTestMode{
         ID_TEST_MODE_AUTO,
@@ -99,17 +99,18 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_TEST_MODE, value.toString());
     }
     public EnumTestMode getTestMode() {
-        return EnumTestMode.valueOf(model.getProperty(ID.ID_TEST_MODE).getCurrentValue());
+        return EnumTestMode.valueOf(model.getCurrentValue(ID.ID_TEST_MODE));
     }
     public enum EnumCollecmode{
         ID_COLLECMODE_AVERAGE,
+        ID_COLLECMODE_OPTIMIZED,
         ID_COLLECMODE_REALTIME,
     };
     public void setCollecmode(EnumCollecmode value) throws RequestRejectedException {
         model.requestChange(ID.ID_COLLECMODE, value.toString());
     }
     public EnumCollecmode getCollecmode() {
-        return EnumCollecmode.valueOf(model.getProperty(ID.ID_COLLECMODE).getCurrentValue());
+        return EnumCollecmode.valueOf(model.getCurrentValue(ID.ID_COLLECMODE));
     }
     public enum EnumModelname{
         ID_MODELNAME_P1000A,
@@ -119,49 +120,49 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_MODELNAME, value.toString());
     }
     public EnumModelname getModelname() {
-        return EnumModelname.valueOf(model.getProperty(ID.ID_MODELNAME).getCurrentValue());
+        return EnumModelname.valueOf(model.getCurrentValue(ID.ID_MODELNAME));
     }
     public void setOption001(Boolean value) throws RequestRejectedException {
         model.requestChange(ID.ID_OPTION_001, String.valueOf(value));
     }
     public Boolean getOption001() {
-        return Boolean.valueOf(model.getProperty(ID.ID_OPTION_001).getCurrentValue());
+        return Boolean.valueOf(model.getCurrentValue(ID.ID_OPTION_001));
     }
     public void setOption002(Boolean value) throws RequestRejectedException {
         model.requestChange(ID.ID_OPTION_002, String.valueOf(value));
     }
     public Boolean getOption002() {
-        return Boolean.valueOf(model.getProperty(ID.ID_OPTION_002).getCurrentValue());
+        return Boolean.valueOf(model.getCurrentValue(ID.ID_OPTION_002));
     }
     public void setOption003(Boolean value) throws RequestRejectedException {
         model.requestChange(ID.ID_OPTION_003, String.valueOf(value));
     }
     public Boolean getOption003() {
-        return Boolean.valueOf(model.getProperty(ID.ID_OPTION_003).getCurrentValue());
+        return Boolean.valueOf(model.getCurrentValue(ID.ID_OPTION_003));
     }
     public void setLoss(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_LOSS, String.valueOf(value));
     }
     public Double getLoss() {
-        return Double.valueOf(model.getProperty(ID.ID_LOSS).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_LOSS));
     }
     public void setFatalerror(Boolean value) throws RequestRejectedException {
         model.requestChange(ID.ID_FATALERROR, String.valueOf(value));
     }
     public Boolean getFatalerror() {
-        return Boolean.valueOf(model.getProperty(ID.ID_FATALERROR).getCurrentValue());
+        return Boolean.valueOf(model.getCurrentValue(ID.ID_FATALERROR));
     }
     public void setOscTrigger(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_OSC_TRIGGER, String.valueOf(value));
     }
     public Long getOscTrigger() {
-        return Long.valueOf(model.getProperty(ID.ID_OSC_TRIGGER).getCurrentValue());
+        return Long.valueOf(model.getCurrentValue(ID.ID_OSC_TRIGGER));
     }
     public void setAverageResult(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_AVERAGE_RESULT, String.valueOf(value));
     }
     public Long getAverageResult() {
-        return Long.valueOf(model.getProperty(ID.ID_AVERAGE_RESULT).getCurrentValue());
+        return Long.valueOf(model.getCurrentValue(ID.ID_AVERAGE_RESULT));
     }
     public enum EnumPpgPattern{
         ID_PPG_PATTERN_PRBS15,
@@ -172,7 +173,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_PPG_PATTERN, value.toString());
     }
     public EnumPpgPattern getPpgPattern() {
-        return EnumPpgPattern.valueOf(model.getProperty(ID.ID_PPG_PATTERN).getCurrentValue());
+        return EnumPpgPattern.valueOf(model.getCurrentValue(ID.ID_PPG_PATTERN));
     }
     public enum EnumEdPattern{
         ID_ED_PATTERN_PRBS15,
@@ -183,13 +184,13 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_ED_PATTERN, value.toString());
     }
     public EnumEdPattern getEdPattern() {
-        return EnumEdPattern.valueOf(model.getProperty(ID.ID_ED_PATTERN).getCurrentValue());
+        return EnumEdPattern.valueOf(model.getCurrentValue(ID.ID_ED_PATTERN));
     }
     public void setPpgFrequency(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_PPG_FREQUENCY, String.valueOf(value));
     }
     public Long getPpgFrequency() {
-        return Long.valueOf(model.getProperty(ID.ID_PPG_FREQUENCY).getCurrentValue());
+        return Long.valueOf(model.getCurrentValue(ID.ID_PPG_FREQUENCY));
     }
     public enum EnumPpgModulation{
         ID_PPG_MODULATION_CSRZ,
@@ -201,13 +202,13 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_PPG_MODULATION, value.toString());
     }
     public EnumPpgModulation getPpgModulation() {
-        return EnumPpgModulation.valueOf(model.getProperty(ID.ID_PPG_MODULATION).getCurrentValue());
+        return EnumPpgModulation.valueOf(model.getCurrentValue(ID.ID_PPG_MODULATION));
     }
     public void setEdFrequency(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_ED_FREQUENCY, String.valueOf(value));
     }
     public Long getEdFrequency() {
-        return Long.valueOf(model.getProperty(ID.ID_ED_FREQUENCY).getCurrentValue());
+        return Long.valueOf(model.getCurrentValue(ID.ID_ED_FREQUENCY));
     }
     public enum EnumEdModulation{
         ID_ED_MODULATION_CSRZ,
@@ -219,13 +220,13 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_ED_MODULATION, value.toString());
     }
     public EnumEdModulation getEdModulation() {
-        return EnumEdModulation.valueOf(model.getProperty(ID.ID_ED_MODULATION).getCurrentValue());
+        return EnumEdModulation.valueOf(model.getCurrentValue(ID.ID_ED_MODULATION));
     }
     public void setOtdrSamplingpoints(Long value) throws RequestRejectedException {
         model.requestChange(ID.ID_OTDR_SAMPLINGPOINTS, String.valueOf(value));
     }
     public Long getOtdrSamplingpoints() {
-        return Long.valueOf(model.getProperty(ID.ID_OTDR_SAMPLINGPOINTS).getCurrentValue());
+        return Long.valueOf(model.getCurrentValue(ID.ID_OTDR_SAMPLINGPOINTS));
     }
     public enum EnumStatus{
         ID_STATUS_IDLE,
@@ -236,7 +237,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_STATUS, value.toString());
     }
     public EnumStatus getStatus() {
-        return EnumStatus.valueOf(model.getProperty(ID.ID_STATUS).getCurrentValue());
+        return EnumStatus.valueOf(model.getCurrentValue(ID.ID_STATUS));
     }
     public enum EnumTrigger{
         ID_TRIGGER_A,
@@ -248,7 +249,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_TRIGGER, value.toString());
     }
     public EnumTrigger getTrigger() {
-        return EnumTrigger.valueOf(model.getProperty(ID.ID_TRIGGER).getCurrentValue());
+        return EnumTrigger.valueOf(model.getCurrentValue(ID.ID_TRIGGER));
     }
     public enum EnumTarget{
         ID_TARGET_A,
@@ -260,7 +261,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_TARGET, value.toString());
     }
     public EnumTarget getTarget() {
-        return EnumTarget.valueOf(model.getProperty(ID.ID_TARGET).getCurrentValue());
+        return EnumTarget.valueOf(model.getCurrentValue(ID.ID_TARGET));
     }
     public enum EnumMode{
         ID_MODE_A,
@@ -270,7 +271,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_MODE, value.toString());
     }
     public EnumMode getMode() {
-        return EnumMode.valueOf(model.getProperty(ID.ID_MODE).getCurrentValue());
+        return EnumMode.valueOf(model.getCurrentValue(ID.ID_MODE));
     }
     public enum EnumBand{
         ID_BAND_0S,
@@ -283,19 +284,19 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_BAND, value.toString());
     }
     public EnumBand getBand() {
-        return EnumBand.valueOf(model.getProperty(ID.ID_BAND).getCurrentValue());
+        return EnumBand.valueOf(model.getCurrentValue(ID.ID_BAND));
     }
     public void setStartWavelength(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_START_WAVELENGTH, String.valueOf(value));
     }
     public Double getStartWavelength() {
-        return Double.valueOf(model.getProperty(ID.ID_START_WAVELENGTH).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_START_WAVELENGTH));
     }
     public void setStopWavelength(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_STOP_WAVELENGTH, String.valueOf(value));
     }
     public Double getStopWavelength() {
-        return Double.valueOf(model.getProperty(ID.ID_STOP_WAVELENGTH).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_STOP_WAVELENGTH));
     }
     public enum EnumPlace{
         ID_PLACE_HERE,
@@ -305,25 +306,25 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_PLACE, value.toString());
     }
     public EnumPlace getPlace() {
-        return EnumPlace.valueOf(model.getProperty(ID.ID_PLACE).getCurrentValue());
+        return EnumPlace.valueOf(model.getCurrentValue(ID.ID_PLACE));
     }
     public void setEdsync(Boolean value) throws RequestRejectedException {
         model.requestChange(ID.ID_EDSYNC, String.valueOf(value));
     }
     public Boolean getEdsync() {
-        return Boolean.valueOf(model.getProperty(ID.ID_EDSYNC).getCurrentValue());
+        return Boolean.valueOf(model.getCurrentValue(ID.ID_EDSYNC));
     }
     public void setUsername(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_USERNAME, String.valueOf(value));
     }
     public String getUsername() {
-        return String.valueOf(model.getProperty(ID.ID_USERNAME).getCurrentValue());
+        return String.valueOf(model.getCurrentValue(ID.ID_USERNAME));
     }
     public void setPassword(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_PASSWORD, String.valueOf(value));
     }
     public String getPassword() {
-        return String.valueOf(model.getProperty(ID.ID_PASSWORD).getCurrentValue());
+        return String.valueOf(model.getCurrentValue(ID.ID_PASSWORD));
     }
     public enum EnumLogin{
         ID_LOGIN_LOGIN,
@@ -333,67 +334,67 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_LOGIN, value.toString());
     }
     public EnumLogin getLogin() {
-        return EnumLogin.valueOf(model.getProperty(ID.ID_LOGIN).getCurrentValue());
+        return EnumLogin.valueOf(model.getCurrentValue(ID.ID_LOGIN));
     }
     public void setLoginMessage(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_LOGIN_MESSAGE, String.valueOf(value));
     }
     public String getLoginMessage() {
-        return String.valueOf(model.getProperty(ID.ID_LOGIN_MESSAGE).getCurrentValue());
+        return String.valueOf(model.getCurrentValue(ID.ID_LOGIN_MESSAGE));
     }
     public void setSetupdialog(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_SETUPDIALOG, String.valueOf(value));
     }
     public String getSetupdialog() {
-        return String.valueOf(model.getProperty(ID.ID_SETUPDIALOG).getCurrentValue());
+        return String.valueOf(model.getCurrentValue(ID.ID_SETUPDIALOG));
     }
     public void setCenterWavelength(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_CENTER_WAVELENGTH, String.valueOf(value));
     }
     public Double getCenterWavelength() {
-        return Double.valueOf(model.getProperty(ID.ID_CENTER_WAVELENGTH).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_CENTER_WAVELENGTH));
     }
     public void setSpanWavelength(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_SPAN_WAVELENGTH, String.valueOf(value));
     }
     public Double getSpanWavelength() {
-        return Double.valueOf(model.getProperty(ID.ID_SPAN_WAVELENGTH).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_SPAN_WAVELENGTH));
     }
     public void setCursorA(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_CURSOR_A, String.valueOf(value));
     }
     public Double getCursorA() {
-        return Double.valueOf(model.getProperty(ID.ID_CURSOR_A).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_CURSOR_A));
     }
     public void setCursorB(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_CURSOR_B, String.valueOf(value));
     }
     public Double getCursorB() {
-        return Double.valueOf(model.getProperty(ID.ID_CURSOR_B).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_CURSOR_B));
     }
     public void setWavelengthUpperlimit(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_WAVELENGTH_UPPERLIMIT, String.valueOf(value));
     }
     public Double getWavelengthUpperlimit() {
-        return Double.valueOf(model.getProperty(ID.ID_WAVELENGTH_UPPERLIMIT).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_WAVELENGTH_UPPERLIMIT));
     }
     public void setWavelengthLowerlimit(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_WAVELENGTH_LOWERLIMIT, String.valueOf(value));
     }
     public Double getWavelengthLowerlimit() {
-        return Double.valueOf(model.getProperty(ID.ID_WAVELENGTH_LOWERLIMIT).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_WAVELENGTH_LOWERLIMIT));
     }
     public void setFileList(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_FILE_LIST, String.valueOf(value));
     }
     public String getFileList() {
-        return String.valueOf(model.getProperty(ID.ID_FILE_LIST).getCurrentValue());
+        return String.valueOf(model.getCurrentValue(ID.ID_FILE_LIST));
     }
     public void setFileFolder(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_FILE_FOLDER, String.valueOf(value));
     }
     public String getFileFolder() {
-        return String.valueOf(model.getProperty(ID.ID_FILE_FOLDER).getCurrentValue());
+        return String.valueOf(model.getCurrentValue(ID.ID_FILE_FOLDER));
     }
     public enum EnumFileFilter{
         ID_FILE_FILTER_ALL,
@@ -407,25 +408,25 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_FILE_FILTER, value.toString());
     }
     public EnumFileFilter getFileFilter() {
-        return EnumFileFilter.valueOf(model.getProperty(ID.ID_FILE_FILTER).getCurrentValue());
+        return EnumFileFilter.valueOf(model.getCurrentValue(ID.ID_FILE_FILTER));
     }
     public void setFileName(String value) throws RequestRejectedException {
         model.requestChange(ID.ID_FILE_NAME, String.valueOf(value));
     }
     public String getFileName() {
-        return String.valueOf(model.getProperty(ID.ID_FILE_NAME).getCurrentValue());
+        return String.valueOf(model.getCurrentValue(ID.ID_FILE_NAME));
     }
     public void setEdSync(Boolean value) throws RequestRejectedException {
         model.requestChange(ID.ID_ED_SYNC, String.valueOf(value));
     }
     public Boolean getEdSync() {
-        return Boolean.valueOf(model.getProperty(ID.ID_ED_SYNC).getCurrentValue());
+        return Boolean.valueOf(model.getCurrentValue(ID.ID_ED_SYNC));
     }
     public void setCursorStep(Double value) throws RequestRejectedException {
         model.requestChange(ID.ID_CURSOR_STEP, String.valueOf(value));
     }
     public Double getCursorStep() {
-        return Double.valueOf(model.getProperty(ID.ID_CURSOR_STEP).getCurrentValue());
+        return Double.valueOf(model.getCurrentValue(ID.ID_CURSOR_STEP));
     }
     public enum EnumBertsState{
         ID_BERTS_STATE_ANALYZING,
@@ -439,7 +440,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_BERTS_STATE, value.toString());
     }
     public EnumBertsState getBertsState() {
-        return EnumBertsState.valueOf(model.getProperty(ID.ID_BERTS_STATE).getCurrentValue());
+        return EnumBertsState.valueOf(model.getCurrentValue(ID.ID_BERTS_STATE));
     }
     public enum EnumBertsModule1Teststate{
         ID_BERTS_MODULE1_TESTSTATE_START,
@@ -449,7 +450,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_BERTS_MODULE1_TESTSTATE, value.toString());
     }
     public EnumBertsModule1Teststate getBertsModule1Teststate() {
-        return EnumBertsModule1Teststate.valueOf(model.getProperty(ID.ID_BERTS_MODULE1_TESTSTATE).getCurrentValue());
+        return EnumBertsModule1Teststate.valueOf(model.getCurrentValue(ID.ID_BERTS_MODULE1_TESTSTATE));
     }
     public enum EnumBertsModule2Teststate{
         ID_BERTS_MODULE2_TESTSTATE_START,
@@ -459,7 +460,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_BERTS_MODULE2_TESTSTATE, value.toString());
     }
     public EnumBertsModule2Teststate getBertsModule2Teststate() {
-        return EnumBertsModule2Teststate.valueOf(model.getProperty(ID.ID_BERTS_MODULE2_TESTSTATE).getCurrentValue());
+        return EnumBertsModule2Teststate.valueOf(model.getCurrentValue(ID.ID_BERTS_MODULE2_TESTSTATE));
     }
     public enum EnumBertStateModule1{
         ID_BERT_STATE_MODULE1_ANALYZING,
@@ -472,7 +473,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_BERT_STATE_MODULE1, value.toString());
     }
     public EnumBertStateModule1 getBertStateModule1() {
-        return EnumBertStateModule1.valueOf(model.getProperty(ID.ID_BERT_STATE_MODULE1).getCurrentValue());
+        return EnumBertStateModule1.valueOf(model.getCurrentValue(ID.ID_BERT_STATE_MODULE1));
     }
     public enum EnumBertStateModule2{
         ID_BERT_STATE_MODULE2_ANALYZING,
@@ -485,7 +486,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_BERT_STATE_MODULE2, value.toString());
     }
     public EnumBertStateModule2 getBertStateModule2() {
-        return EnumBertStateModule2.valueOf(model.getProperty(ID.ID_BERT_STATE_MODULE2).getCurrentValue());
+        return EnumBertStateModule2.valueOf(model.getCurrentValue(ID.ID_BERT_STATE_MODULE2));
     }
     public enum EnumBertsTestControl{
         ID_BERTS_TEST_CONTROL_START,
@@ -495,7 +496,7 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_BERTS_TEST_CONTROL, value.toString());
     }
     public EnumBertsTestControl getBertsTestControl() {
-        return EnumBertsTestControl.valueOf(model.getProperty(ID.ID_BERTS_TEST_CONTROL).getCurrentValue());
+        return EnumBertsTestControl.valueOf(model.getCurrentValue(ID.ID_BERTS_TEST_CONTROL));
     }
     public enum EnumStopActionStatus{
         ID_STOP_ACTION_STATUS_DISABLED,
@@ -505,6 +506,6 @@ public class UserEasyAccess {
         model.requestChange(ID.ID_STOP_ACTION_STATUS, value.toString());
     }
     public EnumStopActionStatus getStopActionStatus() {
-        return EnumStopActionStatus.valueOf(model.getProperty(ID.ID_STOP_ACTION_STATUS).getCurrentValue());
+        return EnumStopActionStatus.valueOf(model.getCurrentValue(ID.ID_STOP_ACTION_STATUS));
     }
 }

@@ -17,6 +17,7 @@ public class SimHardware implements RegisterAccessor {
 	private OtdrHardware otdr = new OtdrHardware() {
 		@Override
 		protected void onCompleted() {
+//			System.out.println("SimHardware.OtdrHardware.onCompleted");
 			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.DATA, otdr.getData()));
 			listeners.forEach(listener -> listener.onInterrupt());
 		}		
@@ -26,7 +27,8 @@ public class SimHardware implements RegisterAccessor {
 
 		@Override
 		protected void onUpdate() {
-			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.EYEDIAGRAM, oscillo.get()));
+//			System.out.println("SimHardware.OscilloHardware.onUpdate");
+//			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.EYEDIAGRAM, oscillo.get()));
 			listeners.forEach(listener -> listener.onInterrupt());			
 		}
 		
@@ -76,6 +78,7 @@ public class SimHardware implements RegisterAccessor {
 
 	@Override
 	public void addListener(RegisterAccessorListener listener) {
+//		System.out.println("SimHardware.addListener");
 		this.listeners.add(listener);
 	}
 
@@ -83,6 +86,9 @@ public class SimHardware implements RegisterAccessor {
 	public byte[] readRegister(Object regName) {
 		if (regName.equals(UserRegister.Register.DATA)) {
 			return otdr.getData();
+		}
+		else if (regName.equals(UserRegister.Register.EYEDIAGRAM)) {
+			return this.oscillo.get();
 		}
 		return null;
 	}

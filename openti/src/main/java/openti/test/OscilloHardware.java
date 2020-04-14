@@ -24,32 +24,32 @@ public abstract class OscilloHardware {
 			}
 		};
 		sci.start();
-		
-		new Thread() {
-			@Override
-			public void run() {
-				for (int i = 0; i < 10; i++) {
-					try {
-						Thread.sleep(0);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					try {
-						byte[] b = sci.save();
-						FileOutputStream out = new FileOutputStream("C:\\Users\\miyak\\git\\openti\\openti\\eye_" + i + ".png");
-						out.write(b);
-						out.close();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}.start();
+//		
+//		new Thread() {
+//			@Override
+//			public void run() {
+//				for (int i = 0; i < 10; i++) {
+//					try {
+//						Thread.sleep(0);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					try {
+//						byte[] b = sci.save();
+//						FileOutputStream out = new FileOutputStream("C:\\Users\\miyak\\git\\openti\\openti\\eye_" + i + ".png");
+//						out.write(b);
+//						out.close();
+//					} catch (ClassNotFoundException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		}.start();
 	}
 	private boolean stopRequested;
 	private EyeImage data = new EyeImage(800,500);
@@ -90,7 +90,7 @@ public abstract class OscilloHardware {
 		int height = this.data.getHeight();
 		Random random = new Random();
 		this.data.clear();
-		
+
 		long times = 0;
 		while(true) {
 			if (stopRequested) {
@@ -116,12 +116,13 @@ public abstract class OscilloHardware {
 			}
 			
 			try {
-				Thread.sleep(20);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			onUpdate();
+//			System.out.println("Update");
 		}
 
 	}
@@ -271,6 +272,8 @@ public abstract class OscilloHardware {
 		return null;
 	}
 	public byte[] save() throws IOException, ClassNotFoundException {
+//		long start = System.currentTimeMillis();
+		
 		EyeImage eye = this.data;
 		
 		BufferedImage image = new BufferedImage(eye.getWidth(), eye.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -280,15 +283,19 @@ public abstract class OscilloHardware {
 				int v = eye.getValue(x, y);
 				int rgb =  0xff000000 | v <<16 | v <<8 | v;
 				image.setRGB(x, y, this.getColorScaleBCGYR((double)v / 10.0));
-//				if (v != 0) {
-//					System.out.println(v);
-//				}
 			}
 		}
+		
+//		System.out.print(", " + String.valueOf(System.currentTimeMillis() - start) + ":" + Thread.currentThread().getName());
+		
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		BufferedOutputStream os = new BufferedOutputStream( bos );
 		image.flush();
 		ImageIO.write( image, "png", os);
+		
+//		System.out.print(", " + String.valueOf(System.currentTimeMillis() - start) + ":" + Thread.currentThread().getName());
+//		System.out.println();
+		
 		return bos.toByteArray();
 	}
 	private double getNoise(Random random) {
