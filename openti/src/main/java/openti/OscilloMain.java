@@ -16,9 +16,14 @@ import openti.test.SimHardware;
 
 public class OscilloMain extends AbstractIndependentMain {
 
+	public OscilloMain(String host, String port) {
+		super(host, port);
+		// TODO Auto-generated constructor stub
+	}
+
 	public static void main(String[] args) {
 		try {
-			new OscilloMain();
+			new OscilloMain(args[0],args[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

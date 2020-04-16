@@ -28,8 +28,13 @@ import openti.UserRegister.TEST_SETUP;
 import openti.test.SimHardware;
 
 public class OtdrMain extends AbstractIndependentMain {
+	public OtdrMain(String host, String port) {
+		super(host, port);
+		// TODO Auto-generated constructor stub
+	}
+
 	public static void main(String[] args) {
-		new OtdrMain();
+		new OtdrMain(args[0], args[1]);
 	}
 	
 	private boolean stopRequested;

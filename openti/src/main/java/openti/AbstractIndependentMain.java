@@ -36,11 +36,15 @@ public abstract class AbstractIndependentMain {
 	
 	private WebSocketClientHandler clienteHandler;
 	private OkHttpClient client = new OkHttpClient();
+	private String host;
+	private String port;
 	
-	public AbstractIndependentMain() {
+	public AbstractIndependentMain(String host, String port) {
+		this.host = host;
+		this.port = port;
 		init(model);
 		try {
-			clienteHandler = new WebSocketClientHandler("localhost", "8081") {
+			clienteHandler = new WebSocketClientHandler(host, port) {
 				@Override
 				protected void onMessageReceived(String message2) {
 					Map<String, List<ChangedItemValue>> changed;
@@ -89,6 +93,9 @@ public abstract class AbstractIndependentMain {
 		return false;
 	}
 
+	private String getServer() {
+		return "http://"+ this.host + ":" + this.port;
+	}
 	protected void sendChangeValue(String id, int index, String value) {
 		OkHttpClient client = new OkHttpClient();
 		LightProperty prop = new LightProperty();
@@ -97,7 +104,7 @@ public abstract class AbstractIndependentMain {
 		
 		try {
 			String json = new ObjectMapper().writeValueAsString(prop);
-	        String url = "http://localhost:8081/rest/domain/setValueBySystem?code=forDebug";
+	        String url = getServer() + "/rest/domain/setValueBySystem?code=forDebug";
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
 			Request request = new Request.Builder()
@@ -134,7 +141,7 @@ public abstract class AbstractIndependentMain {
 
 		try {
 			String json = new ObjectMapper().writeValueAsString(blob);
-	        String url = "http://localhost:8081/rest/domain/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
+	        String url = getServer() + "/rest/domain/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
 	        		+ "&name=" + name + "&classname=" + blob.getClass().getName();
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
@@ -166,7 +173,7 @@ public abstract class AbstractIndependentMain {
 			id = id2;
 			index = "0";
 		}
-        String url = "http://localhost:8081/rest/domain/getProperty?index=" + index + "&code=forDebug&id=" + id;
+        String url = getServer() + "/rest/domain/getProperty?index=" + index + "&code=forDebug&id=" + id;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
