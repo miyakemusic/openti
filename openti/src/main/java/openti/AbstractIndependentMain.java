@@ -17,7 +17,6 @@ import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.EasyAccessInterface;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor;
-import jp.silverbullet.core.ui.UiProperty;
 import jp.silverbullet.web.WebSocketClientHandler;
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -71,6 +70,11 @@ public abstract class AbstractIndependentMain {
 					}
 					
 				}
+
+				@Override
+				protected void onRecconected() {
+					login(WebSocketClientHandler.DomainModel);
+				}
 			};
 			clienteHandler.login(WebSocketClientHandler.DomainModel);
 			
@@ -117,23 +121,7 @@ public abstract class AbstractIndependentMain {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-//        String url = "http://localhost:8081/rest/domain/setValueBySystem?index=" + index +
-//        		"&code=forDebug&id=" + id + "&value=" + value;
-//        Request request = new Request.Builder().url(url).get().build();
-//
-//        Call call = client.newCall(request);
-//        String result = "";
-//
-//        try {
-//            Response response = call.execute();
-//            ResponseBody body = response.body();
-//            if (body != null) {
-//                result = body.string();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }		
+		}			
 	}
 	
 	protected void sendChangeValue(String id, Object blob, String name) {
@@ -161,8 +149,6 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	private LightProperty retreiveProperty(String id2) {
-		UiProperty prop2 = clienteHandler.getUiProperty(id2);
-		
 		String id, index;
 		if (id2.contains(RuntimeProperty.INDEXSIGN)) {
 			String[] tmp = id2.split(RuntimeProperty.INDEXSIGN);
