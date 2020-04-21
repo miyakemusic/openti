@@ -181,5 +181,8 @@ public class OtdrMain extends AbstractIndependentMain {
 		registers = new UserRegister(model.getRegisterAccessor());	
 	}
 
-	
+	@Override
+	protected String getApplication() {
+		return "miyake_otdr";
+	}
 }

@@ -108,7 +108,7 @@ public abstract class AbstractIndependentMain {
 		
 		try {
 			String json = new ObjectMapper().writeValueAsString(prop);
-	        String url = getServer() + "/rest/domain/setValueBySystem?code=forDebug";
+	        String url = getServer() + "/rest/" + getApplication() + "/domain/setValueBySystem?code=forDebug";
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
 			Request request = new Request.Builder()
@@ -129,7 +129,7 @@ public abstract class AbstractIndependentMain {
 
 		try {
 			String json = new ObjectMapper().writeValueAsString(blob);
-	        String url = getServer() + "/rest/domain/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
+	        String url = getServer() + "/rest/"+ getApplication() + "/domain/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
 	        		+ "&name=" + name + "&classname=" + blob.getClass().getName();
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
@@ -148,6 +148,7 @@ public abstract class AbstractIndependentMain {
 		//System.out.println(blob);
 	}
 	
+	protected abstract String getApplication();
 	private LightProperty retreiveProperty(String id2) {
 		String id, index;
 		if (id2.contains(RuntimeProperty.INDEXSIGN)) {
@@ -159,7 +160,7 @@ public abstract class AbstractIndependentMain {
 			id = id2;
 			index = "0";
 		}
-        String url = getServer() + "/rest/domain/getProperty?index=" + index + "&code=forDebug&id=" + id;
+        String url = getServer() + "/rest/"+ getApplication() + "/domain/getProperty?index=" + index + "&code=forDebug&id=" + id;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);

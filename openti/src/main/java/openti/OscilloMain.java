@@ -104,4 +104,9 @@ public class OscilloMain extends AbstractIndependentMain {
 		}
 	}
 
+	@Override
+	protected String getApplication() {
+		return "miyake_otdr";
+	}
+
 }

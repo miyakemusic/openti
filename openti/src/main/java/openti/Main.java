@@ -14,7 +14,7 @@ import openti.test.SimHardware;
 
 public class Main extends SilverBulletServer {
 	public static void main(String arg[]) {
-		new Main().start(arg[0], arg[1], "ti_back.zip");
+		new Main().start(arg[0], arg[1]);
 	}
 		
 	@Override
