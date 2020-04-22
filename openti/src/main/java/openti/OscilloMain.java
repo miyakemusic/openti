@@ -17,8 +17,7 @@ import openti.test.SimHardware;
 public class OscilloMain extends AbstractIndependentMain {
 
 	public OscilloMain(String host, String port) {
-		super(host, port);
-		// TODO Auto-generated constructor stub
+		super(host, port, "miyake_otdr", "OSCILLO#1");
 	}
 
 	public static void main(String[] args) {
@@ -103,10 +102,4 @@ public class OscilloMain extends AbstractIndependentMain {
 			stop = true;
 		}
 	}
-
-	@Override
-	protected String getApplication() {
-		return "miyake_otdr";
-	}
-
 }

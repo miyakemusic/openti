@@ -34,14 +34,24 @@ public abstract class AbstractIndependentMain {
 	protected abstract void init(SvHandlerModel model);
 	
 	private WebSocketClientHandler clienteHandler;
-	private OkHttpClient client = new OkHttpClient();
 	private String host;
 	private String port;
+	private String application;
+	private OkHttpClient client;// = new OkHttpClient.Builder().build();// new OkHttpClient();
+	private String deviceName;
 	
-	public AbstractIndependentMain(String host, String port) {
+	public AbstractIndependentMain(String host, String port, String application, String deviceName) {
 		this.host = host;
 		this.port = port;
+		this.application = application;
+		this.deviceName = deviceName;
+		
+//		OkHttp3CookieHelper cookieHelper = new OkHttp3CookieHelper();
+ //       cookieHelper.setCookie(url, "cookie_name", "cookie_value");
+        client = new OkHttpClient.Builder().build();// new OkHttpClient();;
+        
 		init(model);
+		
 		try {
 			clienteHandler = new WebSocketClientHandler(host, port) {
 				@Override
@@ -73,10 +83,10 @@ public abstract class AbstractIndependentMain {
 
 				@Override
 				protected void onRecconected() {
-					login(WebSocketClientHandler.DomainModel);
+					login(WebSocketClientHandler.DomainModel, deviceName);
 				}
 			};
-			clienteHandler.login(WebSocketClientHandler.DomainModel);
+			clienteHandler.login(WebSocketClientHandler.DomainModel, deviceName);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,14 +111,13 @@ public abstract class AbstractIndependentMain {
 		return "http://"+ this.host + ":" + this.port;
 	}
 	protected void sendChangeValue(String id, int index, String value) {
-		OkHttpClient client = new OkHttpClient();
 		LightProperty prop = new LightProperty();
 		prop.id = id;
 		prop.currentValue = value;
 		
 		try {
 			String json = new ObjectMapper().writeValueAsString(prop);
-	        String url = getServer() + "/rest/" + getApplication() + "/domain/setValueBySystem?code=forDebug";
+	        String url = getServer() + "/rest/" + getPath() + "/domain/setValueBySystem?code=forDebug";
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
 			Request request = new Request.Builder()
@@ -129,7 +138,7 @@ public abstract class AbstractIndependentMain {
 
 		try {
 			String json = new ObjectMapper().writeValueAsString(blob);
-	        String url = getServer() + "/rest/"+ getApplication() + "/domain/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
+	        String url = getServer() + "/rest/"+ getPath() + "/domain/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
 	        		+ "&name=" + name + "&classname=" + blob.getClass().getName();
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
@@ -148,7 +157,6 @@ public abstract class AbstractIndependentMain {
 		//System.out.println(blob);
 	}
 	
-	protected abstract String getApplication();
 	private LightProperty retreiveProperty(String id2) {
 		String id, index;
 		if (id2.contains(RuntimeProperty.INDEXSIGN)) {
@@ -160,7 +168,7 @@ public abstract class AbstractIndependentMain {
 			id = id2;
 			index = "0";
 		}
-        String url = getServer() + "/rest/"+ getApplication() + "/domain/getProperty?index=" + index + "&code=forDebug&id=" + id;
+        String url = getServer() + "/rest/"+ getPath() + "/domain/getProperty?index=" + index + "&code=forDebug&id=" + id;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -181,6 +189,10 @@ public abstract class AbstractIndependentMain {
         return null;	
 	}
 	
+	private String getPath() {
+		return this.application;
+	}
+
 	private SvHandlerModel model = new SvHandlerModel() {
 		@Override
 		public EasyAccessInterface getEasyAccessInterface() {

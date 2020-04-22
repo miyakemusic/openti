@@ -28,13 +28,13 @@ import openti.UserRegister.TEST_SETUP;
 import openti.test.SimHardware;
 
 public class OtdrMain extends AbstractIndependentMain {
-	public OtdrMain(String host, String port) {
-		super(host, port);
+	public OtdrMain(String host, String port, String application, String deviceName) {
+		super(host, port, application, deviceName);
 		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		new OtdrMain(args[0], args[1]);
+		new OtdrMain(args[0], args[1], "miyake_otdr", "OTDR#1");
 	}
 	
 	private boolean stopRequested;
@@ -179,10 +179,5 @@ public class OtdrMain extends AbstractIndependentMain {
 	protected void init(SvHandlerModel model) {
 		properties = new UserEasyAccess(model.getEasyAccessInterface());
 		registers = new UserRegister(model.getRegisterAccessor());	
-	}
-
-	@Override
-	protected String getApplication() {
-		return "miyake_otdr";
 	}
 }
