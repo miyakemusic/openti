@@ -34,7 +34,7 @@ public class OtdrMain extends AbstractIndependentMain {
 	}
 
 	public static void main(String[] args) {
-		new OtdrMain(args[0], args[1], "miyake_otdr", "OTDR#1");
+		new OtdrMain(args[0], args[1], "miyake_otdr", args[2]);
 	}
 	
 	private boolean stopRequested;

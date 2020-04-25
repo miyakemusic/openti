@@ -16,13 +16,13 @@ import openti.test.SimHardware;
 
 public class OscilloMain extends AbstractIndependentMain {
 
-	public OscilloMain(String host, String port) {
-		super(host, port, "miyake_otdr", "OSCILLO#1");
+	public OscilloMain(String host, String port, String deviceName) {
+		super(host, port, "miyake_otdr", deviceName);
 	}
 
 	public static void main(String[] args) {
 		try {
-			new OscilloMain(args[0],args[1]);
+			new OscilloMain(args[0],args[1], args[2]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -46,9 +46,36 @@ public abstract class AbstractIndependentMain {
 		this.application = application;
 		this.deviceName = deviceName;
 		
-//		OkHttp3CookieHelper cookieHelper = new OkHttp3CookieHelper();
- //       cookieHelper.setCookie(url, "cookie_name", "cookie_value");
-        client = new OkHttpClient.Builder().build();// new OkHttpClient();;
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				init();
+			}
+		};
+		
+        thread.start();
+        
+        try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		init();
+		
+		try {
+			synchronized(this) {
+				this.wait();
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+        logout();
+	}
+	private void init() {
+		client = new OkHttpClient.Builder().build();// new OkHttpClient();;
         
 		init(model);
 		
@@ -88,12 +115,47 @@ public abstract class AbstractIndependentMain {
 			};
 			clienteHandler.login(WebSocketClientHandler.DomainModel, deviceName);
 			
+			login(application, deviceName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
+	private void login(String application2, String deviceName2) {
+        String url = getServer() + "/rest/"+ getPath() + "/login?code=forDebug";
+        Request request = new Request.Builder().url(url).get().build();
+
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            ResponseBody body = response.body();
+            if (body != null) {
+
+            }
+            body.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void logout() {
+        String url = getServer() + "/rest/"+ getPath() + "/logout?code=forDebug";
+        Request request = new Request.Builder().url(url).get().build();
+
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            ResponseBody body = response.body();
+            if (body != null) {
+
+            }
+            body.close();
+            response.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
 	private boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {
 		List<String> targets = getTargetIds();
 		for (String id : changed.keySet()) {
@@ -117,7 +179,7 @@ public abstract class AbstractIndependentMain {
 		
 		try {
 			String json = new ObjectMapper().writeValueAsString(prop);
-	        String url = getServer() + "/rest/" + getPath() + "/domain/setValueBySystem?code=forDebug";
+	        String url = getServer() + "/rest/" + getPath() + "/setValueBySystem?code=forDebug";
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
 			Request request = new Request.Builder()
@@ -126,7 +188,9 @@ public abstract class AbstractIndependentMain {
 				.build();
 			
             Response response = client.newCall(request).execute();
-            response.body().string();
+           // response.body().string();
+            
+            response.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -138,7 +202,7 @@ public abstract class AbstractIndependentMain {
 
 		try {
 			String json = new ObjectMapper().writeValueAsString(blob);
-	        String url = getServer() + "/rest/"+ getPath() + "/domain/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
+	        String url = getServer() + "/rest/"+ getPath() + "/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
 	        		+ "&name=" + name + "&classname=" + blob.getClass().getName();
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
@@ -148,7 +212,8 @@ public abstract class AbstractIndependentMain {
 				.build();
 			
             Response response = client.newCall(request).execute();
-            response.body().string();
+            response.close();
+  //          response.body().string();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,7 +233,7 @@ public abstract class AbstractIndependentMain {
 			id = id2;
 			index = "0";
 		}
-        String url = getServer() + "/rest/"+ getPath() + "/domain/getProperty?index=" + index + "&code=forDebug&id=" + id;
+        String url = getServer() + "/rest/"+ getPath() + "/getProperty?index=" + index + "&code=forDebug&id=" + id;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -179,7 +244,8 @@ public abstract class AbstractIndependentMain {
             ResponseBody body = response.body();
             if (body != null) {
                 result = body.string();
-                
+                body.close();
+                response.close();
                 LightProperty uiProperty = new ObjectMapper().readValue(result, LightProperty.class);
                 return uiProperty;
             }
@@ -190,7 +256,7 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	private String getPath() {
-		return this.application;
+		return this.application + "/domain/" + deviceName;
 	}
 
 	private SvHandlerModel model = new SvHandlerModel() {
