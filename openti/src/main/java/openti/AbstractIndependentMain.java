@@ -46,33 +46,7 @@ public abstract class AbstractIndependentMain {
 		this.application = application;
 		this.deviceName = deviceName;
 		
-		Thread thread = new Thread() {
-			@Override
-			public void run() {
-				init();
-			}
-		};
-		
-        thread.start();
-        
-        try {
-			thread.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		init();
-		
-		try {
-			synchronized(this) {
-				this.wait();
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-        logout();
+		init();
 	}
 	private void init() {
 		client = new OkHttpClient.Builder().build();// new OkHttpClient();;
