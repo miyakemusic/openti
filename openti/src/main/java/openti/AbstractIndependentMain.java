@@ -17,7 +17,9 @@ import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.EasyAccessInterface;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor;
+import jp.silverbullet.web.ChangesJson;
 import jp.silverbullet.web.WebSocketClientHandler;
+import jp.silverbullet.web.WebSocketMessage;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -57,15 +59,17 @@ public abstract class AbstractIndependentMain {
 			clienteHandler = new WebSocketClientHandler(host, port) {
 				@Override
 				protected void onMessageReceived(String message2) {
-					Map<String, List<ChangedItemValue>> changed;
+					//Map<String, List<ChangedItemValue>> changed;
 					try {
-						changed = new ObjectMapper().readValue(message2, Map.class);
-						if (isTargetIdChanged(changed)) {
+						ChangesJson changed = new ObjectMapper().readValue(message2, ChangesJson.class);
+//						WebSocketMessage wm = new ObjectMapper().readValue(message2, WebSocketMessage.class);
+//						System.out.println(wm);
+						if (isTargetIdChanged(changed.getChanges())) {
 							new Thread() {
 								@Override
 								public void run() {
 									try {
-										handle(changed);
+										handle(changed.getChanges());
 									} catch (RequestRejectedException e) {
 										e.printStackTrace();
 									}

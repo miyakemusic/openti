@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
+import jp.silverbullet.core.dependency2.DependencySpec;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
+import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import openti.UserEasyAccess.EnumOscTestcontrol;
 import openti.UserRegister.OSCILLO_TEST;
@@ -18,11 +20,8 @@ public class Oscillo {
 	public void doOscillo(Map<String, List<ChangedItemValue>> changed, UserEasyAccess properties, UserRegister registers,
 			SvHandlerModel model) {
 		
-//		if (!changed.containsKey(ID.ID_OSC_TESTCONTROL)) {
-//			return;
-//		}
-		
-		if (properties.getOscTestcontrol().compareTo(EnumOscTestcontrol.ID_OSC_TESTCONTROL_START) == 0) {	
+		if (compareValue(changed, ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TESTCONTROL_START)) {
+//		if (properties.getOscTestcontrol().compareTo(EnumOscTestcontrol.ID_OSC_TESTCONTROL_START) == 0) {	
 			registers.oscillo_test.set(OSCILLO_TEST.TRGPOS, properties.getOscTrigger().intValue()).write();
 			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x01).write();
 			registers.waitInterrupt();
@@ -53,12 +52,31 @@ public class Oscillo {
 			}.start();
 			
 		}
-		else if (properties.getOscTestcontrol().compareTo(EnumOscTestcontrol.ID_OSC_TESTCONTROL_STOP) == 0) {	
+		else if (compareValue(changed, ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TESTCONTROL_STOP)) {
+//		else if (properties.getOscTestcontrol().compareTo(EnumOscTestcontrol.ID_OSC_TESTCONTROL_STOP) == 0) {	
 			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x00).write();
 			stop = true;
 		}
 	}
 	public List<String> getIds() {
 		return Arrays.asList(ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TRIGGER);
+	}
+	
+	private boolean compareValue(Map<String, List<ChangedItemValue>> changed, String id,
+			String value) {
+		for (String id2 : changed.keySet()) {
+			if (!RuntimeProperty.convertSimpleId(id2).equals(id)) {
+				continue;
+			}
+			List<ChangedItemValue> changes = changed.get(id2);
+			for (ChangedItemValue v : changes) {
+				if (v.getElement().equals(DependencySpec.Value)) {
+					if (v.getValue().equals(value)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

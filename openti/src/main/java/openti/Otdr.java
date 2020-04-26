@@ -13,9 +13,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
+import jp.silverbullet.core.dependency2.DependencySpec;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.ChartContent;
 import jp.silverbullet.core.property2.JsTableContent;
+import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import openti.UserEasyAccess.EnumCollecmode;
 import openti.UserEasyAccess.EnumDistancerange;
@@ -30,8 +32,8 @@ public class Otdr {
 
 	public void doOtdr(Map<String, List<ChangedItemValue>> changed, UserEasyAccess properties, UserRegister registers,
 			SvHandlerModel model) throws RequestRejectedException {
-				
-		if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {			
+		
+		if (compareValue(changed, ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_START)) {
 			stopRequested = false;
 			
 			if (properties.getCollecmode().compareTo(EnumCollecmode.ID_COLLECMODE_OPTIMIZED) == 0) {
@@ -141,9 +143,27 @@ public class Otdr {
 			}
 			properties.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
 		}
-		else if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP) == 0) {	
+		else if (compareValue(changed, ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_STOP)) {
 			this.stopRequested = true;
 		}
+	}
+
+	private boolean compareValue(Map<String, List<ChangedItemValue>> changed, String id,
+			String value) {
+		for (String id2 : changed.keySet()) {
+			if (!RuntimeProperty.convertSimpleId(id2).equals(id)) {
+				continue;
+			}
+			List<ChangedItemValue> changes = changed.get(id2);
+			for (ChangedItemValue v : changes) {
+				if (v.getElement().equals(DependencySpec.Value)) {
+					if (v.getValue().equals(value)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public List<String> getIds() {
