@@ -16,13 +16,13 @@ public class OtdrOscillo extends AbstractIndependentMain {
 	private UserEasyAccess properties;
 	private UserRegister registers;
 	
-	public OtdrOscillo(String host, String port, String deviceName) {
-		super(host, port, "miyake_otdr", deviceName);
+	public OtdrOscillo(String host, String port, String username, String application, String deviceName) {
+		super(host, port, username, application, deviceName);
 	}
 
 	public static void main(String[] args) {
 		try {
-			new OtdrOscillo(args[0],args[1], args[2]);
+			new OtdrOscillo(args[0],args[1], args[2], args[3], args[4]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,6 +21,7 @@ import jp.silverbullet.core.sequncer.SystemAccessor;
 import jp.silverbullet.web.ChangesJson;
 import jp.silverbullet.web.WebSocketClientHandler;
 import jp.silverbullet.web.WebSocketMessage;
+import jp.silverbullet.web.WsLoginMessage;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -41,13 +43,14 @@ public abstract class AbstractIndependentMain {
 	private String application;
 	private OkHttpClient client;// = new OkHttpClient.Builder().build();// new OkHttpClient();
 	private String deviceName;
+	private String userid;
 	
-	public AbstractIndependentMain(String host, String port, String application, String deviceName) {
+	public AbstractIndependentMain(String host, String port, String userid, String application, String deviceName) {
 		this.host = host;
 		this.port = port;
 		this.application = application;
 		this.deviceName = deviceName;
-		
+		this.userid = userid;
 		init();
 	}
 	private void init() {
@@ -83,15 +86,23 @@ public abstract class AbstractIndependentMain {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					
 				}
 
 				@Override
 				protected void onRecconected() {
-					login(WebSocketClientHandler.DomainModel, deviceName);
+					try {
+						doWsLogin();
+					} catch (JsonProcessingException e) {
+						e.printStackTrace();
+					}
+				}
+
+				private void doWsLogin() throws JsonProcessingException {
+					String str = createMessage();
+					login(str);
 				}
 			};
-			clienteHandler.login(WebSocketClientHandler.DomainModel, deviceName);
+			clienteHandler.login(createMessage());
 			
 			login(application, deviceName);
 		} catch (Exception e) {
@@ -100,7 +111,7 @@ public abstract class AbstractIndependentMain {
 	}
 
 	private void login(String application2, String deviceName2) {
-        String url = getServer() + "/rest/"+ getPath() + "/login?code=forDebug";
+        String url = getServer() + "/rest/"+ getPath() + "/login?userid=" + userid + "&code=forDebug";
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -117,7 +128,7 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	private void logout() {
-        String url = getServer() + "/rest/"+ getPath() + "/logout?code=forDebug";
+        String url = getServer() + "/rest/"+ getPath() + "/logout?userid=" + userid + "&code=forDebug";
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -157,7 +168,7 @@ public abstract class AbstractIndependentMain {
 		
 		try {
 			String json = new ObjectMapper().writeValueAsString(prop);
-	        String url = getServer() + "/rest/" + getPath() + "/setValueBySystem?code=forDebug";
+	        String url = getServer() + "/rest/" + getPath() + "/setValueBySystem?userid=" + userid + "&code=forDebug";
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
 			Request request = new Request.Builder()
@@ -180,7 +191,8 @@ public abstract class AbstractIndependentMain {
 
 		try {
 			String json = new ObjectMapper().writeValueAsString(blob);
-	        String url = getServer() + "/rest/"+ getPath() + "/postValueBySystem?index=" + index + "&code=forDebug&id=" + id
+	        String url = getServer() + "/rest/"+ getPath() + "/postValueBySystem?index=" + index + 
+	        		"&userid=" + userid + "&code=forDebug&id=" + id
 	        		+ "&name=" + name + "&classname=" + blob.getClass().getName();
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
@@ -211,7 +223,8 @@ public abstract class AbstractIndependentMain {
 			id = id2;
 			index = "0";
 		}
-        String url = getServer() + "/rest/"+ getPath() + "/getProperty?index=" + index + "&code=forDebug&id=" + id;
+        String url = getServer() + "/rest/"+ getPath() + "/getProperty?index=" + index + 
+        		"&userid=" + userid + "&code=forDebug&id=" + id;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -312,6 +325,15 @@ public abstract class AbstractIndependentMain {
 
 	public SvHandlerModel getModel() {
 		return model;
+	}
+	private String createMessage() throws JsonProcessingException {
+		WsLoginMessage message = new WsLoginMessage();
+		message.application = application;
+		message.userid = userid;
+		message.device = deviceName;
+		message.type = WsLoginMessage.DomainModel;
+		String str = new ObjectMapper().writeValueAsString(message);
+		return str;
 	}
 	
 }
