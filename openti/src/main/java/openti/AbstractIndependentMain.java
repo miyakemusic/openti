@@ -1,13 +1,23 @@
 package openti;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.codec.binary.Base64;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.services.drive.model.File;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
@@ -19,6 +29,11 @@ import jp.silverbullet.core.sequncer.EasyAccessInterface;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor;
 import jp.silverbullet.web.ChangesJson;
+import jp.silverbullet.web.FilePendingResponse;
+import jp.silverbullet.web.FileUploadMessage;
+import jp.silverbullet.web.MessageToDevice;
+import jp.silverbullet.web.SilverBulletServer;
+import jp.silverbullet.web.SystemResource;
 import jp.silverbullet.web.WebSocketClientHandler;
 import jp.silverbullet.web.WebSocketMessage;
 import jp.silverbullet.web.WsLoginMessage;
@@ -44,15 +59,74 @@ public abstract class AbstractIndependentMain {
 	private OkHttpClient client;// = new OkHttpClient.Builder().build();// new OkHttpClient();
 	private String deviceName;
 	private String userid;
+	private IMainUI mainUI;
+//	protected FileUploadMessage fileUploadMessage;
+	private FilePendingResponse pendingFiles;
+	private boolean headless;
 	
-	public AbstractIndependentMain(String host, String port, String userid, String application, String deviceName) {
+//	private List<FileUploadMessage> pendingFiles = new ArrayList<>();
+
+	public AbstractIndependentMain(String host, String port, String userid, String application, 
+			String deviceName, boolean headless) {
 		this.host = host;
 		this.port = port;
 		this.application = application;
 		this.deviceName = deviceName;
 		this.userid = userid;
+		this.headless = headless;
+		
 		init();
+		
+		if (!this.headless) {
+			mainUI = new MainUI() {
+				@Override
+				protected void onWindowClosed() {
+					logout();
+				}
+	
+				@Override
+				protected void downloadPendingFiles() {
+					for (File file : pendingFiles.list) {
+						AbstractIndependentMain.this.download(file.getId(), file.getName(), file.getParents().toString());	
+					}
+	
+					getPendingFiles();
+				}
+	
+				@Override
+				protected List<File> getPendingFileList() {
+					return AbstractIndependentMain.this.getPendingFiles();
+				}
+			};
+			mainUI.setDeviceName(deviceName);
+			mainUI.setVisible(true);
+		}
+		else {
+			mainUI = new DummyUI();
+		}
 	}
+	
+	protected List<com.google.api.services.drive.model.File> getPendingFiles() {
+        String url = getServer() + "/rest/"+ getPath() + "/pendingFiles?userid=" + userid + "&code=forDebug";
+        Request request = new Request.Builder().url(url).get().build();
+
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            ResponseBody body = response.body();
+            if (body != null) {
+            	pendingFiles = new ObjectMapper().readValue(body.string(), FilePendingResponse.class);
+            	return pendingFiles.list;
+            }
+            body.close();
+            response.close();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+	}
+	
 	private void init() {
 		client = new OkHttpClient.Builder().build();// new OkHttpClient();;
         
@@ -62,30 +136,36 @@ public abstract class AbstractIndependentMain {
 			clienteHandler = new WebSocketClientHandler(host, port) {
 				@Override
 				protected void onMessageReceived(String message2) {
-					//Map<String, List<ChangedItemValue>> changed;
 					try {
-						ChangesJson changed = new ObjectMapper().readValue(message2, ChangesJson.class);
-//						WebSocketMessage wm = new ObjectMapper().readValue(message2, WebSocketMessage.class);
-//						System.out.println(wm);
-						if (isTargetIdChanged(changed.getChanges())) {
-							new Thread() {
-								@Override
-								public void run() {
-									try {
-										handle(changed.getChanges());
-									} catch (RequestRejectedException e) {
-										e.printStackTrace();
+						MessageToDevice m = new ObjectMapper().readValue(message2, MessageToDevice.class);
+						
+						if (m.type.equals(MessageToDevice.PROPERTYUPDATED)) {
+							ChangesJson changed = new ObjectMapper().readValue(m.json, ChangesJson.class);
+	//						WebSocketMessage wm = new ObjectMapper().readValue(message2, WebSocketMessage.class);
+	//						System.out.println(wm);
+							if (isTargetIdChanged(changed.getChanges())) {
+								new Thread() {
+									@Override
+									public void run() {
+										try {
+											handle(changed.getChanges());
+										} catch (RequestRejectedException e) {
+											e.printStackTrace();
+										}
 									}
-								}
-							}.start();
+								}.start();
+							}
 						}
-					} catch (JsonParseException e) {
-						e.printStackTrace();
-					} catch (JsonMappingException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
+						else if (m.type.equals(MessageToDevice.FILEREADY)){
+							pendingFiles = new ObjectMapper().readValue(m.json, FilePendingResponse.class);
+							
+							mainUI.onPendingFilesUpdated(pendingFiles.list);
+							//download(fm.fileID, fm.path);
+						}
+					} catch (IOException e1) {
+						e1.printStackTrace();
 					}
+
 				}
 
 				@Override
@@ -110,6 +190,47 @@ public abstract class AbstractIndependentMain {
 		}
 	}
 
+	protected void download(String fileID, String filename, String path) {
+        String url = getServer() + "/rest/"+ getPath() + "/download?userid=" + userid + "&fileid=" + fileID + "&code=forDebug";
+        Request request = new Request.Builder().url(url).get().build();
+
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            ResponseBody body = response.body();
+            if (body != null) {
+            	//this.writeResponseBodyToDisk(body, filename);
+            	byte[] b = Base64.decodeBase64(body.string());
+            	Files.write(Paths.get(filename), b, StandardOpenOption.CREATE);
+            }
+            body.close();
+            response.close();
+            
+            confirmDonwloaded(fileID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void confirmDonwloaded(String fileID) {
+        String url = getServer() + "/rest/"+ getPath() + "/downloadCompleted?userid=" + userid + "&fileid=" + fileID + "&code=forDebug";
+        Request request = new Request.Builder().url(url).get().build();
+
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            ResponseBody body = response.body();
+            if (body != null) {
+
+            }
+            body.close();
+            response.close();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }		
+	}
+	
 	private void login(String application2, String deviceName2) {
         String url = getServer() + "/rest/"+ getPath() + "/login?userid=" + userid + "&code=forDebug";
         Request request = new Request.Builder().url(url).get().build();
@@ -335,5 +456,4 @@ public abstract class AbstractIndependentMain {
 		String str = new ObjectMapper().writeValueAsString(message);
 		return str;
 	}
-	
 }

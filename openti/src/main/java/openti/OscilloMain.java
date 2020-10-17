@@ -14,13 +14,13 @@ public class OscilloMain extends AbstractIndependentMain {
 	private UserRegister registers;
 	private Oscillo oscillo = new Oscillo();
 	
-	public OscilloMain(String host, String port, String username, String application, String deviceName) {
-		super(host, port, username, application, deviceName);
+	public OscilloMain(String host, String port, String username, String application, String deviceName, boolean headless) {
+		super(host, port, username, application, deviceName, headless);
 	}
 
 	public static void main(String[] args) {
 		try {
-			new OscilloMain(args[0],args[1], args[2], args[3], args[4]);
+			new OscilloMain(args[0],args[1], args[2], args[3], args[4], args[5].equals("true"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

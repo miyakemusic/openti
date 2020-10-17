@@ -508,4 +508,14 @@ public class UserEasyAccess {
     public EnumStopActionStatus getStopActionStatus() {
         return EnumStopActionStatus.valueOf(model.getCurrentValue(ID.ID_STOP_ACTION_STATUS));
     }
+    public enum EnumVipcontrol{
+        ID_VIPCONTROL_START,
+        ID_VIPCONTROL_STOP,
+    };
+    public void setVipcontrol(EnumVipcontrol value) throws RequestRejectedException {
+        model.requestChange(ID.ID_VIPCONTROL, value.toString());
+    }
+    public EnumVipcontrol getVipcontrol() {
+        return EnumVipcontrol.valueOf(model.getCurrentValue(ID.ID_VIPCONTROL));
+    }
 }

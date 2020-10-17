@@ -33,7 +33,7 @@ public class Otdr {
 	public void doOtdr(Map<String, List<ChangedItemValue>> changed, UserEasyAccess properties, UserRegister registers,
 			SvHandlerModel model) throws RequestRejectedException {
 		
-		if (compareValue(changed, ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_START)) {
+		if (Utils.compareValue(changed, ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_START)) {
 			stopRequested = false;
 			
 			if (properties.getCollecmode().compareTo(EnumCollecmode.ID_COLLECMODE_OPTIMIZED) == 0) {
@@ -143,28 +143,12 @@ public class Otdr {
 			}
 			properties.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP);
 		}
-		else if (compareValue(changed, ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_STOP)) {
+		else if (Utils.compareValue(changed, ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_STOP)) {
 			this.stopRequested = true;
 		}
 	}
 
-	private boolean compareValue(Map<String, List<ChangedItemValue>> changed, String id,
-			String value) {
-		for (String id2 : changed.keySet()) {
-			if (!RuntimeProperty.convertSimpleId(id2).equals(id)) {
-				continue;
-			}
-			List<ChangedItemValue> changes = changed.get(id2);
-			for (ChangedItemValue v : changes) {
-				if (v.getElement().equals(DependencySpec.Value)) {
-					if (v.getValue().equals(value)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+
 
 	public List<String> getIds() {
 		return Arrays.asList(ID.ID_OTDR_TESTCONTROL);

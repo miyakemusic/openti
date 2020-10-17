@@ -167,4 +167,11 @@ public class ID {
 	public static final String ID_STOP_ACTION_STATUS="ID_STOP_ACTION_STATUS";
 	public static final String ID_STOP_ACTION_STATUS_DISABLED="ID_STOP_ACTION_STATUS_DISABLED";
 	public static final String ID_STOP_ACTION_STATUS_ENABLED="ID_STOP_ACTION_STATUS_ENABLED";
+	public static final String ID_FILE_SAVE_RESULT="ID_FILE_SAVE_RESULT";
+	public static final String ID_EXPORT_REPORT="ID_EXPORT_REPORT";
+	public static final String ID_FILE_SAVE_SETUP="ID_FILE_SAVE_SETUP";
+	public static final String ID_VIPIMAGE="ID_VIPIMAGE";
+	public static final String ID_VIPCONTROL="ID_VIPCONTROL";
+	public static final String ID_VIPCONTROL_START="ID_VIPCONTROL_START";
+	public static final String ID_VIPCONTROL_STOP="ID_VIPCONTROL_STOP";
 }

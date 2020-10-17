@@ -67,8 +67,45 @@
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
-						<!-- <appendAssemblyId>false</appendAssemblyId> -->
 						<finalName>oscillo</finalName>
+					</configuration>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>build-oscillootdr</id>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>openti.OtdrOscillo</mainClass>
+							</manifest>
+						</archive>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<!-- <appendAssemblyId>false</appendAssemblyId> -->
+						<finalName>otdroscillo</finalName>
+					</configuration>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>build-otdrsocketserver</id>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>openti.server.SocketServer</mainClass>
+							</manifest>
+						</archive>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<!-- <appendAssemblyId>false</appendAssemblyId> -->
+						<finalName>otdrsocketserver</finalName>
 					</configuration>
 					<phase>package</phase>
 					<goals>
@@ -260,6 +297,35 @@
 	    <artifactId>mybatis</artifactId>
 	    <version>3.5.4</version>
 	</dependency>
-	
+	<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+	<dependency>
+	    <groupId>commons-codec</groupId>
+	    <artifactId>commons-codec</artifactId>
+	    <version>1.9</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.google.api-client</groupId>
+	    <artifactId>google-api-client</artifactId>
+	    <version>1.23.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.google.oauth-client</groupId>
+	    <artifactId>google-oauth-client-jetty</artifactId>
+	    <version>1.23.0</version>
+	</dependency>	
+	<dependency>
+	    <groupId>com.google.apis</groupId>
+	    <artifactId>google-api-services-drive</artifactId>
+	    <version>v3-rev110-1.23.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/opencv/opencv -->
+	<dependency>
+	    <groupId>opencv</groupId>
+	    <artifactId>opencv</artifactId>
+	    <version>4.5.0</version>
+	    <scope>system</scope>
+	    <systemPath>C:\opencv\build\java\opencv-450.jar</systemPath>
+	</dependency>
+
   </dependencies>
 </project>

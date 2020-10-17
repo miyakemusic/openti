@@ -13,12 +13,12 @@ import openti.test.SimHardware;
 public class OtdrMain extends AbstractIndependentMain {
 	private Otdr otdr = new Otdr();
 
-	public OtdrMain(String host, String port, String username, String application, String deviceName) {
-		super(host, port, username, application, deviceName);
+	public OtdrMain(String host, String port, String username, String application, String deviceName, boolean headless) {
+		super(host, port, username, application, deviceName, headless);
 	}
 
 	public static void main(String[] args) {
-		new OtdrMain(args[0], args[1], args[2], args[3], args[4]);
+		new OtdrMain(args[0], args[1], args[2], args[3], args[4], args[5].equals("true"));
 	}
 	
 	private UserEasyAccess properties;

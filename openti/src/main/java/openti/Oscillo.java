@@ -20,7 +20,7 @@ public class Oscillo {
 	public void doOscillo(Map<String, List<ChangedItemValue>> changed, UserEasyAccess properties, UserRegister registers,
 			SvHandlerModel model) {
 		
-		if (compareValue(changed, ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TESTCONTROL_START)) {
+		if (Utils.compareValue(changed, ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TESTCONTROL_START)) {
 //		if (properties.getOscTestcontrol().compareTo(EnumOscTestcontrol.ID_OSC_TESTCONTROL_START) == 0) {	
 			registers.oscillo_test.set(OSCILLO_TEST.TRGPOS, properties.getOscTrigger().intValue()).write();
 			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x01).write();
@@ -52,7 +52,7 @@ public class Oscillo {
 			}.start();
 			
 		}
-		else if (compareValue(changed, ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TESTCONTROL_STOP)) {
+		else if (Utils.compareValue(changed, ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TESTCONTROL_STOP)) {
 //		else if (properties.getOscTestcontrol().compareTo(EnumOscTestcontrol.ID_OSC_TESTCONTROL_STOP) == 0) {	
 			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x00).write();
 			stop = true;
@@ -61,22 +61,5 @@ public class Oscillo {
 	public List<String> getIds() {
 		return Arrays.asList(ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TRIGGER);
 	}
-	
-	private boolean compareValue(Map<String, List<ChangedItemValue>> changed, String id,
-			String value) {
-		for (String id2 : changed.keySet()) {
-			if (!RuntimeProperty.convertSimpleId(id2).equals(id)) {
-				continue;
-			}
-			List<ChangedItemValue> changes = changed.get(id2);
-			for (ChangedItemValue v : changes) {
-				if (v.getElement().equals(DependencySpec.Value)) {
-					if (v.getValue().equals(value)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+
 }
