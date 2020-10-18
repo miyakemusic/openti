@@ -518,4 +518,16 @@ public class UserEasyAccess {
     public EnumVipcontrol getVipcontrol() {
         return EnumVipcontrol.valueOf(model.getCurrentValue(ID.ID_VIPCONTROL));
     }
+    public enum EnumVipstatus{
+        ID_VIPSTATUS_FAIL,
+        ID_VIPSTATUS_NORESULT,
+        ID_VIPSTATUS_PASS,
+        ID_VIPSTATUS_TESTING,
+    };
+    public void setVipstatus(EnumVipstatus value) throws RequestRejectedException {
+        model.requestChange(ID.ID_VIPSTATUS, value.toString());
+    }
+    public EnumVipstatus getVipstatus() {
+        return EnumVipstatus.valueOf(model.getCurrentValue(ID.ID_VIPSTATUS));
+    }
 }

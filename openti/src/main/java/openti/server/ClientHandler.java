@@ -73,6 +73,16 @@ public class ClientHandler {
         		}
         		writer.println("1");
         	}
+        	else {
+        		String[] tmp = line.split("=");
+        		if (line.endsWith("?")) {
+            		String value = otdrModel.getValue(line.replace("?", ""));
+            		writer.println(value);	
+        		}
+        		else {
+        			otdrModel.requestChange(tmp[0], tmp[1]);
+        		}
+        	}
         }
 	}
 }

@@ -14,19 +14,27 @@ import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
-import jp.silverbullet.core.sequncer.SvHandlerModel;
-
 public 	abstract class VipSimulator {
 	private boolean stopFlag = false;
 	private BufferedImage originalImage;
 
 	public VipSimulator() {
-		System.load("C:\\opencv\\build\\java\\x64\\opencv_java450.dll");
+		if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
+			System.load("C:\\opencv\\build\\java\\x64\\opencv_java450.dll");
+		}
+		else {
+			System.load("/usr/local/lib/libopencv_java450.so");
+		}
+		
         try {
 			originalImage = ImageIO.read(new File(getClass().getResource("/openti/test/Microscope-SM.jpg").getPath()));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				originalImage = ImageIO.read(new File("Microscope-SM.jpg"));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -38,7 +46,7 @@ public 	abstract class VipSimulator {
 		new Thread() {
 			@Override
 			public void run() {
-				num = 199;
+				num = 99;
 				sigma = 20;
 
 				while(true) {
@@ -60,6 +68,7 @@ public 	abstract class VipSimulator {
 			        
 			        onUpdate(mob.toArray());
 			        if (num <= 0) {
+			        	onComplete();
 			        	break;
 			        }
 
@@ -75,7 +84,8 @@ public 	abstract class VipSimulator {
 	}
 
 	abstract protected void onUpdate(byte[] bytes);
-
+	abstract protected void onComplete();
+	
 	public void stop() {
 		stopFlag = true;
 	}

@@ -174,4 +174,9 @@ public class ID {
 	public static final String ID_VIPCONTROL="ID_VIPCONTROL";
 	public static final String ID_VIPCONTROL_START="ID_VIPCONTROL_START";
 	public static final String ID_VIPCONTROL_STOP="ID_VIPCONTROL_STOP";
+	public static final String ID_VIPSTATUS="ID_VIPSTATUS";
+	public static final String ID_VIPSTATUS_FAIL="ID_VIPSTATUS_FAIL";
+	public static final String ID_VIPSTATUS_NORESULT="ID_VIPSTATUS_NORESULT";
+	public static final String ID_VIPSTATUS_PASS="ID_VIPSTATUS_PASS";
+	public static final String ID_VIPSTATUS_TESTING="ID_VIPSTATUS_TESTING";
 }

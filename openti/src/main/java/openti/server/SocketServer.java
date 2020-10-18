@@ -8,18 +8,19 @@ import jp.silverbullet.swing.SwingGui;
 
 public class SocketServer {
 	public static void main(String[] arg) {
-		new SocketServer();
+		new SocketServer(arg[0], arg[1]);
 	}
 
 	private StandaloneOtdrModel otdrModel;
 	
-	public SocketServer() {
-		init();
+	public SocketServer(String port, String gui) {
+		String title = gui + "(" + port + ")";
+		init(gui, title);
 		
 		ServerSocket sSocket = null;
 		
 		try{
-			sSocket = new ServerSocket(8083);
+			sSocket = new ServerSocket(Integer.valueOf(port));
 			
 			while(true) {
 				System.out.println("Waiting for client");
@@ -41,9 +42,10 @@ public class SocketServer {
 		}
 	}
 
-	private void init() {
+	private void init(String gui, String title) {
 		otdrModel = new StandaloneOtdrModel("miyake_otdr.zip");
-		new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), otdrModel.getBlobStore(), otdrModel.getSequencer()).setVisible(true);
+		new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), 
+				otdrModel.getBlobStore(), otdrModel.getSequencer(), gui, title).setVisible(true);
 	}
 	
 

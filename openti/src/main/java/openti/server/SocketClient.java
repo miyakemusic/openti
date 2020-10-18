@@ -1,6 +1,7 @@
 package openti.server;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,14 +11,26 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import openti.ScriptManager;
+
 
 public class SocketClient extends JFrame {
 
@@ -30,6 +43,7 @@ public class SocketClient extends JFrame {
 	private BufferedReader reader;
 	private JTextArea textArea;
 	private JTextField host;
+	private JTextField port;
 
 	public SocketClient() {
 		setSize(800, 600);
@@ -60,6 +74,20 @@ public class SocketClient extends JFrame {
 		host = new JTextField("192.168.10.3");
 		panel.add(host);
 		
+		port = new JTextField("8083");
+		panel.add(port);
+		
+		JTextField command = new JTextField("");
+		panel.add(command);
+		command.setPreferredSize(new Dimension(100, 24));
+		JButton send = new JButton("Send");
+		panel.add(send);
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				writer.println(command.getText());
+			}
+		});
 		
 		JButton startButton = new JButton("Start");
 		panel.add(startButton);
@@ -75,18 +103,23 @@ public class SocketClient extends JFrame {
 		traceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				retreiveTrace();
+				try {
+					retreiveTrace();
+				} catch (ScriptException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});		
-		
-		JButton allButton = new JButton("Start&Trace");
-		panel.add(allButton);
-		allButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				startAndTrace();
-			}
-		});		
+//		
+//		JButton allButton = new JButton("Start&Trace");
+//		panel.add(allButton);
+//		allButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				startAndTrace();
+//			}
+//		});		
 		textArea = new JTextArea();
 		this.add(textArea, BorderLayout.CENTER);
 		
@@ -101,23 +134,72 @@ public class SocketClient extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		retreiveTrace();
+
 	}
 
-	protected void retreiveTrace() {
-		writer.println("TRACE?");
+
+	protected void startTest() {
 		try {
-			String reply = reader.readLine();
-			textArea.setText(reply);
+			List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\miyak\\git\\openti\\openti\\target\\script.txt"));
+			for (String line : lines) {
+				String[] tmp = line.split(";");
+				String addr = tmp[0];
+				String command = tmp[1];
+				
+				PrintWriter writer = getWriter(addr);
+				BufferedReader reader = getReader(addr);
+				
+				textArea.setText(textArea.getText() + "\n" + line);
+				writer.println(command);
+				if (command.endsWith("?")) {
+					String reply = reader.readLine();
+					textArea.setText(textArea.getText() + "\n" + "-->" + reply);
+				}
+				Thread.sleep(1000);
+			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	protected void startTest() {
-		writer.println("START");
+	class SocketObj {
+		public SocketObj(String host, int port) {
+			try {
+				socket = new Socket(host, port);
+				writer = new PrintWriter(socket.getOutputStream(), true);
+				reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		private Socket socket;
+		PrintWriter writer;
+		BufferedReader reader;
+	}
+	Map<String, SocketObj> sockets = new HashMap<>();
+	
+	private BufferedReader getReader(String addr) {
+		if (!sockets.containsKey(addr)) {
+			String[] tmp = addr.split(":");
+			String host = tmp[0];
+			int port = Integer.valueOf(tmp[1]);
+			sockets.put(addr, new SocketObj(host, port));
+		}
+		return sockets.get(addr).reader;
+	}
+
+	private PrintWriter getWriter(String addr) {
+		if (!sockets.containsKey(addr)) {
+			String[] tmp = addr.split(":");
+			String host = tmp[0];
+			int port = Integer.valueOf(tmp[1]);
+			sockets.put(addr, new SocketObj(host, port));
+		}
+		return sockets.get(addr).writer;
 	}
 
 	protected void connect() throws UnknownHostException, IOException {
@@ -125,10 +207,17 @@ public class SocketClient extends JFrame {
 			cSocket.close();
 		}
 		
-		cSocket = new Socket(host.getText(), 8083);
+		cSocket = new Socket(host.getText(), Integer.valueOf(port.getText()));
 
 		writer = new PrintWriter(cSocket.getOutputStream(), true);
 		reader = new BufferedReader(new InputStreamReader(cSocket.getInputStream()));
 		this.textArea.setText(reader.readLine());
 	}
+	
+
+	protected void retreiveTrace() throws ScriptException {
+		new ScriptManager().test2();
+	}
+	
+
 }

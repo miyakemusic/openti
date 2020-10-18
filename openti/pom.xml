@@ -35,7 +35,7 @@
 		</plugin>
 
 		<plugin>
-             <artifactId>maven-assembly-plugin</artifactId>
+			<artifactId>maven-assembly-plugin</artifactId>
 			<executions>
 				<execution>
 					<id>build-otdr</id>
@@ -94,6 +94,26 @@
 					</goals>
 				</execution>
 				<execution>
+					<id>build-vip</id>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>openti.VipMain</mainClass>
+							</manifest>
+						</archive>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<!-- <appendAssemblyId>false</appendAssemblyId> -->
+						<finalName>vip</finalName>
+						<includeSystemScope>true</includeSystemScope>
+					</configuration>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				</execution>
+				<execution>
 					<id>build-otdrsocketserver</id>
 					<configuration>
 						<archive>
@@ -101,6 +121,7 @@
 								<mainClass>openti.server.SocketServer</mainClass>
 							</manifest>
 						</archive>
+						
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
