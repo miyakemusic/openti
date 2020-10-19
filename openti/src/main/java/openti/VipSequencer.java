@@ -19,8 +19,6 @@ public class VipSequencer implements UserSequencer {
 		protected void onUpdate(byte[] bytes) {
 			String base64 = Base64.encodeBase64String(bytes);
 			try {
-				model.getEasyAccessInterface().requestChange(ID.ID_VIPSTATUS, ID.ID_VIPSTATUS_TESTING);
-
 				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, "data:image/png;base64," + base64);
 			} catch (RequestRejectedException e) {
 				e.printStackTrace();
@@ -40,6 +38,16 @@ public class VipSequencer implements UserSequencer {
 			} catch (RequestRejectedException e) {
 				e.printStackTrace();
 			}	
+		}
+
+		@Override
+		protected void onStart() {
+			try {
+				model.getEasyAccessInterface().requestChange(ID.ID_VIPSTATUS, ID.ID_VIPSTATUS_TESTING);
+			} catch (RequestRejectedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	};

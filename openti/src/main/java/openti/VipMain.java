@@ -27,7 +27,6 @@ public class VipMain extends AbstractIndependentMain {
 			String base64 = "data:image/png;base64," + Base64.encodeBase64String(bytes);
 			
 			try {
-				getModel().getEasyAccessInterface().requestChange(ID.ID_VIPSTATUS, ID.ID_VIPSTATUS_TESTING);
 				getModel().getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, base64,String.valueOf(Calendar.getInstance().getTime().getTime()));
 			} catch (RequestRejectedException e) {
 				e.printStackTrace();
@@ -48,6 +47,17 @@ public class VipMain extends AbstractIndependentMain {
 			} catch (RequestRejectedException e) {
 				e.printStackTrace();
 			}				
+		}
+
+		@Override
+		protected void onStart() {
+			try {
+				getModel().getEasyAccessInterface().requestChange(ID.ID_VIPSTATUS, ID.ID_VIPSTATUS_TESTING);
+			} catch (RequestRejectedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 	};
 	

@@ -41,6 +41,7 @@ public 	abstract class VipSimulator {
 	double num = 0;
 	double sigma = 20;
 	public void start() {
+		onStart();
 		stopFlag = false;
 		
 		new Thread() {
@@ -85,6 +86,7 @@ public 	abstract class VipSimulator {
 
 	abstract protected void onUpdate(byte[] bytes);
 	abstract protected void onComplete();
+	abstract protected void onStart();
 	
 	public void stop() {
 		stopFlag = true;

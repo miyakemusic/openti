@@ -28,6 +28,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import openti.ScriptManager;
 
@@ -103,12 +104,18 @@ public class SocketClient extends JFrame {
 		traceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					retreiveTrace();
-				} catch (ScriptException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				new Thread() {
+					@Override
+					public void run() {
+						try {
+							retreiveTrace();
+						} catch (ScriptException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+				}.start();
 			}
 		});		
 //		
@@ -172,6 +179,7 @@ public class SocketClient extends JFrame {
 				socket = new Socket(host, port);
 				writer = new PrintWriter(socket.getOutputStream(), true);
 				reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				reader.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -211,13 +219,56 @@ public class SocketClient extends JFrame {
 
 		writer = new PrintWriter(cSocket.getOutputStream(), true);
 		reader = new BufferedReader(new InputStreamReader(cSocket.getInputStream()));
+
 		this.textArea.setText(reader.readLine());
 	}
 	
 
 	protected void retreiveTrace() throws ScriptException {
-		new ScriptManager().test2();
-	}
-	
+		this.textArea.setText("");
+		new ScriptManager() {
 
+			@Override
+			public void write(String addr, String command) {
+				print(addr + ":" + command);
+				getWriter(addr).println(command);
+			}
+
+			@Override
+			public String read(String addr, String query) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				print(addr + ":" + query);
+				getWriter(addr).println(query);
+				try {
+					String reply = getReader(addr).readLine();
+					print("->" + reply);
+					return reply;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return "";
+			}
+
+			@Override
+			public void log(String arg) {
+				print(arg);
+				
+			}
+			
+		}.test2();
+	}
+
+	protected void print(String arg) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				textArea.setText(textArea.getText() + "\n" + arg);
+			}
+		});
+	}
 }
