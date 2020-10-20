@@ -26,6 +26,7 @@ import javax.script.ScriptException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -128,7 +129,7 @@ public class SocketClient extends JFrame {
 //			}
 //		});		
 		textArea = new JTextArea();
-		this.add(textArea, BorderLayout.CENTER);
+		this.add(new JScrollPane(textArea), BorderLayout.CENTER);
 		
 	}
 
@@ -160,7 +161,7 @@ public class SocketClient extends JFrame {
 				writer.println(command);
 				if (command.endsWith("?")) {
 					String reply = reader.readLine();
-					textArea.setText(textArea.getText() + "\n" + "-->" + reply);
+					textArea.setText(textArea.getText() + " --> " + reply);
 				}
 				Thread.sleep(1000);
 			}
@@ -230,7 +231,7 @@ public class SocketClient extends JFrame {
 
 			@Override
 			public void write(String addr, String command) {
-				print(addr + ":" + command);
+				print(addr + ":" + command + "\n");
 				getWriter(addr).println(command);
 			}
 
@@ -245,7 +246,7 @@ public class SocketClient extends JFrame {
 				getWriter(addr).println(query);
 				try {
 					String reply = getReader(addr).readLine();
-					print("->" + reply);
+					print(" -> " + reply + "\n");
 					return reply;
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -264,10 +265,9 @@ public class SocketClient extends JFrame {
 
 	protected void print(String arg) {
 		SwingUtilities.invokeLater(new Runnable() {
-
 			@Override
 			public void run() {
-				textArea.setText(textArea.getText() + "\n" + arg);
+				textArea.setText(textArea.getText() + arg);
 			}
 		});
 	}
