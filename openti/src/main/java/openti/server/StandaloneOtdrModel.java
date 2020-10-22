@@ -20,6 +20,7 @@ import jp.silverbullet.core.sequncer.Sequencer;
 import jp.silverbullet.core.sequncer.SystemAccessor;
 import jp.silverbullet.core.ui.part2.UiBuilder;
 import openti.ID;
+import openti.OltsSequencer;
 import openti.OscilloTestSequencer;
 import openti.TestSequencer;
 import openti.VipSequencer;
@@ -47,6 +48,7 @@ public class StandaloneOtdrModel extends AbstractTesterModel {
 		uiBuilder = new UiBuilder();
 		uiBuilder.loadJson("tmp/" + MyFileUtils.UIBUILDER2);
 		
+		dependencySpecHolder2.load("tmp/" + MyFileUtils.DEPENDENCYSPEC3_XML);
 		PropertyGetter getter = new PropertyGetter () {
 			public RuntimeProperty getProperty(String id) {
 				return propertyStore.get(id);
@@ -133,6 +135,7 @@ public class StandaloneOtdrModel extends AbstractTesterModel {
 		sequencer.addUserSequencer(new TestSequencer());
 		sequencer.addUserSequencer(new OscilloTestSequencer());
 		sequencer.addUserSequencer(new VipSequencer());
+		sequencer.addUserSequencer(new OltsSequencer());
 	}
 
 	@Override

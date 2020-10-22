@@ -25,6 +25,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -237,6 +238,7 @@ public class SocketClient extends JFrame {
 
 			@Override
 			public String read(String addr, String query) {
+				query = query + "?";
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e1) {
@@ -259,6 +261,11 @@ public class SocketClient extends JFrame {
 				print(arg);
 				
 			}
+
+			@Override
+			public void message(String message) {
+		    	JOptionPane.showMessageDialog(SocketClient.this, message);
+		    }
 			
 		}.test2();
 	}

@@ -179,4 +179,22 @@ public class ID {
 	public static final String ID_VIPSTATUS_NORESULT="ID_VIPSTATUS_NORESULT";
 	public static final String ID_VIPSTATUS_PASS="ID_VIPSTATUS_PASS";
 	public static final String ID_VIPSTATUS_TESTING="ID_VIPSTATUS_TESTING";
+	public static final String ID_PM_WAVELENGTH="ID_PM_WAVELENGTH";
+	public static final String ID_PM_WAVELENGTH_1300="ID_PM_WAVELENGTH_1300";
+	public static final String ID_PM_WAVELENGTH_1310="ID_PM_WAVELENGTH_1310";
+	public static final String ID_PM_WAVELENGTH_1550="ID_PM_WAVELENGTH_1550";
+	public static final String ID_PM_WAVELENGTH_850="ID_PM_WAVELENGTH_850";
+	public static final String ID_LS_WAVELENGTH="ID_LS_WAVELENGTH";
+	public static final String ID_LS_WAVELENGTH_1300="ID_LS_WAVELENGTH_1300";
+	public static final String ID_LS_WAVELENGTH_1310="ID_LS_WAVELENGTH_1310";
+	public static final String ID_LS_WAVELENGTH_1550="ID_LS_WAVELENGTH_1550";
+	public static final String ID_LS_WAVELENGTH_850="ID_LS_WAVELENGTH_850";
+	public static final String ID_LS_MODULATION="ID_LS_MODULATION";
+	public static final String ID_LS_MODULATION_100HZ="ID_LS_MODULATION_100HZ";
+	public static final String ID_LS_MODULATION_1KHZ="ID_LS_MODULATION_1KHZ";
+	public static final String ID_LS_MODULATION_CW="ID_LS_MODULATION_CW";
+	public static final String ID_LS_ENABLED="ID_LS_ENABLED";
+	public static final String ID_LS_ENABLED_OFF="ID_LS_ENABLED_OFF";
+	public static final String ID_LS_ENABLED_ON="ID_LS_ENABLED_ON";
+	public static final String ID_PM_POWER="ID_PM_POWER";
 }

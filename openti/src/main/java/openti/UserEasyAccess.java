@@ -530,4 +530,55 @@ public class UserEasyAccess {
     public EnumVipstatus getVipstatus() {
         return EnumVipstatus.valueOf(model.getCurrentValue(ID.ID_VIPSTATUS));
     }
+    public enum EnumPmWavelength{
+        ID_PM_WAVELENGTH_1300,
+        ID_PM_WAVELENGTH_1310,
+        ID_PM_WAVELENGTH_1550,
+        ID_PM_WAVELENGTH_850,
+    };
+    public void setPmWavelength(EnumPmWavelength value) throws RequestRejectedException {
+        model.requestChange(ID.ID_PM_WAVELENGTH, value.toString());
+    }
+    public EnumPmWavelength getPmWavelength() {
+        return EnumPmWavelength.valueOf(model.getCurrentValue(ID.ID_PM_WAVELENGTH));
+    }
+    public enum EnumLsWavelength{
+        ID_LS_WAVELENGTH_1300,
+        ID_LS_WAVELENGTH_1310,
+        ID_LS_WAVELENGTH_1550,
+        ID_LS_WAVELENGTH_850,
+    };
+    public void setLsWavelength(EnumLsWavelength value) throws RequestRejectedException {
+        model.requestChange(ID.ID_LS_WAVELENGTH, value.toString());
+    }
+    public EnumLsWavelength getLsWavelength() {
+        return EnumLsWavelength.valueOf(model.getCurrentValue(ID.ID_LS_WAVELENGTH));
+    }
+    public enum EnumLsModulation{
+        ID_LS_MODULATION_100HZ,
+        ID_LS_MODULATION_1KHZ,
+        ID_LS_MODULATION_CW,
+    };
+    public void setLsModulation(EnumLsModulation value) throws RequestRejectedException {
+        model.requestChange(ID.ID_LS_MODULATION, value.toString());
+    }
+    public EnumLsModulation getLsModulation() {
+        return EnumLsModulation.valueOf(model.getCurrentValue(ID.ID_LS_MODULATION));
+    }
+    public enum EnumLsEnabled{
+        ID_LS_ENABLED_OFF,
+        ID_LS_ENABLED_ON,
+    };
+    public void setLsEnabled(EnumLsEnabled value) throws RequestRejectedException {
+        model.requestChange(ID.ID_LS_ENABLED, value.toString());
+    }
+    public EnumLsEnabled getLsEnabled() {
+        return EnumLsEnabled.valueOf(model.getCurrentValue(ID.ID_LS_ENABLED));
+    }
+    public void setPmPower(String value) throws RequestRejectedException {
+        model.requestChange(ID.ID_PM_POWER, String.valueOf(value));
+    }
+    public String getPmPower() {
+        return String.valueOf(model.getCurrentValue(ID.ID_PM_POWER));
+    }
 }
