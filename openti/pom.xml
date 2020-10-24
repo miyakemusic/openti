@@ -57,6 +57,25 @@
 					</goals>
 				</execution>
 				<execution>
+					<id>build-olts</id>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>openti.OltsMain</mainClass>
+							</manifest>
+						</archive>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<!-- <appendAssemblyId>false</appendAssemblyId> -->
+						<finalName>olts</finalName>
+					</configuration>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				</execution>
+				<execution>
 					<id>build-oscillo</id>
 					<configuration>
 						<archive>
@@ -85,7 +104,6 @@
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
-						<!-- <appendAssemblyId>false</appendAssemblyId> -->
 						<finalName>otdroscillo</finalName>
 					</configuration>
 					<phase>package</phase>
@@ -104,7 +122,6 @@
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
-						<!-- <appendAssemblyId>false</appendAssemblyId> -->
 						<finalName>vip</finalName>
 						<includeSystemScope>true</includeSystemScope>
 					</configuration>
@@ -125,7 +142,6 @@
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
-						<!-- <appendAssemblyId>false</appendAssemblyId> -->
 						<finalName>otdrsocketserver</finalName>
 					</configuration>
 					<phase>package</phase>
