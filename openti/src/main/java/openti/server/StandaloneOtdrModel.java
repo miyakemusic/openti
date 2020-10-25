@@ -38,17 +38,16 @@ public class StandaloneOtdrModel extends AbstractTesterModel {
 	private DependencyEngine dependencyEngine;
 	private BlobStore blobStore;
 	private UiBuilder uiBuilder;
+	private String currentFilename;
 
 	public StandaloneOtdrModel(String filename) {
-		MyFileUtils.unzip(filename, "tmp");
-
-		propertiesHolder2.load("tmp/" + MyFileUtils.ID_DEF_JSON);
-		propertyStore = new RuntimePropertyStore(propertiesHolder2);
-		
 		uiBuilder = new UiBuilder();
-		uiBuilder.loadJson("tmp/" + MyFileUtils.UIBUILDER2);
 		
-		dependencySpecHolder2.load("tmp/" + MyFileUtils.DEPENDENCYSPEC3_XML);
+		this.currentFilename = filename;
+		loadFiles(filename);
+		
+		propertyStore = new RuntimePropertyStore(propertiesHolder2);
+
 		PropertyGetter getter = new PropertyGetter () {
 			public RuntimeProperty getProperty(String id) {
 				return propertyStore.get(id);
@@ -58,6 +57,7 @@ public class StandaloneOtdrModel extends AbstractTesterModel {
 				return propertyStore.get(id, index);
 			}
 		};
+		
 		dependencyEngine = new DependencyEngine(getter) {
 			protected DependencySpecHolder getSpecHolder() {
 				return dependencySpecHolder2;
@@ -138,6 +138,13 @@ public class StandaloneOtdrModel extends AbstractTesterModel {
 		sequencer.addUserSequencer(new OltsSequencer());
 	}
 
+	private void loadFiles(String filename) {
+		MyFileUtils.unzip(filename, "tmp");
+		propertiesHolder2.load("tmp/" + MyFileUtils.ID_DEF_JSON);
+		dependencySpecHolder2.load("tmp/" + MyFileUtils.DEPENDENCYSPEC3_XML);
+		uiBuilder.loadJson("tmp/" + MyFileUtils.UIBUILDER2);
+	}
+
 	@Override
 	public void requestChange(String id, String value) {
 		try {
@@ -174,6 +181,10 @@ public class StandaloneOtdrModel extends AbstractTesterModel {
 
 	public UiBuilder getUiBuilder() {
 		return this.uiBuilder;
+	}
+
+	public void reload() {
+		this.loadFiles(this.currentFilename);
 	}
 
 	

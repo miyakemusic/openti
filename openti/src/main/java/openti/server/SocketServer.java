@@ -8,14 +8,14 @@ import jp.silverbullet.swing.SwingGui;
 
 public class SocketServer {
 	public static void main(String[] arg) {
-		new SocketServer(arg[0], arg[1]);
+		new SocketServer(arg[0], arg[1], arg[2]);
 	}
 
 	private StandaloneOtdrModel otdrModel;
 	
-	public SocketServer(String port, String gui) {
+	public SocketServer(String port, String gui, String filename) {
 		String title = gui + "(" + port + ")";
-		init(gui, title);
+		init(gui, title, filename);
 		
 		ServerSocket sSocket = null;
 		
@@ -42,10 +42,17 @@ public class SocketServer {
 		}
 	}
 
-	private void init(String gui, String title) {
-		otdrModel = new StandaloneOtdrModel("miyake_otdr.zip");
+	private void init(String gui, String title, String filename) {
+		otdrModel = new StandaloneOtdrModel(filename);
 		new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), 
-				otdrModel.getBlobStore(), otdrModel.getSequencer(), gui, title).setVisible(true);
+				otdrModel.getBlobStore(), otdrModel.getSequencer(), gui, title) {
+
+					@Override
+					protected void onReload() {
+						otdrModel.reload();
+					}
+			
+		}.setVisible(true);
 	}
 	
 
