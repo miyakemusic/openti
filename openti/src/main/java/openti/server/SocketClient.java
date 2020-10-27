@@ -266,6 +266,22 @@ public class SocketClient extends JFrame {
 			public void message(String message) {
 		    	JOptionPane.showMessageDialog(SocketClient.this, message);
 		    }
+
+			@Override
+			public String waitEqual(String addr, String id, String value) {
+				while (true) {
+					if (read(addr, id).equals(value)) {
+						break;
+					}
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				return "";
+			}
 			
 		}.test2();
 	}

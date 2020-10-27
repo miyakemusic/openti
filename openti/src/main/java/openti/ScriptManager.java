@@ -43,7 +43,7 @@ public abstract class ScriptManager {
 	}
 	
 	public void test2() {
-		File script = new File("C:\\Users\\miyak\\git\\openti\\openti\\target\\javascript.js");
+		File script = new File("C:\\Users\\miyak\\git\\openti\\openti\\target\\script2.js");
 
 		try {
 			Reader reader = new FileReader(script);
@@ -67,6 +67,8 @@ public abstract class ScriptManager {
     abstract public void write(String addr, String command);
     
     abstract public  String read(String addr, String query);
+    
+    abstract public  String waitEqual(String addr, String id, String value);
     
     public void sleep(int millisecond) {
     	try {
