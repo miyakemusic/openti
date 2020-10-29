@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +45,10 @@ public class SocketClient extends JFrame {
 	private Socket cSocket;
 	private PrintWriter writer;
 	private BufferedReader reader;
-	private JTextArea textArea;
+	private JTextArea resultArea;
 	private JTextField host;
 	private JTextField port;
+	private JTextArea scriptArea;
 
 	public SocketClient() {
 		setSize(800, 600);
@@ -83,25 +85,9 @@ public class SocketClient extends JFrame {
 		JTextField command = new JTextField("");
 		panel.add(command);
 		command.setPreferredSize(new Dimension(100, 24));
-		JButton send = new JButton("Send");
-		panel.add(send);
-		send.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				writer.println(command.getText());
-			}
-		});
+
 		
-		JButton startButton = new JButton("Start");
-		panel.add(startButton);
-		startButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				startTest();
-			}
-		});			
-		
-		JButton traceButton = new JButton("Trace");
+		JButton traceButton = new JButton("Start");
 		panel.add(traceButton);
 		traceButton.addActionListener(new ActionListener() {
 			@Override
@@ -120,60 +106,56 @@ public class SocketClient extends JFrame {
 				}.start();
 			}
 		});		
-//		
-//		JButton allButton = new JButton("Start&Trace");
-//		panel.add(allButton);
-//		allButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				startAndTrace();
-//			}
-//		});		
-		textArea = new JTextArea();
-		this.add(new JScrollPane(textArea), BorderLayout.CENTER);
+
 		
+		resultArea = new JTextArea();
+		resultArea.setPreferredSize(new Dimension(100, 50));
+		this.add(new JScrollPane(resultArea), BorderLayout.SOUTH);
+		
+		scriptArea = new JTextArea();
+		this.add(new JScrollPane(scriptArea), BorderLayout.CENTER);
 	}
 
-	protected void startAndTrace() {
-		writer.println("START");
-		writer.println("*OPC?");
-		try {
-			String reply = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//	protected void startAndTrace() {
+//		writer.println("START");
+//		writer.println("*OPC?");
+//		try {
+//			String reply = reader.readLine();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//	}
 
-	}
 
-
-	protected void startTest() {
-		try {
-			List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\miyak\\git\\openti\\openti\\target\\script.txt"));
-			for (String line : lines) {
-				String[] tmp = line.split(";");
-				String addr = tmp[0];
-				String command = tmp[1];
-				
-				PrintWriter writer = getWriter(addr);
-				BufferedReader reader = getReader(addr);
-				
-				textArea.setText(textArea.getText() + "\n" + line);
-				writer.println(command);
-				if (command.endsWith("?")) {
-					String reply = reader.readLine();
-					textArea.setText(textArea.getText() + " --> " + reply);
-				}
-				Thread.sleep(1000);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	protected void startTest() {
+//		try {
+//			List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\miyak\\git\\openti\\openti\\target\\script.txt"));
+//			for (String line : lines) {
+//				String[] tmp = line.split(";");
+//				String addr = tmp[0];
+//				String command = tmp[1];
+//				
+//				PrintWriter writer = getWriter(addr);
+//				BufferedReader reader = getReader(addr);
+//				
+//				resultArea.setText(resultArea.getText() + "\n" + line);
+//				writer.println(command);
+//				if (command.endsWith("?")) {
+//					String reply = reader.readLine();
+//					resultArea.setText(resultArea.getText() + " --> " + reply);
+//				}
+//				Thread.sleep(1000);
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	class SocketObj {
 		public SocketObj(String host, int port) {
@@ -222,12 +204,12 @@ public class SocketClient extends JFrame {
 		writer = new PrintWriter(cSocket.getOutputStream(), true);
 		reader = new BufferedReader(new InputStreamReader(cSocket.getInputStream()));
 
-		this.textArea.setText(reader.readLine());
+		this.resultArea.setText(reader.readLine());
 	}
 	
 
 	protected void retreiveTrace() throws ScriptException {
-		this.textArea.setText("");
+		this.resultArea.setText("");
 		new ScriptManager() {
 
 			@Override
@@ -283,14 +265,14 @@ public class SocketClient extends JFrame {
 				return "";
 			}
 			
-		}.test2();
+		}.start(Arrays.asList(this.scriptArea.getText().split("\n")));
 	}
 
 	protected void print(String arg) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				textArea.setText(textArea.getText() + arg);
+				resultArea.setText(resultArea.getText() + arg);
 			}
 		});
 	}

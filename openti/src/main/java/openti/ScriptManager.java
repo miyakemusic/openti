@@ -3,7 +3,11 @@ package openti;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
@@ -42,9 +46,14 @@ public abstract class ScriptManager {
 		}
 	}
 	
-	public void test2() {
-		File script = new File("C:\\Users\\miyak\\git\\openti\\openti\\target\\script2.js");
-
+	public void start(List<String> lines) {
+//		File script = new File("C:\\Users\\miyak\\git\\openti\\openti\\target\\script2.js");
+		try {
+			Files.write(Paths.get("tmp.js"), lines);
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		File script = new File("tmp.js");
 		try {
 			Reader reader = new FileReader(script);
 			ScriptManager sb = this;

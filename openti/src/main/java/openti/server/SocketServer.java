@@ -1,5 +1,7 @@
 package openti.server;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -44,8 +46,10 @@ public class SocketServer {
 
 	private void init(String gui, String title, String filename) {
 		otdrModel = new StandaloneOtdrModel(filename);
+		Image bgImage =  Toolkit.getDefaultToolkit().createImage("C:\\Users\\miyak\\Desktop\\capture.PNG");
+		
 		new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), 
-				otdrModel.getBlobStore(), otdrModel.getSequencer(), gui, title) {
+				otdrModel.getBlobStore(), otdrModel.getSequencer(), gui, title, bgImage) {
 
 					@Override
 					protected void onReload() {
