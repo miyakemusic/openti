@@ -1,5 +1,6 @@
 package openti.server;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import jp.silverbullet.core.BlobStore;
@@ -23,6 +24,7 @@ import openti.ID;
 import openti.OltsSequencer;
 import openti.OscilloTestSequencer;
 import openti.TestSequencer;
+import openti.Utils;
 import openti.VipSequencer;
 import openti.test.SimHardware;
 
@@ -39,7 +41,6 @@ public class StandaloneOtdrModel extends AbstractTesterModel {
 	private BlobStore blobStore;
 	private UiBuilder uiBuilder;
 	private String currentFilename;
-
 	public StandaloneOtdrModel(String filename) {
 		uiBuilder = new UiBuilder();
 		
@@ -185,6 +186,25 @@ public class StandaloneOtdrModel extends AbstractTesterModel {
 
 	public void reload() {
 		this.loadFiles(this.currentFilename);
+	}
+
+
+	public List<String> getTargetIds() {
+		return Arrays.asList(ID.ID_OTDR_TESTCONTROL, ID.ID_PULSEWIDTH, ID.ID_DISTANCERANGE);
+	}
+
+	public void handle(Map<String, List<ChangedItemValue>> changed) {
+		for (String id : changed.keySet()) {
+			List<ChangedItemValue> v = changed.get(id);
+			for (ChangedItemValue civ : v) {
+				try {
+					id = RuntimeProperty.convertSimpleId(id);
+					this.sequencer.requestChange(id, civ.getValue());
+				} catch (RequestRejectedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	
