@@ -1,21 +1,15 @@
 package openti;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.drive.model.File;
 
@@ -30,12 +24,8 @@ import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor;
 import jp.silverbullet.web.ChangesJson;
 import jp.silverbullet.web.FilePendingResponse;
-import jp.silverbullet.web.FileUploadMessage;
 import jp.silverbullet.web.MessageToDevice;
-import jp.silverbullet.web.SilverBulletServer;
-import jp.silverbullet.web.SystemResource;
 import jp.silverbullet.web.WebSocketClientHandler;
-import jp.silverbullet.web.WebSocketMessage;
 import jp.silverbullet.web.WsLoginMessage;
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -75,8 +65,10 @@ public abstract class AbstractIndependentMain {
 		this.userid = userid;
 		this.headless = headless;
 		
-		init();
-		
+		initialize(deviceName);
+	}
+	protected void initialize(String deviceName) {
+		initAccess();
 		if (!this.headless) {
 			mainUI = new MainUI() {
 				@Override
@@ -127,7 +119,7 @@ public abstract class AbstractIndependentMain {
         return null;
 	}
 	
-	private void init() {
+	private void initAccess() {
 		client = new OkHttpClient.Builder().build();// new OkHttpClient();;
         
 		init(model);
@@ -141,8 +133,6 @@ public abstract class AbstractIndependentMain {
 						
 						if (m.type.equals(MessageToDevice.PROPERTYUPDATED)) {
 							ChangesJson changed = new ObjectMapper().readValue(m.json, ChangesJson.class);
-	//						WebSocketMessage wm = new ObjectMapper().readValue(message2, WebSocketMessage.class);
-	//						System.out.println(wm);
 							if (isTargetIdChanged(changed.getChanges())) {
 								new Thread() {
 									@Override
@@ -290,7 +280,6 @@ public abstract class AbstractIndependentMain {
 		try {
 			String json = new ObjectMapper().writeValueAsString(prop);
 	        String url = getServer() + "/rest/" + getPath() + "/setValueBySystem?userid=" + userid + "&code=forDebug";
-			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
 			Request request = new Request.Builder()
 				.url(url)
@@ -298,11 +287,9 @@ public abstract class AbstractIndependentMain {
 				.build();
 			
             Response response = client.newCall(request).execute();
-           // response.body().string();
-            
+
             response.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}			
 	}
@@ -455,5 +442,12 @@ public abstract class AbstractIndependentMain {
 		message.type = WsLoginMessage.DomainModel;
 		String str = new ObjectMapper().writeValueAsString(message);
 		return str;
+	}
+	
+	public void changeValue(String id, String value) {
+		sendChangeValue(id, 0, value);
+	}
+	public void changeBlob(String id, Object value, String name) {
+		sendChangeValue(id, value, name);
 	}
 }

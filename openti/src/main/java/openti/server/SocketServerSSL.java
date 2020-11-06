@@ -99,7 +99,21 @@ public class SocketServerSSL {
 	}
 
 	private void init() {
-		otdrModel = new StandaloneOtdrModel("ti_back.zip");
+		otdrModel = new StandaloneOtdrModel("ti_back.zip") {
+
+			@Override
+			protected void onChanged(String id, String value) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			protected void onBlobChanged(String id, Object value, String name) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
 	}
 	
 	class SyncObject {

@@ -38,7 +38,7 @@ public class OscilloTestSequencer implements UserSequencer {
 							byte[] b = Base64.getEncoder().encode(registers.eyediagram.read());
 							String base64 = "data:image/png;base64," + new String(b);
 							try {
-								model.getEasyAccessInterface().requestChange(ID.ID_OSC_EYEDIAGRAM, base64);
+								model.getEasyAccessInterface().requestChange(ID.ID_OSC_EYEDIAGRAM, base64, String.valueOf(System.currentTimeMillis()));
 							} catch (RequestRejectedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

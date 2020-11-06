@@ -2,15 +2,11 @@ package openti.server;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +19,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import openti.AbstractIndependentMain;
-import openti.ID;
-import openti.Utils;
 
 public class SocketServer {
 	public static void main(String[] arg) {
@@ -34,6 +28,7 @@ public class SocketServer {
 	private StandaloneOtdrModel otdrModel;
 	private String filename;
 	private String uri;
+	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
 	
 	public SocketServer(String port, String gui, String filename) {
 		String title = gui + "(" + port + ")";
@@ -68,9 +63,54 @@ public class SocketServer {
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
 		
-        requestFile();
+        try {
+			requestFile();
+						
+			String host = "localhost";
+			String port = "8080";
+			String project = "Default00";
+			String username = "silverbullet";
+			String deviceName = gui;
+			boolean headless = true;
+			webServerHandler = new AbstractIndependentMain(host, port, project, username, deviceName, headless) {
+
+				@Override
+				protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
+					otdrModel.handle(changed);
+				}
+
+				@Override
+				protected List<String> getTargetIds() {
+					return otdrModel.getTargetIds();
+				}
+
+				@Override
+				protected RegisterAccessor getRegisterAccessor() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				protected void init(SvHandlerModel model) {
+					
+				}
+				
+			};
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
   
-		otdrModel = new StandaloneOtdrModel(filename);
+		otdrModel = new StandaloneOtdrModel(filename) {
+			@Override
+			protected void onChanged(String id, String value) {
+				webServerHandler.changeValue(id, value);
+			}
+
+			@Override
+			protected void onBlobChanged(String id, Object value, String name) {
+				webServerHandler.changeBlob(id, value, name);
+			}
+		};
 		Image bgImage =  Toolkit.getDefaultToolkit().createImage("C:\\Users\\miyak\\Desktop\\capture.PNG");
 		
 		new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), 
@@ -78,61 +118,29 @@ public class SocketServer {
 
 					@Override
 					protected void onReload() {
-						requestFile();
-						otdrModel.reload();
+						try {
+							requestFile();
+							otdrModel.reload();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
 					}
 			
-		}.setVisible(true);
-		
-		String host = "localhost";
-		String port = "8080";
-		String project = "Default00";
-		String username = "silverbullet";
-		String deviceName = "OTDR1";
-		boolean headless = true;
-		new AbstractIndependentMain(host, port, project, username, deviceName, headless) {
-
-			@Override
-			protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
-				otdrModel.handle(changed);
-			}
-
-			@Override
-			protected List<String> getTargetIds() {
-				return otdrModel.getTargetIds();
-			}
-
-			@Override
-			protected RegisterAccessor getRegisterAccessor() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			protected void init(SvHandlerModel model) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
-		
+		}.setVisible(true);		
 	}
 
-	private void requestFile() {
-		try {
-    		OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(uri)
-                    .get()
-                    .build();
-			Response responseOk = client.newCall(request).execute();
-			byte[] data = responseOk.body().bytes();
-			Files.write(Paths.get(filename), data);
-			System.out.println("File downloaded");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private void requestFile() throws IOException {
+		OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(uri)
+                .get()
+                .build();
+		Response responseOk = client.newCall(request).execute();
+		byte[] data = responseOk.body().bytes();
+		Files.write(Paths.get(filename), data);
+		System.out.println("File downloaded");
+
 	}
 	
 
