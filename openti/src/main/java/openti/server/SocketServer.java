@@ -2,6 +2,8 @@ package openti.server;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,6 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
@@ -22,17 +28,18 @@ import openti.AbstractIndependentMain;
 
 public class SocketServer {
 	public static void main(String[] arg) {
-		new SocketServer(arg[0], arg[1], arg[2]);
+		new SocketServer(arg[0], arg[1], arg[2], arg[3]);
 	}
 
 	private StandaloneOtdrModel otdrModel;
 	private String filename;
 	private String uri;
 	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
+	private String deviceName;
 	
-	public SocketServer(String port, String gui, String filename) {
+	public SocketServer(String port, String gui, String filename, String deviceName) {
 		String title = gui + "(" + port + ")";
-		init(gui, title, filename);
+		init(gui, title, filename, deviceName);
 		
 		ServerSocket sSocket = null;
 		
@@ -52,54 +59,18 @@ public class SocketServer {
 				if (sSocket!=null){
 					sSocket.close();
 				}
-	            System.out.println("サーバー側終了です");
+	            System.out.println("Server stop");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private void init(String gui, String title, String uri) {
+	private void init(String gui, String title, String uri, String deviceName) {
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
+		this.deviceName = deviceName;
 		
-        try {
-			requestFile();
-						
-			String host = "localhost";
-			String port = "8080";
-			String project = "Default00";
-			String username = "silverbullet";
-			String deviceName = gui;
-			boolean headless = true;
-			webServerHandler = new AbstractIndependentMain(host, port, project, username, deviceName, headless) {
-
-				@Override
-				protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
-					otdrModel.handle(changed);
-				}
-
-				@Override
-				protected List<String> getTargetIds() {
-					return otdrModel.getTargetIds();
-				}
-
-				@Override
-				protected RegisterAccessor getRegisterAccessor() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				protected void init(SvHandlerModel model) {
-					
-				}
-				
-			};
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-  
 		otdrModel = new StandaloneOtdrModel(filename) {
 			@Override
 			protected void onChanged(String id, String value) {
@@ -113,10 +84,9 @@ public class SocketServer {
 		};
 		Image bgImage =  Toolkit.getDefaultToolkit().createImage("C:\\Users\\miyak\\Desktop\\capture.PNG");
 		
-		new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), 
+		SwingGui swingGui = new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), 
 				otdrModel.getBlobStore(), otdrModel.getSequencer(), gui, title, bgImage) {
 
-					@Override
 					protected void onReload() {
 						try {
 							requestFile();
@@ -126,8 +96,32 @@ public class SocketServer {
 						}
 						
 					}
+
+					@Override
+					protected void initToolbar(JPanel toolBar) {
+						JToggleButton onlineButton = new JToggleButton("Online");
+						toolBar.add(onlineButton);
+						onlineButton.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								goOnline(onlineButton.isSelected());
+							}
+
+						});					
+						
+						JButton reloadButton = new JButton("Reload");
+						toolBar.add(reloadButton);
+						reloadButton.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								onReload();
+								updateGUI();
+							}
+						});
+					}
 			
-		}.setVisible(true);		
+		};
+		swingGui.setVisible(true);		
 	}
 
 	private void requestFile() throws IOException {
@@ -144,4 +138,48 @@ public class SocketServer {
 	}
 	
 
+	private void goOnline(boolean b) {
+		if (b) {
+	        try {
+				requestFile();
+				
+				String[] tmp = uri.split("[/:]+");
+				String host = tmp[1];
+				String port = tmp[2];
+				String project = "Default00";
+				String username = "silverbullet";
+				String deviceName = this.deviceName;
+				boolean headless = true;
+				webServerHandler = new AbstractIndependentMain(host, port, project, username, deviceName, headless) {
+	
+					@Override
+					protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
+						otdrModel.handle(changed);
+					}
+	
+					@Override
+					protected List<String> getTargetIds() {
+						return otdrModel.getTargetIds();
+					}
+	
+					@Override
+					protected RegisterAccessor getRegisterAccessor() {
+						// TODO Auto-generated method stub
+						return null;
+					}
+	
+					@Override
+					protected void init(SvHandlerModel model) {
+						
+					}
+					
+				};
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
+		}
+	}
 }
