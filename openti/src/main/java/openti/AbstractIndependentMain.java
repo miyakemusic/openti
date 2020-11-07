@@ -256,7 +256,7 @@ public abstract class AbstractIndependentMain {
         }
 	}
 	
-	private boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {
+	protected boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {
 		List<String> targets = getTargetIds();
 		for (String id : changed.keySet()) {
 			if (id.contains(RuntimeProperty.INDEXSIGN)) {

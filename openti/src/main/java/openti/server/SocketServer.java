@@ -5,16 +5,21 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
@@ -71,6 +76,14 @@ public class SocketServer {
 		this.uri = uri;
 		this.deviceName = deviceName;
 		
+		if (!Files.exists(Paths.get(filename))) {
+			try {
+				this.requestFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		otdrModel = new StandaloneOtdrModel(filename) {
 			@Override
 			protected void onChanged(String id, String value) {
@@ -82,8 +95,14 @@ public class SocketServer {
 				webServerHandler.changeBlob(id, value, name);
 			}
 		};
-		Image bgImage =  Toolkit.getDefaultToolkit().createImage("C:\\Users\\miyak\\Desktop\\capture.PNG");
-		
+		//Image bgImage =  Toolkit.getDefaultToolkit().createImage(this.getClass().getClassLoader().getResource("capture.PNG").toExternalForm());
+		Image bgImage = null;
+		try {
+			bgImage = ImageIO.read(getClass().getClassLoader().getResource("openti/server/capture.PNG"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		SwingGui swingGui = new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), 
 				otdrModel.getBlobStore(), otdrModel.getSequencer(), gui, title, bgImage) {
 
@@ -158,8 +177,19 @@ public class SocketServer {
 					}
 	
 					@Override
+					protected boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {
+						return true;
+					}
+
+					@Override
 					protected List<String> getTargetIds() {
-						return otdrModel.getTargetIds();
+//						List<String> all = new ArrayList<>();
+//						
+//						for (Field f : Id.class.getFields()) {
+//							all.add(f.getName());
+//						}
+//						return all;//otdrModel.getTargetIds();
+						return null;//
 					}
 	
 					@Override

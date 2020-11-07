@@ -209,11 +209,6 @@ public abstract class StandaloneOtdrModel extends AbstractTesterModel {
 		this.loadFiles(this.currentFilename);
 	}
 
-
-	public List<String> getTargetIds() {
-		return Arrays.asList(ID.ID_OTDR_TESTCONTROL, ID.ID_PULSEWIDTH, ID.ID_DISTANCERANGE, ID.ID_OSC_TESTCONTROL, ID.ID_VIPCONTROL);
-	}
-
 	public void handle(Map<String, List<ChangedItemValue>> changed) {
 		for (String id : changed.keySet()) {
 			List<ChangedItemValue> v = changed.get(id);
