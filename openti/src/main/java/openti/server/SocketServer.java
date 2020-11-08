@@ -1,16 +1,13 @@
 package openti.server;
 
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +15,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
@@ -123,7 +118,11 @@ public class SocketServer {
 						onlineButton.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								goOnline(onlineButton.isSelected());
+								try {
+									goOnline(onlineButton.isSelected());
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
 							}
 
 						});					
@@ -157,56 +156,51 @@ public class SocketServer {
 	}
 	
 
-	private void goOnline(boolean b) {
+	private void goOnline(boolean b) throws IOException {
 		if (b) {
-	        try {
-				requestFile();
+			requestFile();
 				
-				String[] tmp = uri.split("[/:]+");
-				String host = tmp[1];
-				String port = tmp[2];
-				String project = "Default00";
-				String username = "silverbullet";
-				String deviceName = this.deviceName;
-				boolean headless = true;
-				webServerHandler = new AbstractIndependentMain(host, port, project, username, deviceName, headless) {
+			String[] tmp = uri.split("[/:]+");
+			String host = tmp[1];
+			String port = tmp[2];
+			String project = "Default00";
+			String username = "silverbullet";
+			String deviceName = this.deviceName;
+			boolean headless = true;
+			webServerHandler = new AbstractIndependentMain(host, port, project, username, deviceName, headless) {
 	
-					@Override
-					protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
-						otdrModel.handle(changed);
-					}
+				@Override
+				protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
+					otdrModel.handle(changed);
+				}
 	
-					@Override
-					protected boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {
-						return true;
-					}
-
-					@Override
-					protected List<String> getTargetIds() {
+				@Override
+				protected boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {
+					return true;
+				}
+				@Override
+				protected List<String> getTargetIds() {
 //						List<String> all = new ArrayList<>();
 //						
 //						for (Field f : Id.class.getFields()) {
 //							all.add(f.getName());
 //						}
 //						return all;//otdrModel.getTargetIds();
-						return null;//
-					}
-	
-					@Override
-					protected RegisterAccessor getRegisterAccessor() {
-						// TODO Auto-generated method stub
-						return null;
-					}
-	
-					@Override
-					protected void init(SvHandlerModel model) {
-						
-					}
+					return null;//
+				}
+
+				@Override
+				protected RegisterAccessor getRegisterAccessor() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				protected void init(SvHandlerModel model) {
 					
-				};
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				}
+					
+			};
 		}
 		else {
 			webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
