@@ -8,6 +8,7 @@ import java.util.Map;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.DependencySpec;
+import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
@@ -38,7 +39,7 @@ public class Oscillo {
 							String base64 = "data:image/png;base64," + new String(b);
 							
 							try {
-								model.getEasyAccessInterface().requestChange(ID.ID_OSC_EYEDIAGRAM, base64,String.valueOf(Calendar.getInstance().getTime().getTime()));
+								model.getEasyAccessInterface().requestChange(new Id(ID.ID_OSC_EYEDIAGRAM), base64,String.valueOf(Calendar.getInstance().getTime().getTime()));
 							} catch (RequestRejectedException e) {
 								e.printStackTrace();
 							}				

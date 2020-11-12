@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.drive.model.File;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
+import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.LightProperty;
 import jp.silverbullet.core.property2.RuntimeProperty;
@@ -301,7 +302,7 @@ public abstract class AbstractIndependentMain {
 		return "http://"+ this.host + ":" + this.port;
 	}
 	
-	protected void sendChangeValue(String id, int index, String value) {
+	protected void sendChangeValue(String id, String value) {
 		LightProperty prop = new LightProperty();
 		prop.id = id;
 		prop.currentValue = value;
@@ -392,18 +393,13 @@ public abstract class AbstractIndependentMain {
 		public EasyAccessInterface getEasyAccessInterface() {
 			return new EasyAccessInterface() {
 				@Override
-				public void requestChange(String id, String value) throws RequestRejectedException {
-					sendChangeValue(id, 0, value);
+				public void requestChange(Id id, String value) throws RequestRejectedException {
+					sendChangeValue(id.getId(), value);
 				}
 
 				@Override
-				public void requestChange(String id, int index, String value) throws RequestRejectedException {
-					sendChangeValue(id, index, value);
-				}
-
-				@Override
-				public void requestChange(String id, Object blobData, String name) throws RequestRejectedException {
-					sendChangeValue(id, blobData, name);
+				public void requestChange(Id id, Object blobData, String name) throws RequestRejectedException {
+					sendChangeValue(id.getId(), blobData, name);
 				}
 
 				@Override
@@ -472,7 +468,7 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	public void changeValue(String id, String value) {
-		sendChangeValue(id, 0, value);
+		sendChangeValue(id, value);
 	}
 	public void changeBlob(String id, Object value, String name) {
 		sendChangeValue(id, value, name);

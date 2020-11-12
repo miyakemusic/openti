@@ -139,19 +139,19 @@ public abstract class StandaloneOtdrModel extends AbstractTesterModel {
 		
 		sequencer.addSequencerListener(new SequencerListener() {
 			@Override
-			public void onChangedBySystem(String id, String value) {
-				if (blobStore.stores(id)) {
-					onBlobChanged(id, blobStore.get(id), value);
+			public void onChangedBySystem(Id id, String value) {
+				if (blobStore.stores(id.getId())) {
+					onBlobChanged(id.getId(), blobStore.get(id.getId()), value);
 				}
 				else {
-					onChanged(id, value);
+					onChanged(id.getId(), value);
 				}
 				
 			}
 
 			@Override
-			public void onChangedByUser(String id, String value) {
-				onChanged(id, value);
+			public void onChangedByUser(Id id, String value) {
+				onChanged(id.getId(), value);
 			}
 		});
 	}
@@ -169,7 +169,7 @@ public abstract class StandaloneOtdrModel extends AbstractTesterModel {
 	@Override
 	public void requestChange(String id, String value) {
 		try {
-			this.sequencer.requestChange(id, value, true);
+			this.sequencer.requestChange(new Id(id), value, true);
 		} catch (RequestRejectedException e) {
 			e.printStackTrace();
 		}
@@ -214,7 +214,7 @@ public abstract class StandaloneOtdrModel extends AbstractTesterModel {
 			for (ChangedItemValue civ : v) {
 				try {
 					id = RuntimeProperty.convertSimpleId(id);
-					this.sequencer.requestChange(id, civ.getValue());
+					this.sequencer.requestChange(new Id(id), civ.getValue());
 				} catch (RequestRejectedException e) {
 					e.printStackTrace();
 				}

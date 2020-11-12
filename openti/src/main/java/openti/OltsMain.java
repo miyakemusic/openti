@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
+import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
@@ -19,7 +20,7 @@ public class OltsMain extends AbstractIndependentMain {
 		@Override
 		protected void onUpdate(String value) {
 			try {
-				getModel().getEasyAccessInterface().requestChange(ID.ID_PM_POWER, value);
+				getModel().getEasyAccessInterface().requestChange(new Id(ID.ID_PM_POWER), value);
 			} catch (RequestRejectedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

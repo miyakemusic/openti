@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
+import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
@@ -38,7 +39,7 @@ public class OscilloTestSequencer implements UserSequencer {
 							byte[] b = Base64.getEncoder().encode(registers.eyediagram.read());
 							String base64 = "data:image/png;base64," + new String(b);
 							try {
-								model.getEasyAccessInterface().requestChange(ID.ID_OSC_EYEDIAGRAM, base64, String.valueOf(System.currentTimeMillis()));
+								model.getEasyAccessInterface().requestChange(new Id(ID.ID_OSC_EYEDIAGRAM), base64, String.valueOf(System.currentTimeMillis()));
 							} catch (RequestRejectedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

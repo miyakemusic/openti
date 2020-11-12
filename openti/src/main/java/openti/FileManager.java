@@ -142,7 +142,7 @@ public class FileManager implements UserSequencer {
 			tableContent.addRow(line);
 		}
 		try {
-			model.getEasyAccessInterface().requestChange(ID.ID_FILE_LIST, new ObjectMapper().writeValueAsString(tableContent));
+			model.getEasyAccessInterface().requestChange(new Id(ID.ID_FILE_LIST), new ObjectMapper().writeValueAsString(tableContent));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		} catch (RequestRejectedException e) {

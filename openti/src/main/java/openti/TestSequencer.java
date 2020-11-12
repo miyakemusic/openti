@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
+import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.ChartContent;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
@@ -152,7 +153,7 @@ public class TestSequencer implements UserSequencer {
 					registers.test_control.set(TEST_CONTROL.STA, 0x00).write();
 					try {
 						//String url = StaticInstances.getInstance().blobStore.put(ID.ID_TRACE, chartContent);
-						model.getEasyAccessInterface().requestChange(ID.ID_TRACE, chartContent, 
+						model.getEasyAccessInterface().requestChange(new Id(ID.ID_TRACE), chartContent, 
 								String.valueOf(Calendar.getInstance().getTime().getTime()));
 
 						model.getEasyAccessInterface().requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
