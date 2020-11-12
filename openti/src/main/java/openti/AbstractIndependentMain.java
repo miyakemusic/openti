@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -119,11 +123,43 @@ public abstract class AbstractIndependentMain {
         return null;
 	}
 	
+	class SenderThread extends Thread {
+		private BlockingQueue<Map<String, List<ChangedItemValue>>> queue = new ArrayBlockingQueue<>(20);
+
+		@Override
+		public void run() {
+			while(true) {
+				try {
+					Map<String, List<ChangedItemValue>> d = queue.take();
+					handle(d);
+				} catch (InterruptedException | RequestRejectedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		public void push(Map<String, List<ChangedItemValue>> changes) {
+			queue.add(deepCopy(changes));
+		}
+		
+		private Map<String, List<ChangedItemValue>> deepCopy(Map<String, List<ChangedItemValue>> changes) {
+			Map<String, List<ChangedItemValue>> ret = new HashMap<String, List<ChangedItemValue>>();
+			for (String key : changes.keySet()) {
+				List<ChangedItemValue> v = new ArrayList<ChangedItemValue>(changes.get(key));
+				ret.put(key, v);
+			}
+			return ret;
+		}
+		
+	}
+	
 	private void initAccess() {
 		client = new OkHttpClient.Builder().build();// new OkHttpClient();;
         
 		init(model);
 		
+		
+		SenderThread sender = new SenderThread();
+		sender.start();
 		try {
 			clienteHandler = new WebSocketClientHandler(host, port) {
 				@Override
@@ -134,16 +170,8 @@ public abstract class AbstractIndependentMain {
 						if (m.type.equals(MessageToDevice.PROPERTYUPDATED)) {
 							ChangesJson changed = new ObjectMapper().readValue(m.json, ChangesJson.class);
 							if (isTargetIdChanged(changed.getChanges())) {
-								new Thread() {
-									@Override
-									public void run() {
-										try {
-											handle(changed.getChanges());
-										} catch (RequestRejectedException e) {
-											e.printStackTrace();
-										}
-									}
-								}.start();
+								sender.push(changed.getChanges());
+//								createThread(changed);
 							}
 						}
 						else if (m.type.equals(MessageToDevice.FILEREADY)){
@@ -272,6 +300,7 @@ public abstract class AbstractIndependentMain {
 	private String getServer() {
 		return "http://"+ this.host + ":" + this.port;
 	}
+	
 	protected void sendChangeValue(String id, int index, String value) {
 		LightProperty prop = new LightProperty();
 		prop.id = id;
@@ -362,7 +391,6 @@ public abstract class AbstractIndependentMain {
 		@Override
 		public EasyAccessInterface getEasyAccessInterface() {
 			return new EasyAccessInterface() {
-
 				@Override
 				public void requestChange(String id, String value) throws RequestRejectedException {
 					sendChangeValue(id, 0, value);
@@ -375,7 +403,6 @@ public abstract class AbstractIndependentMain {
 
 				@Override
 				public void requestChange(String id, Object blobData, String name) throws RequestRejectedException {
-					//System.out.println("requestChange(String id, Object blobData, String name)");
 					sendChangeValue(id, blobData, name);
 				}
 
@@ -449,5 +476,17 @@ public abstract class AbstractIndependentMain {
 	}
 	public void changeBlob(String id, Object value, String name) {
 		sendChangeValue(id, value, name);
+	}
+	protected void createThread(ChangesJson changed) {
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					handle(changed.getChanges());
+				} catch (RequestRejectedException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
 	}
 }

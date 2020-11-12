@@ -1,6 +1,5 @@
 package openti.server;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import jp.silverbullet.core.BlobStore;
