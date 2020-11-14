@@ -18,7 +18,7 @@ public class OscilloTestSequencer implements UserSequencer {
 	private boolean stop;
 
 	@Override
-	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed)
+	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId)
 			throws RequestRejectedException {
 		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
 		UserRegister registers = new UserRegister(model.getRegisterAccessor());

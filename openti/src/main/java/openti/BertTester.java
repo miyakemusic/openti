@@ -37,7 +37,7 @@ public abstract class BertTester implements UserSequencer {
 	private boolean running = false;
 	
 	@Override
-	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed)
+	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId)
 			throws RequestRejectedException {
 		
 //		System.out.println("BertTester");

@@ -31,7 +31,7 @@ public class TestSequencer implements UserSequencer {
 	private boolean stopRequested;
 
 	@Override
-	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
+	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId) throws RequestRejectedException {
 		new Thread() {
 			@Override
 			public void run() {

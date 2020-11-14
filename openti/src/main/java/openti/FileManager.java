@@ -42,7 +42,7 @@ abstract class ActionManager {
 public class FileManager implements UserSequencer {
 
 	@Override
-	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed)
+	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId)
 			throws RequestRejectedException {
 
 		new ActionManager(model, changed) {
