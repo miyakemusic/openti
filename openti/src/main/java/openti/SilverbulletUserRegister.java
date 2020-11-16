@@ -2,8 +2,8 @@ package openti;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.register2.RuntimeRegister;
 import jp.silverbullet.core.register2.RuntimeRegisterHolder;
-public class UserRegister extends RuntimeRegisterHolder {
-	public UserRegister(RegisterAccessor registerAccessor) {
+public class SilverbulletUserRegister extends RuntimeRegisterHolder {
+	public SilverbulletUserRegister(RegisterAccessor registerAccessor) {
 		super(registerAccessor);
 	}
 	public enum Register {
