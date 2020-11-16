@@ -20,18 +20,18 @@ import jp.silverbullet.core.property2.ChartContent;
 import jp.silverbullet.core.property2.JsTableContent;
 import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
-import openti.UserEasyAccess.EnumCollecmode;
-import openti.UserEasyAccess.EnumDistancerange;
-import openti.UserEasyAccess.EnumOtdrTestcontrol;
-import openti.UserEasyAccess.EnumPulsewidth;
-import openti.UserRegister.TEST_CONFIG1;
-import openti.UserRegister.TEST_CONTROL;
-import openti.UserRegister.TEST_SETUP;
+import openti.SilverbulletUserEasyAccess.EnumCollecmode;
+import openti.SilverbulletUserEasyAccess.EnumDistancerange;
+import openti.SilverbulletUserEasyAccess.EnumOtdrTestcontrol;
+import openti.SilverbulletUserEasyAccess.EnumPulsewidth;
+import openti.SilverbulletUserRegister.TEST_CONFIG1;
+import openti.SilverbulletUserRegister.TEST_CONTROL;
+import openti.SilverbulletUserRegister.TEST_SETUP;
 
 public class Otdr {
 	private boolean stopRequested;
 
-	public void doOtdr(Map<String, List<ChangedItemValue>> changed, UserEasyAccess properties, UserRegister registers,
+	public void doOtdr(Map<String, List<ChangedItemValue>> changed, SilverbulletUserEasyAccess properties, SilverbulletUserRegister registers,
 			SvHandlerModel model) throws RequestRejectedException {
 		
 		if (Utils.compareValue(changed, ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_START)) {

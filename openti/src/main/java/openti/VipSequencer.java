@@ -9,7 +9,7 @@ import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import openti.UserEasyAccess.EnumVipcontrol;
+import openti.SilverbulletUserEasyAccess.EnumVipcontrol;
 
 public class VipSequencer implements UserSequencer {
 	private SvHandlerModel model;
@@ -61,8 +61,8 @@ public class VipSequencer implements UserSequencer {
 			throws RequestRejectedException {
 
 		this.model = model;
-		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
-		UserRegister registers = new UserRegister(model.getRegisterAccessor());
+		SilverbulletUserEasyAccess properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
+		SilverbulletUserRegister registers = new SilverbulletUserRegister(model.getRegisterAccessor());
 		
 		if (properties.getVipcontrol().compareTo(EnumVipcontrol.ID_VIPCONTROL_START) == 0) {
 			vipSim.start();

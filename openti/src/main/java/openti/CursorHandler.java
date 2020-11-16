@@ -15,7 +15,7 @@ public class CursorHandler implements UserSequencer {
 	@Override
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId)
 			throws RequestRejectedException {
-		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
+		SilverbulletUserEasyAccess properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
 
 		double step = 0.1;
 		for (String id : changed.keySet()) {

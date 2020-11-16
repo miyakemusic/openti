@@ -36,6 +36,7 @@ public class SocketServer {
 	private String uri;
 	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
 	private String deviceName;
+	private String application;
 	
 	public SocketServer(String port, String gui, String filename, String deviceName) {
 		String title = gui + "(" + port + ")";
@@ -70,7 +71,7 @@ public class SocketServer {
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
 		this.deviceName = deviceName;
-		
+		this.application = extractApplication(uri);
 		if (!Files.exists(Paths.get(filename))) {
 			try {
 				this.requestFile();
@@ -142,6 +143,11 @@ public class SocketServer {
 		swingGui.setVisible(true);		
 	}
 
+	private String extractApplication(String uri2) {
+		String[] tmp = uri2.split("[/.]+");
+		return tmp[tmp.length-2];
+	}
+
 	private void requestFile() throws IOException {
 		OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -163,11 +169,11 @@ public class SocketServer {
 			String[] tmp = uri.split("[/:]+");
 			String host = tmp[1];
 			String port = tmp[2];
-			String project = "Default00";
-			String username = "silverbullet";
+			String userid = "Default00";
+			String application = this.application;
 			String deviceName = this.deviceName;
 			boolean headless = true;
-			webServerHandler = new AbstractIndependentMain(host, port, project, username, deviceName, headless) {
+			webServerHandler = new AbstractIndependentMain(host, port, userid, application, deviceName, headless) {
 	
 				@Override
 				protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {

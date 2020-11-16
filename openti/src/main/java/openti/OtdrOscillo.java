@@ -13,8 +13,8 @@ import openti.test.SimHardware;
 public class OtdrOscillo extends AbstractIndependentMain {
 	private Otdr otdr = new Otdr();
 	private Oscillo oscillo = new Oscillo();
-	private UserEasyAccess properties;
-	private UserRegister registers;
+	private SilverbulletUserEasyAccess properties;
+	private SilverbulletUserRegister registers;
 	
 	public OtdrOscillo(String host, String port, String username, String application, String deviceName, boolean headless) {
 		super(host, port, username, application, deviceName, headless);
@@ -49,8 +49,8 @@ public class OtdrOscillo extends AbstractIndependentMain {
 
 	@Override
 	protected void init(SvHandlerModel model) {
-		properties = new UserEasyAccess(model.getEasyAccessInterface());
-		registers = new UserRegister(model.getRegisterAccessor());	
+		properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
+		registers = new SilverbulletUserRegister(model.getRegisterAccessor());	
 	}
 
 }

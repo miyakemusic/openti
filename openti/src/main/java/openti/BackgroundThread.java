@@ -2,12 +2,12 @@ package openti;
 
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.dev.BuilderModelImpl;
-import openti.UserEasyAccess.EnumApplication;
-import openti.UserEasyAccess.EnumCollecmode;
-import openti.UserEasyAccess.EnumError;
-import openti.UserEasyAccess.EnumOtdrTestcontrol;
-import openti.UserRegister.ERROR_STATUS;
-import openti.UserRegister.HARDKEY;
+import openti.SilverbulletUserEasyAccess.EnumApplication;
+import openti.SilverbulletUserEasyAccess.EnumCollecmode;
+import openti.SilverbulletUserEasyAccess.EnumError;
+import openti.SilverbulletUserEasyAccess.EnumOtdrTestcontrol;
+import openti.SilverbulletUserRegister.ERROR_STATUS;
+import openti.SilverbulletUserRegister.HARDKEY;
 
 public class BackgroundThread extends Thread {
 
@@ -19,8 +19,8 @@ public class BackgroundThread extends Thread {
 
 	@Override
 	public void run() {
-		UserRegister register = new UserRegister(model.getRuntimRegisterMap());			
-		UserEasyAccess props = new UserEasyAccess(model.getEasyAccessInterface());
+		SilverbulletUserRegister register = new SilverbulletUserRegister(model.getRuntimRegisterMap());			
+		SilverbulletUserEasyAccess props = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
 
 
 		try {
@@ -72,7 +72,7 @@ public class BackgroundThread extends Thread {
 		}
 	}
 
-	private void toggleStartStop(UserEasyAccess props) throws RequestRejectedException {
+	private void toggleStartStop(SilverbulletUserEasyAccess props) throws RequestRejectedException {
 		if (props.getOtdrTestcontrol().equals(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_STOP)) {
 			props.setOtdrTestcontrol(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START);
 		}

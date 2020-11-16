@@ -22,20 +22,20 @@ import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor.DialogAnswer;
 import jp.silverbullet.core.sequncer.UserSequencer;
 import jp.silverbullet.core.property2.JsTableContent;
-import openti.UserEasyAccess.EnumBertsState;
-import openti.UserEasyAccess.EnumFileFilter;
+import openti.SilverbulletUserEasyAccess.EnumBertsState;
+import openti.SilverbulletUserEasyAccess.EnumFileFilter;
 
 abstract class ActionManager {
 
 	public ActionManager(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) {
-		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
+		SilverbulletUserEasyAccess properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
 		for (String id2 : changed.keySet()) {
 			Id id = new Id(id2);
 			handle(id, changed.get(id2), properties);
 		}
 	}
 
-	abstract protected void handle(Id id, List<ChangedItemValue> list, UserEasyAccess properties);
+	abstract protected void handle(Id id, List<ChangedItemValue> list, SilverbulletUserEasyAccess properties);
 
 }
 
@@ -47,7 +47,7 @@ public class FileManager implements UserSequencer {
 
 		new ActionManager(model, changed) {
 			@Override
-			protected void handle(Id id, List<ChangedItemValue> list, UserEasyAccess properties) {
+			protected void handle(Id id, List<ChangedItemValue> list, SilverbulletUserEasyAccess properties) {
 				if (id.getId().equals(ID.ID_FILE_LIST_UPDATE) || id.getId().equals(ID.ID_FILE_FOLDER)
 						|| id.getId().equals(ID.ID_FILE_FILTER)) {
 					try {
@@ -121,7 +121,7 @@ public class FileManager implements UserSequencer {
 //		tableContent.structureChanged = true;
 		tableContent.headers = Arrays.asList("Name", "Modified", "Size");
 		
-		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
+		SilverbulletUserEasyAccess properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
 		File folder = new File(properties.getFileFolder());
 		
 		tableContent.clear();

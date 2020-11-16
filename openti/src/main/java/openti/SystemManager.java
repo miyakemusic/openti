@@ -9,7 +9,7 @@ import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import openti.UserEasyAccess.EnumLogin;
+import openti.SilverbulletUserEasyAccess.EnumLogin;
 
 public class SystemManager implements UserSequencer {
 
@@ -17,8 +17,8 @@ public class SystemManager implements UserSequencer {
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId)
 			throws RequestRejectedException {
 
-		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
-		UserRegister registers = new UserRegister(model.getRegisterAccessor());
+		SilverbulletUserEasyAccess properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
+		SilverbulletUserRegister registers = new SilverbulletUserRegister(model.getRegisterAccessor());
 
 		if (properties.getLogin().compareTo(EnumLogin.ID_LOGIN_LOGIN) == 0) {
 			if (properties.getUsername().equals("miyakemusic")) {

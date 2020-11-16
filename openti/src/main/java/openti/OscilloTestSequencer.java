@@ -10,8 +10,8 @@ import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import openti.UserEasyAccess.EnumOscTestcontrol;
-import openti.UserRegister.OSCILLO_TEST;
+import openti.SilverbulletUserEasyAccess.EnumOscTestcontrol;
+import openti.SilverbulletUserRegister.OSCILLO_TEST;
 
 public class OscilloTestSequencer implements UserSequencer {
 
@@ -20,8 +20,8 @@ public class OscilloTestSequencer implements UserSequencer {
 	@Override
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId)
 			throws RequestRejectedException {
-		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
-		UserRegister registers = new UserRegister(model.getRegisterAccessor());
+		SilverbulletUserEasyAccess properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
+		SilverbulletUserRegister registers = new SilverbulletUserRegister(model.getRegisterAccessor());
 
 		if (properties.getOscTestcontrol().compareTo(EnumOscTestcontrol.ID_OSC_TESTCONTROL_START) == 0) {	
 //			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x00).write();

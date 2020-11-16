@@ -19,13 +19,13 @@ import jp.silverbullet.core.property2.ChartContent;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
 import jp.silverbullet.core.property2.JsTableContent;
-import openti.UserEasyAccess.EnumCollecmode;
-import openti.UserEasyAccess.EnumDistancerange;
-import openti.UserEasyAccess.EnumOtdrTestcontrol;
-import openti.UserEasyAccess.EnumPulsewidth;
-import openti.UserRegister.TEST_CONFIG1;
-import openti.UserRegister.TEST_CONTROL;
-import openti.UserRegister.TEST_SETUP;
+import openti.SilverbulletUserEasyAccess.EnumCollecmode;
+import openti.SilverbulletUserEasyAccess.EnumDistancerange;
+import openti.SilverbulletUserEasyAccess.EnumOtdrTestcontrol;
+import openti.SilverbulletUserEasyAccess.EnumPulsewidth;
+import openti.SilverbulletUserRegister.TEST_CONFIG1;
+import openti.SilverbulletUserRegister.TEST_CONTROL;
+import openti.SilverbulletUserRegister.TEST_SETUP;
 
 public class TestSequencer implements UserSequencer {
 	private boolean stopRequested;
@@ -49,8 +49,8 @@ public class TestSequencer implements UserSequencer {
 	 */
 
 	public void handleAsync(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
-		UserEasyAccess properties = new UserEasyAccess(model.getEasyAccessInterface());
-		UserRegister registers = new UserRegister(model.getRegisterAccessor());
+		SilverbulletUserEasyAccess properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
+		SilverbulletUserRegister registers = new SilverbulletUserRegister(model.getRegisterAccessor());
 		
 		if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {			
 			stopRequested = false;

@@ -5,8 +5,8 @@ import java.util.List;
 
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.KeyValue;
-import openti.UserEasyAccess.EnumBertStateModule1;
-import openti.UserEasyAccess.EnumBertsModule1Teststate;
+import openti.SilverbulletUserEasyAccess.EnumBertStateModule1;
+import openti.SilverbulletUserEasyAccess.EnumBertsModule1Teststate;
 
 public class BertTester1 extends BertTester {
 
@@ -17,28 +17,28 @@ public class BertTester1 extends BertTester {
 
 
 	@Override
-	protected void onIdle(UserEasyAccess properties) throws RequestRejectedException {
+	protected void onIdle(SilverbulletUserEasyAccess properties) throws RequestRejectedException {
 		properties.setBertStateModule1(EnumBertStateModule1.ID_BERT_STATE_MODULE1_IDLE);
 		properties.setBertsModule1Teststate(EnumBertsModule1Teststate.ID_BERTS_MODULE1_TESTSTATE_STOP);
 	}
 
 	@Override
-	protected void onSavingFile(UserEasyAccess properties) throws RequestRejectedException {
+	protected void onSavingFile(SilverbulletUserEasyAccess properties) throws RequestRejectedException {
 		properties.setBertStateModule1(EnumBertStateModule1.ID_BERT_STATE_MODULE1_SAVING);
 	}
 
 	@Override
-	protected void onAnalyzing(UserEasyAccess properties) throws RequestRejectedException {
+	protected void onAnalyzing(SilverbulletUserEasyAccess properties) throws RequestRejectedException {
 		properties.setBertStateModule1(EnumBertStateModule1.ID_BERT_STATE_MODULE1_ANALYZING);
 	}
 
 	@Override
-	protected void onTesting(UserEasyAccess properties) throws RequestRejectedException {
+	protected void onTesting(SilverbulletUserEasyAccess properties) throws RequestRejectedException {
 		properties.setBertStateModule1(EnumBertStateModule1.ID_BERT_STATE_MODULE1_TESTING);
 	}
 
 	@Override
-	protected void onPreparing(UserEasyAccess properties) throws RequestRejectedException {
+	protected void onPreparing(SilverbulletUserEasyAccess properties) throws RequestRejectedException {
 		properties.setBertStateModule1(EnumBertStateModule1.ID_BERT_STATE_MODULE1_PREPARING);
 	}
 

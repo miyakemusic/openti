@@ -8,7 +8,7 @@ import java.util.Set;
 import jp.silverbullet.core.register2.BitValue;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.register2.RegisterAccessorListener;
-import openti.UserRegister;
+import openti.SilverbulletUserRegister;
 
 public class SimHardware implements RegisterAccessor {
 
@@ -18,7 +18,7 @@ public class SimHardware implements RegisterAccessor {
 		@Override
 		protected void onCompleted() {
 //			System.out.println("SimHardware.OtdrHardware.onCompleted");
-			listeners.forEach(listener -> listener.onUpdate(UserRegister.Register.DATA, otdr.getData()));
+			listeners.forEach(listener -> listener.onUpdate(SilverbulletUserRegister.Register.DATA, otdr.getData()));
 			listeners.forEach(listener -> listener.onInterrupt());
 		}		
 	};
@@ -36,9 +36,9 @@ public class SimHardware implements RegisterAccessor {
 	
 	@Override
 	public void write(Object regName, List<BitValue> data) {
-		if (regName.equals(UserRegister.Register.TEST_CONTROL)) {
+		if (regName.equals(SilverbulletUserRegister.Register.TEST_CONTROL)) {
 			data.forEach(v -> {
-				if (v.bitName.equals(UserRegister.TEST_CONTROL.STA)) {
+				if (v.bitName.equals(SilverbulletUserRegister.TEST_CONTROL.STA)) {
 					if (v.value == 0x01) {
 						otdr.start();
 					}
@@ -46,9 +46,9 @@ public class SimHardware implements RegisterAccessor {
 			});
 			
 		}
-		else if (regName.equals(UserRegister.Register.OSCILLO_TEST)) {
+		else if (regName.equals(SilverbulletUserRegister.Register.OSCILLO_TEST)) {
 			data.forEach(v -> {
-				if (v.bitName.equals(UserRegister.OSCILLO_TEST.TEST)) {
+				if (v.bitName.equals(SilverbulletUserRegister.OSCILLO_TEST.TEST)) {
 					if (v.value == 0x01) {
 						oscillo.start();
 					}
@@ -56,7 +56,7 @@ public class SimHardware implements RegisterAccessor {
 						oscillo.stop();
 					}
 				}
-				else if (v.bitName.equals(UserRegister.OSCILLO_TEST.TRGPOS)) {
+				else if (v.bitName.equals(SilverbulletUserRegister.OSCILLO_TEST.TRGPOS)) {
 					oscillo.setTriggerPos(v.value);
 				}
 			});			
@@ -84,10 +84,10 @@ public class SimHardware implements RegisterAccessor {
 
 	@Override
 	public byte[] readRegister(Object regName) {
-		if (regName.equals(UserRegister.Register.DATA)) {
+		if (regName.equals(SilverbulletUserRegister.Register.DATA)) {
 			return otdr.getData();
 		}
-		else if (regName.equals(UserRegister.Register.EYEDIAGRAM)) {
+		else if (regName.equals(SilverbulletUserRegister.Register.EYEDIAGRAM)) {
 			return this.oscillo.get();
 		}
 		return null;

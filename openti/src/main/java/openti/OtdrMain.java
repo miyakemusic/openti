@@ -20,8 +20,8 @@ public class OtdrMain extends AbstractIndependentMain {
 		new OtdrMain(args[0], args[1], args[2], args[3], args[4], args[5].equals("true"));
 	}
 	
-	private UserEasyAccess properties;
-	private UserRegister registers;
+	private SilverbulletUserEasyAccess properties;
+	private SilverbulletUserRegister registers;
 	
 	@Override
 	protected List<String> getTargetIds() {
@@ -42,8 +42,8 @@ public class OtdrMain extends AbstractIndependentMain {
 
 	@Override
 	protected void init(SvHandlerModel model) {
-		properties = new UserEasyAccess(model.getEasyAccessInterface());
-		registers = new UserRegister(model.getRegisterAccessor());	
+		properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
+		registers = new SilverbulletUserRegister(model.getRegisterAccessor());	
 	}
 }
 

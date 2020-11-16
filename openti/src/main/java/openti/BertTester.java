@@ -10,8 +10,8 @@ import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import openti.UserRegister.ED;
-import openti.UserRegister.PPG;
+import openti.SilverbulletUserRegister.ED;
+import openti.SilverbulletUserRegister.PPG;
 
 abstract class ChangeSelector {
 	abstract void handle(Id id, String value);
@@ -75,8 +75,8 @@ public abstract class BertTester implements UserSequencer {
 	}
 
 	private Object startTrigger = new Object();
-	private UserEasyAccess properties;
-	private UserRegister registers;
+	private SilverbulletUserEasyAccess properties;
+	private SilverbulletUserRegister registers;
 	private boolean restart = false;
 	
 	public BertTester() {
@@ -153,8 +153,8 @@ public abstract class BertTester implements UserSequencer {
 	
 	private void startTest(SvHandlerModel model) {
 		if (properties == null) {
-			properties = new UserEasyAccess(model.getEasyAccessInterface());
-			registers = new UserRegister(model.getRegisterAccessor());
+			properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
+			registers = new SilverbulletUserRegister(model.getRegisterAccessor());
 		}
 		
 		synchronized(startTrigger) {
@@ -168,15 +168,15 @@ public abstract class BertTester implements UserSequencer {
 		}
 	}
 
-	protected abstract void onIdle(UserEasyAccess properties) throws RequestRejectedException;
+	protected abstract void onIdle(SilverbulletUserEasyAccess properties) throws RequestRejectedException;
 
-	protected abstract void onSavingFile(UserEasyAccess properties) throws RequestRejectedException;
+	protected abstract void onSavingFile(SilverbulletUserEasyAccess properties) throws RequestRejectedException;
 
-	protected abstract void onAnalyzing(UserEasyAccess properties) throws RequestRejectedException;
+	protected abstract void onAnalyzing(SilverbulletUserEasyAccess properties) throws RequestRejectedException;
 
-	protected abstract void onTesting(UserEasyAccess properties) throws RequestRejectedException;
+	protected abstract void onTesting(SilverbulletUserEasyAccess properties) throws RequestRejectedException;
 
-	protected abstract void onPreparing(UserEasyAccess properties) throws RequestRejectedException;
+	protected abstract void onPreparing(SilverbulletUserEasyAccess properties) throws RequestRejectedException;
 
 	private void sleep() throws InterruptedException, Exception {
 		Thread.sleep(1000);

@@ -12,13 +12,13 @@ import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
-import openti.UserEasyAccess.EnumOscTestcontrol;
-import openti.UserRegister.OSCILLO_TEST;
+import openti.SilverbulletUserEasyAccess.EnumOscTestcontrol;
+import openti.SilverbulletUserRegister.OSCILLO_TEST;
 
 public class Oscillo {
 
 	private boolean stop;
-	public void doOscillo(Map<String, List<ChangedItemValue>> changed, UserEasyAccess properties, UserRegister registers,
+	public void doOscillo(Map<String, List<ChangedItemValue>> changed, SilverbulletUserEasyAccess properties, SilverbulletUserRegister registers,
 			SvHandlerModel model) {
 		
 		if (Utils.compareValue(changed, ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TESTCONTROL_START)) {

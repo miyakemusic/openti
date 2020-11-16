@@ -9,7 +9,7 @@ import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import openti.UserEasyAccess.EnumLsEnabled;
+import openti.SilverbulletUserEasyAccess.EnumLsEnabled;
 
 public class OltsSequencer implements UserSequencer {
 	private Olts olts = new Olts() {
@@ -23,12 +23,12 @@ public class OltsSequencer implements UserSequencer {
 			}
 		}
 	};
-	private UserEasyAccess properties;
+	private SilverbulletUserEasyAccess properties;
 	
 	@Override
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId)
 			throws RequestRejectedException {
-		properties = new UserEasyAccess(model.getEasyAccessInterface());
+		properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
 		
 		if (properties.getLsEnabled().equals(EnumLsEnabled.ID_LS_ENABLED_ON)) {
 			olts.start();

@@ -10,8 +10,8 @@ import jp.silverbullet.core.sequncer.SvHandlerModel;
 import openti.test.SimHardware;
 
 public class OscilloMain extends AbstractIndependentMain {
-	private UserEasyAccess properties;
-	private UserRegister registers;
+	private SilverbulletUserEasyAccess properties;
+	private SilverbulletUserRegister registers;
 	private Oscillo oscillo = new Oscillo();
 	
 	public OscilloMain(String host, String port, String username, String application, String deviceName, boolean headless) {
@@ -38,8 +38,8 @@ public class OscilloMain extends AbstractIndependentMain {
 	
 	@Override
 	protected void init(SvHandlerModel model) {
-		properties = new UserEasyAccess(model.getEasyAccessInterface());
-		registers = new UserRegister(model.getRegisterAccessor());		
+		properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
+		registers = new SilverbulletUserRegister(model.getRegisterAccessor());		
 	}
 	
 	@Override
