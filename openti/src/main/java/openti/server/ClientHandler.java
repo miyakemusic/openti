@@ -11,7 +11,7 @@ public class ClientHandler {
 
 	private StandaloneTesterModel testerModel;
 
-	public ClientHandler(Socket socket, StandaloneOtdrModel otdrModel) {
+	public ClientHandler(Socket socket, StandaloneDomainModel otdrModel) {
 		new Thread() {
 			@Override
 			public void run() {
@@ -21,7 +21,7 @@ public class ClientHandler {
 		
 	}
 
-	private void handle(Socket socket, StandaloneOtdrModel otdrModel) {
+	private void handle(Socket socket, StandaloneDomainModel otdrModel) {
 		PrintWriter writer = null;
 		BufferedReader reader = null;
 		

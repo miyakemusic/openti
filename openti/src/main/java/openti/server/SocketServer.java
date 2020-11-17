@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -20,27 +21,28 @@ import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
+import jp.silverbullet.core.sequncer.UserSequencer;
 import jp.silverbullet.swing.SwingGui;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import openti.AbstractIndependentMain;
+import openti.OltsSequencer;
+import openti.OscilloTestSequencer;
+import openti.TestSequencer;
+import openti.VipSequencer;
 
 public class SocketServer {
-	public static void main(String[] arg) {
-		new SocketServer(arg[0], arg[1], arg[2], arg[3]);
-	}
-
-	private StandaloneOtdrModel otdrModel;
+	private StandaloneDomainModel otdrModel;
 	private String filename;
 	private String uri;
 	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
 	private String deviceName;
 	private String application;
 	
-	public SocketServer(String port, String gui, String filename, String deviceName) {
+	public SocketServer(String port, String gui, String filename, String deviceName, List<UserSequencer> sequencers) {
 		String title = gui + "(" + port + ")";
-		init(gui, title, filename, deviceName);
+		init(gui, title, filename, deviceName, sequencers);
 		
 		ServerSocket sSocket = null;
 		
@@ -67,7 +69,7 @@ public class SocketServer {
 		}
 	}
 
-	private void init(String gui, String title, String uri, String deviceName) {
+	private void init(String gui, String title, String uri, String deviceName, List<UserSequencer> sequencers) {
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
 		this.deviceName = deviceName;
@@ -80,7 +82,7 @@ public class SocketServer {
 			}
 		}
 		
-		otdrModel = new StandaloneOtdrModel(filename) {
+		otdrModel = new StandaloneDomainModel(filename, sequencers) {
 			@Override
 			protected void onChanged(String id, String value) {
 				webServerHandler.changeValue(id, value);

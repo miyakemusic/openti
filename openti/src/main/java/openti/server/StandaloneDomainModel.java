@@ -19,15 +19,12 @@ import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.Sequencer;
 import jp.silverbullet.core.sequncer.SequencerListener;
 import jp.silverbullet.core.sequncer.SystemAccessor;
+import jp.silverbullet.core.sequncer.UserSequencer;
 import jp.silverbullet.core.ui.part2.UiBuilder;
 import openti.ID;
-import openti.OltsSequencer;
-import openti.OscilloTestSequencer;
-import openti.TestSequencer;
-import openti.VipSequencer;
 import openti.test.SimHardware;
 
-public abstract class StandaloneOtdrModel extends AbstractTesterModel {
+public abstract class StandaloneDomainModel extends AbstractTesterModel {
 	public static void main(String[] arg) {
 //		new StandaloneOtdrModel("C:\\Users\\miyak\\git\\silverbullet\\silverbullet\\persistent\\Native1602326588229\\miyake_otdr.zip");
 	}
@@ -40,7 +37,7 @@ public abstract class StandaloneOtdrModel extends AbstractTesterModel {
 	private BlobStore blobStore;
 	private UiBuilder uiBuilder;
 	private String currentFilename;
-	public StandaloneOtdrModel(String filename) {
+	public StandaloneDomainModel(String filename, List<UserSequencer> sequencers) {
 		uiBuilder = new UiBuilder();
 		
 		this.currentFilename = filename;
@@ -132,11 +129,8 @@ public abstract class StandaloneOtdrModel extends AbstractTesterModel {
 			}
 		});
 		
-		sequencer.addUserSequencer(new TestSequencer());
-		sequencer.addUserSequencer(new OscilloTestSequencer());
-		sequencer.addUserSequencer(new VipSequencer());
-		sequencer.addUserSequencer(new OltsSequencer());
-		
+		sequencers.forEach(userSeq -> sequencer.addUserSequencer(userSeq));
+
 		sequencer.addSequencerListener(new SequencerListener() {
 			@Override
 			public void onChangedBySystem(Id id, String value) {
