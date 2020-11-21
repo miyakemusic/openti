@@ -11,36 +11,73 @@ import jp.silverbullet.core.sequncer.UserSequencer;
 import openti.AnotherUserEasyAccess.EnumStart;
 
 public class SaTestSequencer implements UserSequencer {
+	abstract class Sa {
+		private Object sync = new Object();
+		private boolean stop = false;
+		public Sa() {
+			new Thread() {
 
-	private boolean stop = false;
+				@Override
+				public void run() {
+					while(true) {
+						synchronized(sync) {
+							try {
+								sync.wait();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						
+						stop = false;
+						while(!stop) {
+							onUpdate(Math.random());
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+				
+			}.start();
+		}
+		protected abstract void onUpdate(double random);
+		public void start() {
+			synchronized(sync) {
+				sync.notify();
+			}
+		}
+		public void stop() {
+			this.stop = true;
+		}
+	}
+	
+	private Sa sa  = new Sa() {
+		@Override
+		protected void onUpdate(double random) {
+			try {
+				properties.setResult((long)(random*100));
+			} catch (RequestRejectedException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+	private AnotherUserEasyAccess properties;
 	
 	@Override
 	public void handle(SvHandlerModel model, Map<String, List<ChangedItemValue>> changed, Id sourceId)
 			throws RequestRejectedException {
 		
-		AnotherUserEasyAccess properties = new AnotherUserEasyAccess(model.getEasyAccessInterface());
+		this.properties = new AnotherUserEasyAccess(model.getEasyAccessInterface());
 		AnotherUserRegister registers = new AnotherUserRegister(model.getRegisterAccessor());
 		
 		if (properties.getStart().equals(EnumStart.ID_START_START)) {
-			stop = false;
-			new Thread() {
-				@Override
-				public void run() {
-					while(!stop) {
-						
-						try {
-							properties.setResult((long)(Math.random()*100));
-							Thread.sleep(500);
-						} catch (InterruptedException | RequestRejectedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-			}.start();
+			sa.start();
 		}
 		else if (properties.getStart().equals(EnumStart.ID_START_STOP)) {
-			stop = true;
+			sa.stop();
 		}
 	}
 

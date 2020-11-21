@@ -158,7 +158,7 @@ public abstract class AbstractIndependentMain {
         
 		init(model);
 		
-		
+		login(application, deviceName);
 		SenderThread sender = new SenderThread();
 		sender.start();
 		try {
@@ -203,7 +203,7 @@ public abstract class AbstractIndependentMain {
 			};
 			clienteHandler.login(createMessage());
 			
-			login(application, deviceName);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -267,7 +267,8 @@ public abstract class AbstractIndependentMain {
         }
 	}
 	
-	private void logout() {
+	public void logout() {
+		
         String url = getServer() + "/rest/"+ getPath() + "/logout?userid=" + userid + "&code=forDebug";
         Request request = new Request.Builder().url(url).get().build();
 
@@ -283,6 +284,8 @@ public abstract class AbstractIndependentMain {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        clienteHandler.close();
 	}
 	
 	protected boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {

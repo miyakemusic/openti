@@ -211,6 +211,7 @@ public class SocketServer {
 			};
 		}
 		else {
+			webServerHandler.logout();
 			webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
 		}
 	}
