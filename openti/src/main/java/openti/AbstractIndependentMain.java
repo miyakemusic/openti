@@ -124,7 +124,7 @@ public abstract class AbstractIndependentMain {
         return null;
 	}
 	
-	class SenderThread extends Thread {
+	class ReceiverThread extends Thread {
 		private BlockingQueue<Map<String, List<ChangedItemValue>>> queue = new ArrayBlockingQueue<>(20);
 
 		@Override
@@ -158,9 +158,17 @@ public abstract class AbstractIndependentMain {
         
 		init(model);
 		
-		login(application, deviceName);
-		SenderThread sender = new SenderThread();
-		sender.start();
+		try {
+			login(application, deviceName);
+			ReceiverThread sender = new ReceiverThread();
+			sender.start();
+			createWebSocket(sender);
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		
+	}
+	protected void createWebSocket(ReceiverThread receiver) {
 		try {
 			clienteHandler = new WebSocketClientHandler(host, port) {
 				@Override
@@ -171,7 +179,7 @@ public abstract class AbstractIndependentMain {
 						if (m.type.equals(MessageToDevice.PROPERTYUPDATED)) {
 							ChangesJson changed = new ObjectMapper().readValue(m.json, ChangesJson.class);
 							if (isTargetIdChanged(changed.getChanges())) {
-								sender.push(changed.getChanges());
+								receiver.push(changed.getChanges());
 //								createThread(changed);
 							}
 						}
@@ -250,21 +258,18 @@ public abstract class AbstractIndependentMain {
         }		
 	}
 	
-	private void login(String application2, String deviceName2) {
+	private void login(String application2, String deviceName2) throws IOException {
         String url = getServer() + "/rest/"+ getPath() + "/login?userid=" + userid + "&code=forDebug";
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
-        try {
-            Response response = call.execute();
-            ResponseBody body = response.body();
-            if (body != null) {
 
-            }
-            body.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Response response = call.execute();
+        ResponseBody body = response.body();
+        if (body != null) {
+
         }
+        body.close();
 	}
 	
 	public void logout() {

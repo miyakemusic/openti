@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +26,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import openti.AbstractIndependentMain;
-import openti.OltsSequencer;
-import openti.OscilloTestSequencer;
-import openti.TestSequencer;
-import openti.VipSequencer;
 
 public class SocketServer {
 	private StandaloneDomainModel otdrModel;
