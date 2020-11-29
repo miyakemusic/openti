@@ -20,6 +20,7 @@ import jp.silverbullet.core.property2.ChartContent;
 import jp.silverbullet.core.property2.JsTableContent;
 import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
+import jp.silverbullet.core.sequncer.Utils;
 import openti.SilverbulletUserEasyAccess.EnumCollecmode;
 import openti.SilverbulletUserEasyAccess.EnumDistancerange;
 import openti.SilverbulletUserEasyAccess.EnumOtdrTestcontrol;
