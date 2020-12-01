@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
-import jp.silverbullet.core.property2.ChartContent;
+import jp.silverbullet.core.property2.ChartProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
 import jp.silverbullet.core.property2.JsTableContent;
@@ -120,7 +120,7 @@ public class TestSequencer implements UserSequencer {
 						y[i] = String.valueOf(shorts[(int)(i * step)]);
 					}
 					
-					ChartContent chartContent = new ChartContent();
+					ChartProperty chartContent = new ChartProperty();
 					chartContent.setXmin("0");
 					chartContent.setXmax("100");
 					chartContent.setYmin("-200");

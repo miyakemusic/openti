@@ -16,7 +16,7 @@ import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.DependencySpec;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
-import jp.silverbullet.core.property2.ChartContent;
+import jp.silverbullet.core.property2.ChartProperty;
 import jp.silverbullet.core.property2.JsTableContent;
 import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
@@ -85,7 +85,7 @@ public class Otdr {
 					y[i] = String.valueOf(shorts[(int)(i * step)]);
 				}
 				
-				ChartContent chartContent = new ChartContent();
+				ChartProperty chartContent = new ChartProperty();
 				chartContent.setXmin("0");
 				chartContent.setXmax("100");
 				chartContent.setYmin("-200");

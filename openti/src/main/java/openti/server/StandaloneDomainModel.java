@@ -11,16 +11,18 @@ import jp.silverbullet.core.dependency2.DependencyListener;
 import jp.silverbullet.core.dependency2.DependencySpecHolder;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
-import jp.silverbullet.core.property2.ChartContent;
+import jp.silverbullet.core.property2.ChartProperty;
 import jp.silverbullet.core.property2.PropertyHolder2;
 import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.property2.RuntimePropertyStore;
 import jp.silverbullet.core.register2.RegisterAccessor;
+import jp.silverbullet.core.sequncer.LocalPersistent;
 import jp.silverbullet.core.sequncer.Sequencer;
 import jp.silverbullet.core.sequncer.SequencerListener;
 import jp.silverbullet.core.sequncer.SystemAccessor;
 import jp.silverbullet.core.sequncer.UserSequencer;
 import jp.silverbullet.core.ui.part2.UiBuilder;
+import jp.silverbullet.dev.PersistentHolder;
 import openti.ID;
 import openti.test.SimHardware;
 
@@ -33,6 +35,7 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 	private Sequencer sequencer;
 	private PropertyHolder2 propertiesHolder2 = new PropertyHolder2();
 	private DependencySpecHolder dependencySpecHolder2 = new DependencySpecHolder();
+	private PersistentHolder persistentHolder = new PersistentHolder();
 	private DependencyEngine dependencyEngine;
 	private BlobStore blobStore;
 	private UiBuilder uiBuilder;
@@ -130,7 +133,7 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 		});
 		
 		sequencers.forEach(userSeq -> sequencer.addUserSequencer(userSeq));
-
+		sequencer.addUserSequencer(new LocalPersistent(persistentHolder, this.propertyStore, this.blobStore));
 		sequencer.addSequencerListener(new SequencerListener() {
 			@Override
 			public void onChangedBySystem(Id id, String value) {
@@ -158,6 +161,7 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 		propertiesHolder2.load("tmp/" + MyFileUtils.ID_DEF_JSON);
 		dependencySpecHolder2.load("tmp/" + MyFileUtils.DEPENDENCYSPEC3_XML);
 		uiBuilder.loadJson("tmp/" + MyFileUtils.UIBUILDER2);
+		persistentHolder.load("tmp/");
 	}
 
 	@Override
@@ -172,7 +176,7 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 	@Override
 	public String getValue(String id) {
 		if (ID.ID_TRACE.equals(id)) {
-			ChartContent chartContent = (ChartContent)this.blobStore.get(id);
+			ChartProperty chartContent = (ChartProperty)this.blobStore.get(id);
 			StringBuffer buf  = new StringBuffer();
 			for (String s: chartContent.getY()) {
 				buf.append(s+",");

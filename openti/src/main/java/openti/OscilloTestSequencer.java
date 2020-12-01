@@ -8,6 +8,7 @@ import java.util.Map;
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
+import jp.silverbullet.core.property2.ImageProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
 import openti.SilverbulletUserEasyAccess.EnumOscTestcontrol;
@@ -36,10 +37,12 @@ public class OscilloTestSequencer implements UserSequencer {
 					stop = false;
 					while (!stop) {
 						try {					  
-							byte[] b = Base64.getEncoder().encode(registers.eyediagram.read());
-							String base64 = "data:image/png;base64," + new String(b);
+							byte[] b = registers.eyediagram.read();
+							//byte[] b = Base64.getEncoder().encode(registers.eyediagram.read());
+							//String base64 = "data:image/png;base64," + new String(b);
 							try {
-								model.getEasyAccessInterface().requestChange(new Id(ID.ID_OSC_EYEDIAGRAM), base64, String.valueOf(System.currentTimeMillis()));
+								model.getEasyAccessInterface().requestChange(new Id(ID.ID_OSC_EYEDIAGRAM), 
+										new ImageProperty(b), String.valueOf(System.currentTimeMillis()));
 							} catch (RequestRejectedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

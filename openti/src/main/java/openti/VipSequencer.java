@@ -7,6 +7,7 @@ import org.apache.commons.codec.binary.Base64;
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
+import jp.silverbullet.core.property2.ImageProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
 import openti.SilverbulletUserEasyAccess.EnumVipcontrol;
@@ -20,9 +21,8 @@ public class VipSequencer implements UserSequencer {
 		protected void onUpdate(byte[] bytes) {
 			String base64 = Base64.encodeBase64String(bytes);
 			try {
-				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, "data:image/png;base64," + base64, String.valueOf(System.currentTimeMillis()));
-//				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, "data:image/png;base64," + base64);
-
+//				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, "data:image/png;base64," + base64, String.valueOf(System.currentTimeMillis()));
+				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, new ImageProperty(bytes), String.valueOf(System.currentTimeMillis()));
 			} catch (RequestRejectedException e) {
 				e.printStackTrace();
 			}
