@@ -21,7 +21,7 @@ import jp.silverbullet.core.property2.SvFileException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor.DialogAnswer;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import jp.silverbullet.core.property2.JsTableContent;
+import jp.silverbullet.core.property2.TableProperty;
 import openti.SilverbulletUserEasyAccess.EnumBertsState;
 import openti.SilverbulletUserEasyAccess.EnumFileFilter;
 
@@ -58,7 +58,7 @@ public class FileManager implements UserSequencer {
 				}
 				else if (id.getId().equals(ID.ID_FILE_LIST)){
 					String str = properties.getFileList();
-					JsTableContent obj = JsTableContent.read(str);//new ObjectMapper().readValue(str, JsTableContent.class);
+					TableProperty obj = TableProperty.read(str);//new ObjectMapper().readValue(str, JsTableContent.class);
 					//System.out.println(obj.selectedRow);
 					try {
 						if (obj.getData().size() > obj.getSelectedRow()) {
@@ -108,10 +108,10 @@ public class FileManager implements UserSequencer {
 
 	protected void updateFileList(SvHandlerModel model) throws JsonParseException, JsonMappingException, IOException {
 		String value = model.getEasyAccessInterface().getCurrentValue(ID.ID_FILE_LIST);
-		JsTableContent tableContent = new JsTableContent();
+		TableProperty tableContent = new TableProperty();
 		if (!value.isEmpty()) {
 			try {
-				tableContent = new ObjectMapper().readValue(value, JsTableContent.class);//new JsTableContent();
+				tableContent = new ObjectMapper().readValue(value, TableProperty.class);//new JsTableContent();
 			}
 			catch (Exception e) {
 				e.printStackTrace();

@@ -17,7 +17,7 @@ import jp.silverbullet.core.dependency2.DependencySpec;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.ChartProperty;
-import jp.silverbullet.core.property2.JsTableContent;
+import jp.silverbullet.core.property2.TableProperty;
 import jp.silverbullet.core.property2.RuntimeProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.Utils;
@@ -92,7 +92,7 @@ public class Otdr {
 				chartContent.setYmax("200");	
 				chartContent.setY(y);
 				
-				JsTableContent tableContent = new JsTableContent();
+				TableProperty tableContent = new TableProperty();
 				tableContent.headers = Arrays.asList("Element", "F1A", "F2A", "F3A", "F5A", "F6A", "F7A", "Total");
 				
 				points = 10;		

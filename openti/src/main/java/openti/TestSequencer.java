@@ -18,7 +18,7 @@ import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.property2.ChartProperty;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
-import jp.silverbullet.core.property2.JsTableContent;
+import jp.silverbullet.core.property2.TableProperty;
 import openti.SilverbulletUserEasyAccess.EnumCollecmode;
 import openti.SilverbulletUserEasyAccess.EnumDistancerange;
 import openti.SilverbulletUserEasyAccess.EnumOtdrTestcontrol;
@@ -127,7 +127,7 @@ public class TestSequencer implements UserSequencer {
 					chartContent.setYmax("200");	
 					chartContent.setY(y);
 					
-					JsTableContent tableContent = new JsTableContent();
+					TableProperty tableContent = new TableProperty();
 //					tableContent.structureChanged = newFlag;
 					newFlag = false;
 					tableContent.headers = Arrays.asList("Element", "F1A", "F2A", "F3A", "F5A", "F6A", "F7A", "Total");
@@ -156,14 +156,8 @@ public class TestSequencer implements UserSequencer {
 						model.getEasyAccessInterface().requestChange(new Id(ID.ID_TRACE), chartContent, 
 								String.valueOf(Calendar.getInstance().getTime().getTime()));
 
-						model.getEasyAccessInterface().requestChange(ID.ID_TABLE, new ObjectMapper().writeValueAsString(tableContent));
+						model.getEasyAccessInterface().requestChange(ID.ID_TABLE, tableContent, String.valueOf(Calendar.getInstance().getTime().getTime()));
 						properties.setLoss(Math.random() * 10.0 + 10.0);
-					} catch (JsonGenerationException e) {
-						e.printStackTrace();
-					} catch (JsonMappingException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
 					} catch (RequestRejectedException e) {
 						e.printStackTrace();
 					}

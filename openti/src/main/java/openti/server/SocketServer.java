@@ -3,6 +3,7 @@ package openti.server;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,16 +29,17 @@ import okhttp3.Response;
 import openti.AbstractIndependentMain;
 
 public class SocketServer {
-	private StandaloneDomainModel otdrModel;
+	private StandaloneDomainModel domainModel;
 	private String filename;
 	private String uri;
 	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
 	private String deviceName;
 	private String application;
 	
-	public SocketServer(String port, String gui, String filename, String deviceName, List<UserSequencer> sequencers) {
+	public SocketServer(String port, String gui, String filename, String deviceName, List<UserSequencer> sequencers, 
+			String imagePath) {
 		String title = gui + "(" + port + ")";
-		init(gui, title, filename, deviceName, sequencers);
+		init(gui, title, filename, deviceName, sequencers, imagePath);
 		
 		ServerSocket sSocket = null;
 		
@@ -47,7 +49,7 @@ public class SocketServer {
 			while(true) {
 				System.out.println("Waiting for client");
 				Socket socket = sSocket.accept();
-				new ClientHandler(socket, otdrModel);
+				new ClientHandler(socket, domainModel);
 			
 			}
 		}catch(Exception e){
@@ -64,7 +66,7 @@ public class SocketServer {
 		}
 	}
 
-	private void init(String gui, String title, String uri, String deviceName, List<UserSequencer> sequencers) {
+	private void init(String gui, String title, String uri, String deviceName, List<UserSequencer> sequencers, String imagePath) {
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
 		this.deviceName = deviceName;
@@ -77,7 +79,7 @@ public class SocketServer {
 			}
 		}
 		
-		otdrModel = new StandaloneDomainModel(filename, sequencers) {
+		domainModel = new StandaloneDomainModel(filename, sequencers) {
 			@Override
 			protected void onChanged(String id, String value) {
 				webServerHandler.changeValue(id, value);
@@ -88,21 +90,22 @@ public class SocketServer {
 				webServerHandler.changeBlob(id, value, name);
 			}
 		};
-		//Image bgImage =  Toolkit.getDefaultToolkit().createImage(this.getClass().getClassLoader().getResource("capture.PNG").toExternalForm());
+
 		Image bgImage = null;
 		try {
-			bgImage = ImageIO.read(getClass().getClassLoader().getResource("openti/server/capture.PNG"));
+//			bgImage = ImageIO.read(getClass().getClassLoader().getResource("openti/server/capture.PNG"));
+			bgImage = ImageIO.read(new File(imagePath));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		SwingGui swingGui = new SwingGui(otdrModel.getUiBuilder(), otdrModel.getPropertyStore(), 
-				otdrModel.getBlobStore(), otdrModel.getSequencer(), gui, title, bgImage) {
+		SwingGui swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 
+				domainModel.getBlobStore(), domainModel.getSequencer(), gui, title, bgImage) {
 
 					protected void onReload() {
 						try {
 							requestFile();
-							otdrModel.reload();
+							domainModel.reload();
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -174,7 +177,7 @@ public class SocketServer {
 	
 				@Override
 				protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
-					otdrModel.handle(changed);
+					domainModel.handle(changed);
 				}
 	
 				@Override
