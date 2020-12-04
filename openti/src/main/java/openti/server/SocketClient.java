@@ -33,7 +33,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import openti.ScriptManager;
+import jp.silverbullet.dev.ScriptManager;
 
 
 public class SocketClient extends JFrame {
