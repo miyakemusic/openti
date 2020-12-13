@@ -29,6 +29,7 @@ import okhttp3.Response;
 import openti.AbstractIndependentMain;
 
 public class SocketServer {
+	public static final String FromServer = "FromServer";
 	private StandaloneDomainModel domainModel;
 	private String filename;
 	private String uri;
@@ -93,10 +94,8 @@ public class SocketServer {
 
 		Image bgImage = null;
 		try {
-//			bgImage = ImageIO.read(getClass().getClassLoader().getResource("openti/server/capture.PNG"));
 			bgImage = ImageIO.read(new File(imagePath));
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		SwingGui swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 

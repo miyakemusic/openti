@@ -133,22 +133,32 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 		});
 		
 		sequencers.forEach(userSeq -> sequencer.addUserSequencer(userSeq));
-		sequencer.addUserSequencer(new LocalPersistent(persistentHolder, this.propertyStore, this.blobStore));
+		sequencer.addUserSequencer(new LocalPersistent(persistentHolder, this.propertyStore, this.blobStore) {
+
+			@Override
+			protected String getStorePath() {
+				return "store/";
+			}
+			
+		});
 		sequencer.addSequencerListener(new SequencerListener() {
 			@Override
 			public void onChangedBySystem(Id id, String value) {
-				if (blobStore.stores(id.getId())) {
-					onBlobChanged(id.getId(), blobStore.get(id.getId()), value);
+				if (!id.getSource().equals(SocketServer.FromServer)) {
+					if (blobStore.stores(id.getId())) {
+						onBlobChanged(id.getId(), blobStore.get(id.getId()), value);
+					}
+					else {
+						onChanged(id.getId(), value);
+					}
 				}
-				else {
-					onChanged(id.getId(), value);
-				}
-				
 			}
 
 			@Override
 			public void onChangedByUser(Id id, String value) {
-				onChanged(id.getId(), value);
+				if (!id.getSource().equals(SocketServer.FromServer)) {
+					onChanged(id.getId(), value);
+				}
 			}
 		});
 	}
@@ -212,7 +222,7 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 			for (ChangedItemValue civ : v) {
 				try {
 					id = RuntimeProperty.convertSimpleId(id);
-					this.sequencer.requestChange(new Id(id), civ.getValue());
+					this.sequencer.requestChange(new Id(id, 0, SocketServer.FromServer), civ.getValue());
 				} catch (RequestRejectedException e) {
 					e.printStackTrace();
 				}
