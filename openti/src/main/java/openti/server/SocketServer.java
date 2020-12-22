@@ -3,12 +3,14 @@ package openti.server;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +39,42 @@ public class SocketServer {
 	private String deviceName;
 	private String application;
 	
-	public SocketServer(String port, String gui, String filename, String deviceName, List<UserSequencer> sequencers, 
-			String imagePath) {
+	public SocketServer(String configFile,List<UserSequencer> sequencers) {
+		Map<String, String> config = parseConfig(configFile);
+		
+		constructor(config.get("PORT"), config.get("ENTRY"), config.get("URI"), 
+				config.get("NAME"), sequencers, config.get("IMAGE"),
+				Integer.valueOf(config.get("TOPMARGIN")), 
+				Integer.valueOf(config.get("LEFTMARGIN")),
+				Integer.valueOf(config.get("WIDTH")),
+				Integer.valueOf(config.get("HEIGHT")));
+	}
+	
+	private Map<String, String> parseConfig(String configFile) {
+		try {
+			Map<String, String> ret = new HashMap<>();
+			List<String> lines = Files.readAllLines(Paths.get(configFile));
+			for (String line : lines) {
+				if (line.isEmpty()) {
+					continue;
+				}
+				String[] tmp = line.split("=");
+				ret.put(tmp[0], tmp[1]);
+			}
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void constructor(String port, String gui, String filename, 
+			String deviceName, List<UserSequencer> sequencers, 
+			String imagePath, int topMargin, int leftMargin, int width, int height) {
 		String title = gui + "(" + port + ")";
-		init(gui, title, filename, deviceName, sequencers, imagePath);
+		init(gui, title, filename, deviceName, sequencers, imagePath,
+				topMargin, leftMargin, width, height);
 		
 		ServerSocket sSocket = null;
 		
@@ -67,7 +101,9 @@ public class SocketServer {
 		}
 	}
 
-	private void init(String gui, String title, String uri, String deviceName, List<UserSequencer> sequencers, String imagePath) {
+	private void init(String gui, String title, String uri, String deviceName, 
+			List<UserSequencer> sequencers, String imagePath, 
+			int topMargin, int leftMaring, int width, int height) {
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
 		this.deviceName = deviceName;
@@ -92,14 +128,15 @@ public class SocketServer {
 			}
 		};
 
-		Image bgImage = null;
+		BufferedImage  bgImage = null;
 		try {
 			bgImage = ImageIO.read(new File(imagePath));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		SwingGui swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 
-				domainModel.getBlobStore(), domainModel.getSequencer(), gui, title, bgImage) {
+				domainModel.getBlobStore(), domainModel.getSequencer(), 
+				gui, title, bgImage, topMargin, leftMaring, width, height) {
 
 					protected void onReload() {
 						try {
@@ -185,12 +222,6 @@ public class SocketServer {
 				}
 				@Override
 				protected List<String> getTargetIds() {
-//						List<String> all = new ArrayList<>();
-//						
-//						for (Field f : Id.class.getFields()) {
-//							all.add(f.getName());
-//						}
-//						return all;//otdrModel.getTargetIds();
 					return null;//
 				}
 
