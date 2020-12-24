@@ -239,17 +239,6 @@ public class SocketClient extends JFrame {
 			}
 
 			@Override
-			public void log(String arg) {
-				print(arg);
-				
-			}
-
-			@Override
-			public void message(String message) {
-		    	JOptionPane.showMessageDialog(SocketClient.this, message);
-		    }
-
-			@Override
 			public String waitEqual(String addr, String id, String value) {
 				while (true) {
 					if (read(addr, id).equals(value)) {
@@ -263,6 +252,18 @@ public class SocketClient extends JFrame {
 					}
 				}
 				return "";
+			}
+
+			@Override
+			public void debug(String arg) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void message(String addr, String message) {
+				// TODO Auto-generated method stub
+				
 			}
 			
 		}.start(Arrays.asList(this.scriptArea.getText().split("\n")));

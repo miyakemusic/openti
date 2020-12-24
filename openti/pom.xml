@@ -42,7 +42,7 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<mainClass>openti.OtdrMain</mainClass>
+								<mainClass>openti.server.SocketServerWired</mainClass>
 							</manifest>
 						</archive>
 						<descriptorRefs>
