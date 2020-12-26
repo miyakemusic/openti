@@ -261,10 +261,11 @@ public class SocketClient extends JFrame {
 			}
 
 			@Override
-			public void message(String addr, String message) {
+			public String message(String addr, String message, String controls) {
 				// TODO Auto-generated method stub
-				
+				return null;
 			}
+
 			
 		}.start(Arrays.asList(this.scriptArea.getText().split("\n")));
 	}

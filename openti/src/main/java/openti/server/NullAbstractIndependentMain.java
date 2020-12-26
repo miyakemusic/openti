@@ -10,6 +10,7 @@ import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
+import jp.silverbullet.dev.MessageObject;
 import openti.AbstractIndependentMain;
 
 public class NullAbstractIndependentMain extends AbstractIndependentMain {
@@ -60,6 +61,12 @@ public class NullAbstractIndependentMain extends AbstractIndependentMain {
 	@Override
 	protected void initialize(String deviceName) {
 
+	}
+
+	@Override
+	protected void onMessage(MessageObject message2) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -27,6 +27,8 @@ import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.EasyAccessInterface;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor;
+import jp.silverbullet.dev.ControlObject;
+import jp.silverbullet.dev.MessageObject;
 import jp.silverbullet.web.ChangesJson;
 import jp.silverbullet.web.FilePendingResponse;
 import jp.silverbullet.web.MessageToDevice;
@@ -183,12 +185,17 @@ public abstract class AbstractIndependentMain {
 //								createThread(changed);
 							}
 						}
+						else if (m.type.contentEquals(MessageToDevice.MESSAGE)) {
+							MessageObject obj = new ObjectMapper().readValue(m.json, MessageObject.class);
+							onMessage(obj);
+						}
 						else if (m.type.equals(MessageToDevice.FILEREADY)){
 							pendingFiles = new ObjectMapper().readValue(m.json, FilePendingResponse.class);
 							
 							mainUI.onPendingFilesUpdated(pendingFiles.list);
 							//download(fm.fileID, fm.path);
 						}
+
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -217,6 +224,7 @@ public abstract class AbstractIndependentMain {
 		}
 	}
 
+	protected abstract void onMessage(MessageObject obj);
 	protected void download(String fileID, String filename, String path) {
         String url = getServer() + "/rest/"+ getPath() + "/download?userid=" + userid + "&fileid=" + fileID + "&code=forDebug";
         Request request = new Request.Builder().url(url).get().build();
@@ -452,7 +460,7 @@ public abstract class AbstractIndependentMain {
 				}
 
 				@Override
-				public void message(String string) {
+				public void message(String string, ControlObject controls) {
 					// TODO Auto-generated method stub
 					
 				}

@@ -9,6 +9,7 @@ import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.Utils;
+import jp.silverbullet.dev.MessageObject;
 
 public class OltsMain extends AbstractIndependentMain {
 	public static void main(String[] args) {
@@ -59,6 +60,12 @@ public class OltsMain extends AbstractIndependentMain {
 
 	@Override
 	protected void init(SvHandlerModel model) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onMessage(MessageObject obj) {
 		// TODO Auto-generated method stub
 		
 	}

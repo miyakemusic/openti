@@ -28,7 +28,8 @@ public 	abstract class VipSimulator {
 		}
 		
         try {
-			originalImage = ImageIO.read(new File(getClass().getResource("/openti/test/manta.jpg").getPath()));
+        	File imageFile = new File(getClass().getResource("/openti/test/manta.jpg").getPath());
+			originalImage = ImageIO.read(imageFile);
 		} catch (IOException e) {
 			try {
 				originalImage = ImageIO.read(new File("Microscope-SM.jpg"));

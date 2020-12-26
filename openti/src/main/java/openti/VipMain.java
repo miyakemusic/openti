@@ -12,6 +12,7 @@ import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.Utils;
+import jp.silverbullet.dev.MessageObject;
 
 public class VipMain extends AbstractIndependentMain {
 	public static void main(String[] args) {
@@ -89,6 +90,12 @@ public class VipMain extends AbstractIndependentMain {
 
 	@Override
 	protected void init(SvHandlerModel model) {
+		
+	}
+
+	@Override
+	protected void onMessage(MessageObject message2) {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -70,6 +70,7 @@ public abstract class MainUI extends JFrame implements IMainUI{
 		this.setTitle(deviceName);
 	}
 
+	
 	public void onPendingFilesUpdated(List<File> files) {
 		model.clear();
 		for (File m : files) {

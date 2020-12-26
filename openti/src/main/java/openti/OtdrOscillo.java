@@ -8,6 +8,7 @@ import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
+import jp.silverbullet.dev.MessageObject;
 import openti.test.SimHardware;
 
 public class OtdrOscillo extends AbstractIndependentMain {
@@ -51,6 +52,12 @@ public class OtdrOscillo extends AbstractIndependentMain {
 	protected void init(SvHandlerModel model) {
 		properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
 		registers = new SilverbulletUserRegister(model.getRegisterAccessor());	
+	}
+
+	@Override
+	protected void onMessage(MessageObject message2) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -7,6 +7,7 @@ import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
+import jp.silverbullet.dev.MessageObject;
 import openti.test.SimHardware;
 
 public class OscilloMain extends AbstractIndependentMain {
@@ -47,6 +48,12 @@ public class OscilloMain extends AbstractIndependentMain {
 			throws RequestRejectedException {
 
 		oscillo.doOscillo(changed, properties, registers, getModel());
+	}
+
+	@Override
+	protected void onMessage(MessageObject message2) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

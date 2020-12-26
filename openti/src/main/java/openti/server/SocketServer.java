@@ -24,6 +24,7 @@ import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
+import jp.silverbullet.dev.MessageObject;
 import jp.silverbullet.swing.SwingGui;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,6 +39,7 @@ public class SocketServer {
 	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
 	private String deviceName;
 	private String application;
+	private SwingGui swingGui;
 	
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
 		Map<String, String> config = parseConfig(configFile);
@@ -134,7 +136,7 @@ public class SocketServer {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		SwingGui swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 
+		swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 
 				domainModel.getBlobStore(), domainModel.getSequencer(), 
 				gui, title, bgImage, topMargin, leftMaring, width, height) {
 
@@ -234,6 +236,11 @@ public class SocketServer {
 				@Override
 				protected void init(SvHandlerModel model) {
 					
+				}
+
+				@Override
+				protected void onMessage(MessageObject message2) {
+					swingGui.showMessage(message2);
 				}
 					
 			};
