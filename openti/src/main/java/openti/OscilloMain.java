@@ -16,7 +16,7 @@ public class OscilloMain extends AbstractIndependentMain {
 	private Oscillo oscillo = new Oscillo();
 	
 	public OscilloMain(String host, String port, String username, String application, String deviceName, boolean headless) {
-		super(host, port, username, application, deviceName, headless);
+		super(host, port, username, "password", application, deviceName, headless);
 	}
 
 	public static void main(String[] args) {

@@ -15,9 +15,9 @@ import openti.AbstractIndependentMain;
 
 public class NullAbstractIndependentMain extends AbstractIndependentMain {
 
-	public NullAbstractIndependentMain(String host, String port, String userid, String application, String deviceName,
+	public NullAbstractIndependentMain(String host, String port, String userid, String password, String application, String deviceName,
 			boolean headless) {
-		super(host, port, userid, application, deviceName, headless);
+		super(host, port, userid, password, application, deviceName, headless);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -1,6 +1,5 @@
 package openti.server;
 
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -16,8 +15,10 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.border.TitledBorder;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
@@ -25,6 +26,7 @@ import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
 import jp.silverbullet.dev.MessageObject;
+import jp.silverbullet.dev.ScriptManager;
 import jp.silverbullet.swing.SwingGui;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -36,10 +38,14 @@ public class SocketServer {
 	private StandaloneDomainModel domainModel;
 	private String filename;
 	private String uri;
-	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
+	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, filename, false);
 	private String deviceName;
 	private String application;
 	private SwingGui swingGui;
+	private String host;
+	private String port;
+	private String userid;
+	private String password;
 	
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
 		Map<String, String> config = parseConfig(configFile);
@@ -108,6 +114,12 @@ public class SocketServer {
 			int topMargin, int leftMaring, int width, int height) {
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
+		
+		String[] tmp = this.uri.split("[/:]+");
+		this.host = tmp[1];
+		this.port = tmp[2];
+		this.userid = "Default00";
+		this.password = "password";
 		this.deviceName = deviceName;
 		this.application = extractApplication(uri);
 		if (!Files.exists(Paths.get(filename))) {
@@ -152,6 +164,7 @@ public class SocketServer {
 
 					@Override
 					protected void initToolbar(JPanel toolBar) {
+						JComboBox<String> automatorList = new JComboBox<>();
 						JToggleButton onlineButton = new JToggleButton("Online");
 						toolBar.add(onlineButton);
 						onlineButton.addActionListener(new ActionListener() {
@@ -159,6 +172,7 @@ public class SocketServer {
 							public void actionPerformed(ActionEvent arg0) {
 								try {
 									goOnline(onlineButton.isSelected());
+									webServerHandler.getAutoScripts().forEach(item -> automatorList.addItem(item));
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -173,6 +187,20 @@ public class SocketServer {
 							public void actionPerformed(ActionEvent arg0) {
 								onReload();
 								updateGUI();
+							}
+						});
+						
+						JPanel autoPanel = new JPanel();
+						autoPanel.setBorder(new TitledBorder("Automator"));
+						toolBar.add(autoPanel);
+						
+						JButton runAutomator = new JButton("Run");
+						autoPanel.add(automatorList);
+						autoPanel.add(runAutomator);
+						runAutomator.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								retreiveScript(automatorList.getSelectedItem().toString());
 							}
 						});
 					}
@@ -203,15 +231,9 @@ public class SocketServer {
 	private void goOnline(boolean b) throws IOException {
 		if (b) {
 			requestFile();
-				
-			String[] tmp = uri.split("[/:]+");
-			String host = tmp[1];
-			String port = tmp[2];
-			String userid = "Default00";
-			String application = this.application;
-			String deviceName = this.deviceName;
+			
 			boolean headless = true;
-			webServerHandler = new AbstractIndependentMain(host, port, userid, application, deviceName, headless) {
+			webServerHandler = new AbstractIndependentMain(this.host, this.port, userid, password, this.application, this.deviceName, headless) {
 	
 				@Override
 				protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
@@ -242,12 +264,63 @@ public class SocketServer {
 				protected void onMessage(MessageObject message2) {
 					swingGui.showMessage(message2);
 				}
-					
 			};
+			
 		}
 		else {
 			webServerHandler.logout();
-			webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, false);
+			webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, filename, false);
 		}
+	}
+	
+	private void retreiveScript(String name) {
+		List<String> srcipt = webServerHandler.retreiveScript(name);
+		new ScriptManager() {
+
+			@Override
+			public void write(String addr, String command) {
+				if (addr.equals(SocketServer.this.deviceName)) {
+					String[] tmp = command.split("=");
+					
+					try {
+						domainModel.getSequencer().requestChange(tmp[0], tmp[1]);
+					} catch (RequestRejectedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			@Override
+			public String read(String addr, String query) {
+				if (addr.equals(SocketServer.this.deviceName)) {
+					//String[] tmp = command.split("=");
+					//domainModel.getValue(id)
+				}
+				return null;
+			}
+
+			@Override
+			public String waitEqual(String addr, String id, String value) {
+				if (addr.equals(SocketServer.this.deviceName)) {
+					
+				}
+				return null;
+			}
+
+			@Override
+			public void debug(String arg) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public String message(String addr, String message, String controls) {
+				if (addr.equals(SocketServer.this.deviceName)) {
+					
+				}
+				return null;
+			}
+			
+		}.start(srcipt);
 	}
 }

@@ -31,6 +31,7 @@ import jp.silverbullet.dev.ControlObject;
 import jp.silverbullet.dev.MessageObject;
 import jp.silverbullet.web.ChangesJson;
 import jp.silverbullet.web.FilePendingResponse;
+import jp.silverbullet.web.ListStringClass;
 import jp.silverbullet.web.MessageToDevice;
 import jp.silverbullet.web.WebSocketClientHandler;
 import jp.silverbullet.web.WsLoginMessage;
@@ -60,16 +61,19 @@ public abstract class AbstractIndependentMain {
 //	protected FileUploadMessage fileUploadMessage;
 	private FilePendingResponse pendingFiles;
 	private boolean headless;
+	private String authenticationCode = "forDebug"; // This is tentative. MUST be implemented formally
+	private String password;
 	
 //	private List<FileUploadMessage> pendingFiles = new ArrayList<>();
 
-	public AbstractIndependentMain(String host, String port, String userid, String application, 
+	public AbstractIndependentMain(String host, String port, String userid, String password, String application, 
 			String deviceName, boolean headless) {
 		this.host = host;
 		this.port = port;
 		this.application = application;
 		this.deviceName = deviceName;
 		this.userid = userid;
+		this.password = password;
 		this.headless = headless;
 		
 		initialize(deviceName);
@@ -106,7 +110,7 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	protected List<com.google.api.services.drive.model.File> getPendingFiles() {
-        String url = getServer() + "/rest/"+ getPath() + "/pendingFiles?userid=" + userid + "&code=forDebug";
+        String url = getServer() + "/rest/"+ getPath() + "/pendingFiles?userid=" + userid + "&password=" + this.password + "&code=" + this.authenticationCode;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -226,7 +230,7 @@ public abstract class AbstractIndependentMain {
 
 	protected abstract void onMessage(MessageObject obj);
 	protected void download(String fileID, String filename, String path) {
-        String url = getServer() + "/rest/"+ getPath() + "/download?userid=" + userid + "&fileid=" + fileID + "&code=forDebug";
+        String url = getServer() + "/rest/"+ getPath() + "/download?userid=" + userid + "&password=" + password + "&fileid=" + fileID + "&code="+ this.authenticationCode;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -248,7 +252,7 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	private void confirmDonwloaded(String fileID) {
-        String url = getServer() + "/rest/"+ getPath() + "/downloadCompleted?userid=" + userid + "&fileid=" + fileID + "&code=forDebug";
+        String url = getServer() + "/rest/"+ getPath() + "/downloadCompleted?userid=" + userid + "&password=" + password + "&fileid=" + fileID + "&code=" + this.authenticationCode;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -267,7 +271,7 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	private void login(String application2, String deviceName2) throws IOException {
-        String url = getServer() + "/rest/"+ getPath() + "/login?userid=" + userid + "&code=forDebug";
+        String url = getServer() + "/rest/"+ getPath() + "/login?userid=" + this.userid + "&password=" + password + "&code=" + this.authenticationCode ;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -282,7 +286,7 @@ public abstract class AbstractIndependentMain {
 	
 	public void logout() {
 		
-        String url = getServer() + "/rest/"+ getPath() + "/logout?userid=" + userid + "&code=forDebug";
+        String url = getServer() + "/rest/"+ getPath() + "/logout?userid=" + this.userid + "&password=" + password + "&code=" + this.authenticationCode;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -301,6 +305,53 @@ public abstract class AbstractIndependentMain {
         clienteHandler.close();
 	}
 	
+	public List<String> getAutoScripts() {
+        String url = getServer() + "/rest/"+ this.application + "/domain/autoScriptListFromDevice?userid=" + this.userid + "&password=" + password + "&code=" + this.authenticationCode ;
+        Request request = new Request.Builder().url(url).get().build();
+
+        Call call = client.newCall(request);
+
+        try {
+	        Response response = call.execute();
+	        ResponseBody body = response.body();
+	        
+	        ListStringClass ret = new ListStringClass();
+	        if (body != null) {
+	        	
+	        	ret = new ObjectMapper().readValue(body.byteStream(), ListStringClass.class);
+	        }
+	        body.close();
+	        return ret.list;
+        }
+        catch (Exception e) {
+        	e.printStackTrace();
+        }
+        return null;
+	}
+	
+	public List<String> retreiveScript(String name) {
+        String url = getServer() + "/rest/"+ this.application + "/domain/autoScriptFromDevice?" + "userid=" + userid + "&password=" + password
+        		+ "&code=" + this.authenticationCode + "&name=" + name;
+        Request request = new Request.Builder().url(url).get().build();
+
+        Call call = client.newCall(request);
+        ListStringClass result = new ListStringClass();
+
+        try {
+            Response response = call.execute();
+            ResponseBody body = response.body();
+            if (body != null) {
+            	result = new ObjectMapper().readValue(body.byteStream(), ListStringClass.class);
+                body.close();
+                response.close();
+                return result.list;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+	}	
 	protected boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {
 		List<String> targets = getTargetIds();
 		for (String id : changed.keySet()) {
@@ -325,7 +376,7 @@ public abstract class AbstractIndependentMain {
 		
 		try {
 			String json = new ObjectMapper().writeValueAsString(prop);
-	        String url = getServer() + "/rest/" + getPath() + "/setValueBySystem?userid=" + userid + "&code=forDebug";
+	        String url = getServer() + "/rest/" + getPath() + "/setValueBySystem?userid=" + userid + "&password=" + password + "&code=" + this.authenticationCode;
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
 			Request request = new Request.Builder()
 				.url(url)
@@ -346,7 +397,7 @@ public abstract class AbstractIndependentMain {
 		try {
 			String json = new ObjectMapper().writeValueAsString(blob);
 	        String url = getServer() + "/rest/"+ getPath() + "/postValueBySystem?index=" + index + 
-	        		"&userid=" + userid + "&code=forDebug&id=" + id
+	        		"&userid=" + userid + "&password=" + password + "&code=" + this.authenticationCode + "&id=" + id
 	        		+ "&name=" + name + "&classname=" + blob.getClass().getName();
 			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
 	        RequestBody body = RequestBody.create(MediaType.get("application/json"), json);
@@ -378,7 +429,7 @@ public abstract class AbstractIndependentMain {
 			index = "0";
 		}
         String url = getServer() + "/rest/"+ getPath() + "/getProperty?index=" + index + 
-        		"&userid=" + userid + "&code=forDebug&id=" + id;
+        		"&userid=" + userid + "&password=" + password + "&code=" + this.authenticationCode + "&id=" + id;
         Request request = new Request.Builder().url(url).get().build();
 
         Call call = client.newCall(request);
@@ -501,4 +552,5 @@ public abstract class AbstractIndependentMain {
 			}
 		}.start();
 	}
+
 }
