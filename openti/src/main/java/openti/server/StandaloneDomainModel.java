@@ -1,5 +1,6 @@
 package openti.server;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import jp.silverbullet.core.BlobStore;
@@ -167,11 +168,13 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 	abstract protected void onBlobChanged(String id, Object value, String name);
 	
 	private void loadFiles(String filename) {
-		MyFileUtils.unzip(filename, "tmp");
-		propertiesHolder2.load("tmp/" + MyFileUtils.ID_DEF_JSON);
-		dependencySpecHolder2.load("tmp/" + MyFileUtils.DEPENDENCYSPEC3_XML);
-		uiBuilder.loadJson("tmp/" + MyFileUtils.UIBUILDER2);
-		persistentHolder.load("tmp/");
+		if (new File(filename).exists()) {
+			MyFileUtils.unzip(filename, "tmp");
+			propertiesHolder2.load("tmp/" + MyFileUtils.ID_DEF_JSON);
+			dependencySpecHolder2.load("tmp/" + MyFileUtils.DEPENDENCYSPEC3_XML);
+			uiBuilder.loadJson("tmp/" + MyFileUtils.UIBUILDER2);
+			persistentHolder.load("tmp/");
+		}
 	}
 
 	@Override
