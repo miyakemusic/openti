@@ -22,11 +22,11 @@ public 	abstract class VipSimulator {
 		if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
 			String arch = System.getProperty("os.arch");
 			
-			try {
-				System.load("C:\\opencv\\build\\java\\x86\\opencv_java451.dll");
-			}
-			catch (Exception e) {
+			if (arch.equals("amd64")) {
 				System.load("C:\\opencv\\build\\java\\x64\\opencv_java451.dll");
+			}
+			else if (arch.equals("x86")) {
+				System.load("C:\\opencv\\build\\java\\x86\\opencv_java451.dll");
 			}
 		}
 		else {
