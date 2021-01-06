@@ -19,7 +19,7 @@ public class VipSequencer implements UserSequencer {
 
 		@Override
 		protected void onUpdate(byte[] bytes) {
-			String base64 = Base64.encodeBase64String(bytes);
+//			String base64 = Base64.encodeBase64String(bytes);
 			try {
 //				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, "data:image/png;base64," + base64, String.valueOf(System.currentTimeMillis()));
 				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, new ImageProperty(bytes), String.valueOf(System.currentTimeMillis()));

@@ -28,11 +28,11 @@ public 	abstract class VipSimulator {
 		}
 		
         try {
-        	File imageFile = new File(getClass().getResource("/openti/test/manta.jpg").getPath());
+        	File imageFile = new File("C:\\Users\\miyak\\OneDrive\\openti\\manta.jpg");
 			originalImage = ImageIO.read(imageFile);
 		} catch (IOException e) {
 			try {
-				originalImage = ImageIO.read(new File("Microscope-SM.jpg"));
+				originalImage = ImageIO.read(new File("C:\\Users\\miyak\\OneDrive\\openti\\Microscope-SM.jpg"));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
