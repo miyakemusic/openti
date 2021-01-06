@@ -361,7 +361,7 @@
 	    <artifactId>opencv</artifactId>
 	    <version>4.5.0</version>
 	    <scope>system</scope>
-	    <systemPath>C:\opencv\build\java\opencv-450.jar</systemPath>
+	    <systemPath>C:\opencv\build\java\opencv-451.jar</systemPath>
 	</dependency>
 
   </dependencies>

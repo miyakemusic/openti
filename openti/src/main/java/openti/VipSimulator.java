@@ -20,7 +20,7 @@ public 	abstract class VipSimulator {
 
 	public VipSimulator() {
 		if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
-			System.load("C:\\opencv\\build\\java\\x64\\opencv_java450.dll");
+			System.load("C:\\opencv\\build\\java\\x86\\opencv_java451.dll");
 		}
 		else {
 			System.out.println("System.load(\"/usr/local/lib/libopencv_java450.so\");");
