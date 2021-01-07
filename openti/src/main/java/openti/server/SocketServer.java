@@ -20,11 +20,14 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.register2.RegisterAccessor;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
+import jp.silverbullet.dev.ControlObject;
 import jp.silverbullet.dev.MessageObject;
 import jp.silverbullet.dev.ScriptManager;
 import jp.silverbullet.swing.SwingGui;
@@ -46,6 +49,8 @@ public class SocketServer {
 	private String port;
 	private String userid;
 	private String password;
+	
+	private DeviceScriptManager scriptManager = new DeviceScriptManager();
 	
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
 		Map<String, String> config = parseConfig(configFile);
@@ -190,19 +195,25 @@ public class SocketServer {
 							}
 						});
 						
-						JPanel autoPanel = new JPanel();
-						autoPanel.setBorder(new TitledBorder("Automator"));
-						toolBar.add(autoPanel);
+						//JPanel autoPanel = new JPanel();
+						//autoPanel.setBorder(new TitledBorder("Automator"));
+						//toolBar.add(autoPanel);
 						
 						JButton runAutomator = new JButton("Run");
-						autoPanel.add(automatorList);
-						autoPanel.add(runAutomator);
+						toolBar.add(automatorList);
+						toolBar.add(runAutomator);
 						runAutomator.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								retreiveScript(automatorList.getSelectedItem().toString());
+								//retreiveScript(automatorList.getSelectedItem().toString());
+								runLocalScript();
 							}
 						});
+					}
+
+					@Override
+					protected void replyMessage(String id, String string) {
+						scriptManager.replyMessage(id, string);
 					}
 			
 		};
@@ -273,54 +284,116 @@ public class SocketServer {
 		}
 	}
 	
+	private void runLocalScript() {
+		try {
+			List<String> srcipt = Files.readAllLines(Paths.get("tmp.js"));
+			runScript(srcipt);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private void retreiveScript(String name) {
 		List<String> srcipt = webServerHandler.retreiveScript(name);
-		new ScriptManager() {
-
-			@Override
-			public void write(String addr, String command) {
-				if (addr.equals(SocketServer.this.deviceName)) {
-					String[] tmp = command.split("=");
-					
-					try {
-						domainModel.getSequencer().requestChange(tmp[0], tmp[1]);
-					} catch (RequestRejectedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-
-			@Override
-			public String read(String addr, String query) {
-				if (addr.equals(SocketServer.this.deviceName)) {
-					//String[] tmp = command.split("=");
-					//domainModel.getValue(id)
-				}
-				return null;
-			}
-
-			@Override
-			public String waitEqual(String addr, String id, String value) {
-				if (addr.equals(SocketServer.this.deviceName)) {
-					
-				}
-				return null;
-			}
-
-			@Override
-			public void debug(String arg) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public String message(String addr, String message, String controls) {
-				if (addr.equals(SocketServer.this.deviceName)) {
-					
-				}
-				return null;
-			}
-			
-		}.start(srcipt);
+		runScript(srcipt);
 	}
+
+	private void runScript(List<String> srcipt) {
+		new Thread() {
+			@Override
+			public void run() {
+				scriptManager.start(srcipt);
+			}	
+		}.start();
+		
+	}
+	
+	class DeviceScriptManager extends ScriptManager {
+		private Object sync = new Object();
+		private String replyId = "";
+		private String replyMessage = "";
+		
+		@Override
+		public void write(String addr, String command) {
+			System.out.println("write:" + addr + ":" + command);
+			if (addr.equals(SocketServer.this.deviceName)) {
+				String[] tmp = command.split("=");
+				
+				try {
+					domainModel.getSequencer().requestChange(tmp[0], tmp[1]);
+				} catch (RequestRejectedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		public void replyMessage(String id, String string) {
+			this.replyId = id;
+			this.replyMessage = string;
+			synchronized(sync) {
+				sync.notify();
+			}
+		}
+
+		@Override
+		public String read(String addr, String query) {
+			System.out.println("read:" + addr + ":" + query);
+			if (addr.equals(SocketServer.this.deviceName)) {
+				//String[] tmp = command.split("=");
+				return domainModel.getPropertyStore().get(query).getCurrentValue();
+			}
+			return null;
+		}
+
+//		@Override
+//		public String waitEqual(String addr, String id, String value) {
+//			System.out.println("waitEqual" + addr + ":" + value);
+//			if (addr.equals(SocketServer.this.deviceName)) {
+//				synchronized(sync) {
+//					try {
+//						sync.wait();
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//			return null;
+//		}
+
+		@Override
+		public void debug(String arg) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public String message(String addr, String message, String controls) {
+			System.out.println("message" + addr + ":" + controls);
+			if (addr.equals(SocketServer.this.deviceName)) {
+				try {
+					ControlObject controlObject = new ObjectMapper().readValue(controls, ControlObject.class);
+					swingGui.showMessage(new MessageObject(message, controlObject, ""));
+					waitForUserAction();
+					return replyId;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return "";
+		}
+
+		private void waitForUserAction() {
+			synchronized(sync) {
+				try {
+					sync.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	};
 }
