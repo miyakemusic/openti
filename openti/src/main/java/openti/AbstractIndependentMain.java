@@ -329,6 +329,7 @@ public abstract class AbstractIndependentMain {
         return null;
 	}
 	
+	
 	public List<String> retreiveScript(String name) {
         String url = getServer() + "/rest/"+ this.application + "/domain/autoScriptFromDevice?" + "userid=" + userid + "&password=" + password
         		+ "&code=" + this.authenticationCode + "&name=" + name;
@@ -552,5 +553,6 @@ public abstract class AbstractIndependentMain {
 			}
 		}.start();
 	}
+
 
 }

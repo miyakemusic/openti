@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,12 +56,19 @@ public class SocketServer {
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
 		Map<String, String> config = parseConfig(configFile);
 		
+		String baseFolder = config.get("BASEFOLDER");
+		if (baseFolder == null || baseFolder.equals(".")) {
+			baseFolder = new File(configFile).getParent();
+		}
+		
 		constructor(config.get("PORT"), config.get("ENTRY"), config.get("URI"), 
 				config.get("NAME"), sequencers, config.get("IMAGE"),
 				Integer.valueOf(config.get("TOPMARGIN")), 
 				Integer.valueOf(config.get("LEFTMARGIN")),
 				Integer.valueOf(config.get("WIDTH")),
-				Integer.valueOf(config.get("HEIGHT")));
+				Integer.valueOf(config.get("HEIGHT")),
+				baseFolder
+				);
 	}
 	
 	private Map<String, String> parseConfig(String configFile) {
@@ -84,10 +92,10 @@ public class SocketServer {
 
 	public void constructor(String port, String gui, String filename, 
 			String deviceName, List<UserSequencer> sequencers, 
-			String imagePath, int topMargin, int leftMargin, int width, int height) {
+			String imagePath, int topMargin, int leftMargin, int width, int height, String baseFolder) {
 		String title = gui + "(" + port + ")";
 		init(gui, title, filename, deviceName, sequencers, imagePath,
-				topMargin, leftMargin, width, height);
+				topMargin, leftMargin, width, height, baseFolder);
 		
 		ServerSocket sSocket = null;
 		
@@ -116,7 +124,11 @@ public class SocketServer {
 
 	private void init(String gui, String title, String uri, String deviceName, 
 			List<UserSequencer> sequencers, String imagePath, 
-			int topMargin, int leftMaring, int width, int height) {
+			int topMargin, int leftMaring, int width, int height, String baseFolder) {
+		String scriptFolder = baseFolder + "/scripts";
+		if (!new File(scriptFolder).exists()) {
+			new File(scriptFolder).mkdir();
+		}
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
 		
@@ -153,6 +165,11 @@ public class SocketServer {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
+		JComboBox<String> automatorList = new JComboBox<>();
+		for(String fname : new File(scriptFolder).list()) {
+			automatorList.addItem(fname);
+		}
 		swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 
 				domainModel.getBlobStore(), domainModel.getSequencer(), 
 				gui, title, bgImage, topMargin, leftMaring, width, height) {
@@ -160,6 +177,11 @@ public class SocketServer {
 					protected void onReload() {
 						try {
 							requestFile();
+							downloadScripts(scriptFolder);
+							automatorList.removeAllItems();
+							for(String fname : new File(scriptFolder).list()) {
+								automatorList.addItem(fname);
+							}
 							domainModel.reload();
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -169,7 +191,7 @@ public class SocketServer {
 
 					@Override
 					protected void initToolbar(JPanel toolBar) {
-						JComboBox<String> automatorList = new JComboBox<>();
+						
 						JToggleButton onlineButton = new JToggleButton("Online");
 						toolBar.add(onlineButton);
 						onlineButton.addActionListener(new ActionListener() {
@@ -177,7 +199,7 @@ public class SocketServer {
 							public void actionPerformed(ActionEvent arg0) {
 								try {
 									goOnline(onlineButton.isSelected());
-									webServerHandler.getAutoScripts().forEach(item -> automatorList.addItem(item));
+//									webServerHandler.getAutoScripts().forEach(item -> automatorList.addItem(item));
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -206,7 +228,7 @@ public class SocketServer {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								//retreiveScript(automatorList.getSelectedItem().toString());
-								runLocalScript();
+								runLocalScript(scriptFolder + "/" + automatorList.getSelectedItem().toString());
 							}
 						});
 					}
@@ -218,6 +240,18 @@ public class SocketServer {
 			
 		};
 		swingGui.setVisible(true);		
+	}
+
+	protected void downloadScripts(String scriptFolder) {
+		for (String scriptName : webServerHandler.getAutoScripts()) {
+			List<String> content = webServerHandler.retreiveScript(scriptName);
+			try {
+				String path = scriptFolder + "/" + scriptName;
+				Files.write(Paths.get(path), content, StandardOpenOption.CREATE);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private String extractApplication(String uri2) {
@@ -284,9 +318,9 @@ public class SocketServer {
 		}
 	}
 	
-	private void runLocalScript() {
+	private void runLocalScript(String scriptFile) {
 		try {
-			List<String> srcipt = Files.readAllLines(Paths.get("tmp.js"));
+			List<String> srcipt = Files.readAllLines(Paths.get(scriptFile));
 			runScript(srcipt);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
