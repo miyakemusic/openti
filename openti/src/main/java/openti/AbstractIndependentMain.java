@@ -199,6 +199,10 @@ public abstract class AbstractIndependentMain {
 							mainUI.onPendingFilesUpdated(pendingFiles.list);
 							//download(fm.fileID, fm.path);
 						}
+						else if (m.type.equals(MessageToDevice.CLOSEMESSAGE)) {
+							MessageObject obj = new ObjectMapper().readValue(m.json, MessageObject.class);
+							onCloseMessage(obj.messageId);
+						}
 
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -229,6 +233,8 @@ public abstract class AbstractIndependentMain {
 	}
 
 	protected abstract void onMessage(MessageObject obj);
+	protected abstract void onCloseMessage(String messageId);
+	
 	protected void download(String fileID, String filename, String path) {
         String url = getServer() + "/rest/"+ getPath() + "/download?userid=" + userid + "&password=" + password + "&fileid=" + fileID + "&code="+ this.authenticationCode;
         Request request = new Request.Builder().url(url).get().build();
@@ -512,7 +518,7 @@ public abstract class AbstractIndependentMain {
 				}
 
 				@Override
-				public void message(String string, ControlObject controls) {
+				public void message(String string, ControlObject controls, String messageId) {
 					// TODO Auto-generated method stub
 					
 				}

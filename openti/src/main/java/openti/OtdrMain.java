@@ -52,6 +52,12 @@ public class OtdrMain extends AbstractIndependentMain {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	protected void onCloseMessage(String messageId) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

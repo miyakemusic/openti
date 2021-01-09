@@ -309,6 +309,11 @@ public class SocketServer {
 				protected void onMessage(MessageObject message2) {
 					swingGui.showMessage(message2);
 				}
+
+				@Override
+				protected void onCloseMessage(String messageId) {
+					swingGui.closeMessage(messageId);
+				}
 			};
 			
 		}
@@ -380,22 +385,6 @@ public class SocketServer {
 			return null;
 		}
 
-//		@Override
-//		public String waitEqual(String addr, String id, String value) {
-//			System.out.println("waitEqual" + addr + ":" + value);
-//			if (addr.equals(SocketServer.this.deviceName)) {
-//				synchronized(sync) {
-//					try {
-//						sync.wait();
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//			return null;
-//		}
-
 		@Override
 		public void debug(String arg) {
 			// TODO Auto-generated method stub
@@ -407,9 +396,11 @@ public class SocketServer {
 			System.out.println("message" + addr + ":" + controls);
 			if (addr.equals(SocketServer.this.deviceName)) {
 				try {
+					String messageid = deviceName + System.currentTimeMillis();
 					ControlObject controlObject = new ObjectMapper().readValue(controls, ControlObject.class);
-					swingGui.showMessage(new MessageObject(message, controlObject, ""));
+					swingGui.showMessage(new MessageObject(message, controlObject, messageid));
 					waitForUserAction();
+					swingGui.closeMessage(messageid);
 					return replyId;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

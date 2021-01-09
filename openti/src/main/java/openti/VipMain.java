@@ -99,4 +99,10 @@ public class VipMain extends AbstractIndependentMain {
 		
 	}
 
+	@Override
+	protected void onCloseMessage(String messageId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

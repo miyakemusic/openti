@@ -60,4 +60,10 @@ public class OtdrOscillo extends AbstractIndependentMain {
 		
 	}
 
+	@Override
+	protected void onCloseMessage(String messageId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

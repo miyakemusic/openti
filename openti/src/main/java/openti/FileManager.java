@@ -82,7 +82,7 @@ public class FileManager implements UserSequencer {
 						}
 						properties.setBertsState(EnumBertsState.ID_BERTS_STATE_SAVING_FILE);
 						model.getSystem().saveProperties(path);
-						model.getSystem().message("Saved", new ControlObject().ok());
+						model.getSystem().message("Saved", new ControlObject().ok(), "");
 						Thread.sleep(1000);
 						properties.setBertsState(EnumBertsState.ID_BERTS_STATE_IDLE);
 					} catch (SvFileException | RequestRejectedException e) {
@@ -96,9 +96,9 @@ public class FileManager implements UserSequencer {
 				else if (id.getId().equals(ID.ID_FILE_LOAD)) {
 					try {
 						model.getSystem().loadProperties(properties.getFileFolder() + "/" + properties.getFileName());
-						model.getSystem().message("File Loaded.", new ControlObject().ok());
+						model.getSystem().message("File Loaded.", new ControlObject().ok(), "");
 					} catch (SvFileException e) {
-						model.getSystem().message("Cannot load the file.", new ControlObject().ok());
+						model.getSystem().message("Cannot load the file.", new ControlObject().ok(), "");
 						e.printStackTrace();
 					}
 				}
