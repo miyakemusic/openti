@@ -33,7 +33,7 @@ public class OltsMain extends AbstractIndependentMain {
 	
 	
 	public OltsMain(String host, String port, String userid, String password, String application, String deviceName, boolean headless) {
-		super(host, port, userid, password, application, deviceName, headless);
+		super(host, port, userid, password, application, deviceName, "", headless);
 		// TODO Auto-generated constructor stub
 	}
 

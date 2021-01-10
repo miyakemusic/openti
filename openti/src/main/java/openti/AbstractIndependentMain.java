@@ -12,6 +12,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,15 +64,17 @@ public abstract class AbstractIndependentMain {
 	private boolean headless;
 	private String authenticationCode = "forDebug"; // This is tentative. MUST be implemented formally
 	private String password;
+	private String serialNo;
 	
 //	private List<FileUploadMessage> pendingFiles = new ArrayList<>();
 
 	public AbstractIndependentMain(String host, String port, String userid, String password, String application, 
-			String deviceName, boolean headless) {
+			String deviceName, String serialNo, boolean headless) {
 		this.host = host;
 		this.port = port;
 		this.application = application;
 		this.deviceName = deviceName;
+		this.serialNo = serialNo;
 		this.userid = userid;
 		this.password = password;
 		this.headless = headless;
@@ -459,7 +462,9 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	private String getPath() {
-		return this.application + "/domain/" + deviceName;
+		String ret = application + "/domain/" + deviceName;
+		ret = ret.replace("#", "&#035").replace("@", "&#064;");
+		return ret;
 	}
 
 	private SvHandlerModel model = new SvHandlerModel() {

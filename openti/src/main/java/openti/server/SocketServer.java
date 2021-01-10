@@ -42,7 +42,7 @@ public class SocketServer {
 	private StandaloneDomainModel domainModel;
 	private String filename;
 	private String uri;
-	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, filename, false);
+	private AbstractIndependentMain webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, filename, filename, false);
 	private String deviceName;
 	private String application;
 	private SwingGui swingGui;
@@ -52,6 +52,7 @@ public class SocketServer {
 	private String password;
 	
 	private DeviceScriptManager scriptManager = new DeviceScriptManager();
+	private String serialNo;
 	
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
 		Map<String, String> config = parseConfig(configFile);
@@ -62,7 +63,10 @@ public class SocketServer {
 		}
 		
 		constructor(config.get("PORT"), config.get("ENTRY"), config.get("URI"), 
-				config.get("NAME"), sequencers, config.get("IMAGE"),
+				config.get("PRODUCTNAME"),
+				config.get("SERIALNO"),
+				sequencers, 
+				config.get("IMAGE").replace(".\\", baseFolder + "\\"),
 				Integer.valueOf(config.get("TOPMARGIN")), 
 				Integer.valueOf(config.get("LEFTMARGIN")),
 				Integer.valueOf(config.get("WIDTH")),
@@ -91,10 +95,10 @@ public class SocketServer {
 	}
 
 	public void constructor(String port, String gui, String filename, 
-			String deviceName, List<UserSequencer> sequencers, 
+			String deviceName, String serialNo, List<UserSequencer> sequencers, 
 			String imagePath, int topMargin, int leftMargin, int width, int height, String baseFolder) {
 		String title = gui + "(" + port + ")";
-		init(gui, title, filename, deviceName, sequencers, imagePath,
+		init(gui, title, filename, deviceName, serialNo, sequencers, imagePath,
 				topMargin, leftMargin, width, height, baseFolder);
 		
 		ServerSocket sSocket = null;
@@ -123,7 +127,7 @@ public class SocketServer {
 	}
 
 	private void init(String gui, String title, String uri, String deviceName, 
-			List<UserSequencer> sequencers, String imagePath, 
+			String serialNo, List<UserSequencer> sequencers, String imagePath, 
 			int topMargin, int leftMaring, int width, int height, String baseFolder) {
 		String scriptFolder = baseFolder + "/scripts";
 		if (!new File(scriptFolder).exists()) {
@@ -138,6 +142,7 @@ public class SocketServer {
 		this.userid = "Default00";
 		this.password = "password";
 		this.deviceName = deviceName;
+		this.serialNo = serialNo;
 		this.application = extractApplication(uri);
 		if (!Files.exists(Paths.get(filename))) {
 			try {
@@ -278,7 +283,7 @@ public class SocketServer {
 			requestFile();
 			
 			boolean headless = true;
-			webServerHandler = new AbstractIndependentMain(this.host, this.port, userid, password, this.application, this.deviceName, headless) {
+			webServerHandler = new AbstractIndependentMain(this.host, this.port, userid, password, this.application, this.deviceName, this.serialNo, headless) {
 	
 				@Override
 				protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
@@ -319,7 +324,7 @@ public class SocketServer {
 		}
 		else {
 			webServerHandler.logout();
-			webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, filename, false);
+			webServerHandler = new NullAbstractIndependentMain("localhost", "8080", filename, filename, filename, filename, filename, false);
 		}
 	}
 	

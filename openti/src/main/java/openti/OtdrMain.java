@@ -14,7 +14,7 @@ public class OtdrMain extends AbstractIndependentMain {
 	private Otdr otdr = new Otdr();
 
 	public OtdrMain(String host, String port, String username, String application, String deviceName, boolean headless) {
-		super(host, port, username, "password", application, deviceName, headless);
+		super(host, port, username, "password", application, deviceName, "", headless);
 	}
 
 	public static void main(String[] args) {

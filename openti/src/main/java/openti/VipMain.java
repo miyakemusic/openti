@@ -64,7 +64,7 @@ public class VipMain extends AbstractIndependentMain {
 	};
 	
 	public VipMain(String host, String port, String userid, String application, String deviceName, boolean headless) {
-		super(host, port, userid, "password" ,application, deviceName, headless);
+		super(host, port, userid, "password" ,application, deviceName, "", headless);
 	}
 
 	@Override
