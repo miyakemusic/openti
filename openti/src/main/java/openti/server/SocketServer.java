@@ -2,6 +2,8 @@ package openti.server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -245,6 +247,20 @@ public class SocketServer {
 			
 		};
 		swingGui.setVisible(true);		
+		
+		swingGui.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				try {
+					goOnline(false);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.exit(0);
+			}
+		});
 	}
 
 	protected void downloadScripts(String scriptFolder) {
