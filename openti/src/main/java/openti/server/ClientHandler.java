@@ -5,9 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jp.silverbullet.dev.MessageObject;
 import openti.ID;
 
-public class ClientHandler {
+public abstract class ClientHandler {
 
 	private StandaloneTesterModel testerModel;
 
@@ -36,11 +40,25 @@ public class ClientHandler {
 			syncObject.terminate();
 		}
 		writer.println("Connected");
-		String line = null;
+		//String line = null;
 
         while (true) {
         	try {
-				line = reader.readLine();
+				String message = reader.readLine();
+				SocketMessage socketMessage = new ObjectMapper().readValue(message, SocketMessage.class);
+	    		
+	    		if (socketMessage.type.equals(SocketMessage.Type.Command)) {
+	    			String[] tmp = socketMessage.body.split("=");
+	        		String value = otdrModel.getValue(socketMessage.body.replace("?", ""));
+	        		writer.println(value);	
+	    		}
+	    		else if (socketMessage.type.equals(SocketMessage.Type.Query)) {
+	    			String[] tmp = socketMessage.body.split("=");
+	    			otdrModel.requestChange(tmp[0], tmp[1]);
+	    		}
+	    		else if (socketMessage.type.equals(SocketMessage.Type.Message)) {
+	    			onMessage(new ObjectMapper().readValue(socketMessage.body, MessageObject.class));
+	    		}
 			} catch (IOException e) {
 				e.printStackTrace();
 				try {
@@ -51,38 +69,42 @@ public class ClientHandler {
 					e1.printStackTrace();
 				}
 			}
-        	
-        	if (line.equalsIgnoreCase("START")) {
-        		syncObject.register(ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_STOP);
-        		otdrModel.requestChange(ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_START);
-        	}
-        	else if (line.equalsIgnoreCase("STOP")) {
-        		otdrModel.requestChange(ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_STOP);
-        	}
-        	else if (line.equalsIgnoreCase("TRACE?")) {
-        		String value = otdrModel.getValue(ID.ID_TRACE);
-        		writer.println(value);
-        	}
-        	else if (line.equalsIgnoreCase("*OPC?")) {
-        		synchronized(syncObject) {
-        			try {
-						syncObject.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-        		}
-        		writer.println("1");
-        	}
-        	else {
-        		String[] tmp = line.split("=");
-        		if (line.endsWith("?")) {
-            		String value = otdrModel.getValue(line.replace("?", ""));
-            		writer.println(value);	
-        		}
-        		else {
-        			otdrModel.requestChange(tmp[0], tmp[1]);
-        		}
-        	}
+    
+
+    		
+//        	if (line.equalsIgnoreCase("START")) {
+//        		syncObject.register(ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_STOP);
+//        		otdrModel.requestChange(ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_START);
+//        	}
+//        	else if (line.equalsIgnoreCase("STOP")) {
+//        		otdrModel.requestChange(ID.ID_OTDR_TESTCONTROL, ID.ID_OTDR_TESTCONTROL_STOP);
+//        	}
+//        	else if (line.equalsIgnoreCase("TRACE?")) {
+//        		String value = otdrModel.getValue(ID.ID_TRACE);
+//        		writer.println(value);
+//        	}
+//        	else if (line.equalsIgnoreCase("*OPC?")) {
+//        		synchronized(syncObject) {
+//        			try {
+//						syncObject.wait();
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//        		}
+//        		writer.println("1");
+//        	}
+//        	else {
+//        		String[] tmp = line.split("=");
+//        		if (line.endsWith("?")) {
+//            		String value = otdrModel.getValue(line.replace("?", ""));
+//            		writer.println(value);	
+//        		}
+//        		else {
+//        			otdrModel.requestChange(tmp[0], tmp[1]);
+//        		}
+//        	}
         }
 	}
+
+	abstract protected void onMessage(MessageObject readValue);
 }

@@ -53,7 +53,7 @@ public class SocketServer {
 	private String userid;
 	private String password;
 	
-	private DeviceScriptManager scriptManager = new DeviceScriptManager();
+	private DeviceScriptManager scriptManager;// = new DeviceScriptManager();
 	private String serialNo;
 	
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
@@ -111,7 +111,14 @@ public class SocketServer {
 			while(true) {
 				System.out.println("Waiting for client");
 				Socket socket = sSocket.accept();
-				new ClientHandler(socket, domainModel);
+				new ClientHandler(socket, domainModel) {
+
+					@Override
+					protected void onMessage(MessageObject readValue) {
+						swingGui.showMessage(readValue);
+					}
+					
+				};
 			
 			}
 		}catch(Exception e){
@@ -131,6 +138,9 @@ public class SocketServer {
 	private void init(String gui, String title, String uri, String deviceName, 
 			String serialNo, List<UserSequencer> sequencers, String imagePath, 
 			int topMargin, int leftMaring, int width, int height, String baseFolder) {
+		
+		scriptManager = new DeviceScriptManager();
+		
 		String scriptFolder = baseFolder + "/scripts";
 		if (!new File(scriptFolder).exists()) {
 			new File(scriptFolder).mkdir();
@@ -376,6 +386,10 @@ public class SocketServer {
 		
 		@Override
 		public void write(String addr, String command) {
+			if (deviceName.equals(addr)) {
+				return;
+			}
+			
 			System.out.println("write:" + addr + ":" + command);
 			if (addr.equals(SocketServer.this.deviceName)) {
 				String[] tmp = command.split("=");
@@ -397,7 +411,7 @@ public class SocketServer {
 		}
 
 		@Override
-		public String read(String addr, String query) {
+		public String read(String addr, String query) {			
 			System.out.println("read:" + addr + ":" + query);
 			if (addr.equals(SocketServer.this.deviceName)) {
 				//String[] tmp = command.split("=");
@@ -439,6 +453,23 @@ public class SocketServer {
 					e.printStackTrace();
 				}
 			}
+		}
+
+		@Override
+		public String waitEqual(String addr, String id, String value) {
+			System.out.println(addr + ":" + id + ":" + value);
+			for (int i = 0; i < 100; i++) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+
+				}
+				String ret = read(addr, id);
+				if (ret.equals(value)) {
+					break;
+				}
+			}
+			return "";
 		}
 		
 	};

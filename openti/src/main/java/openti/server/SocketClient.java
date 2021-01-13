@@ -33,6 +33,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jp.silverbullet.dev.ControlObject;
+import jp.silverbullet.dev.MessageObject;
 import jp.silverbullet.dev.ScriptManager;
 
 
@@ -96,7 +101,7 @@ public class SocketClient extends JFrame {
 					@Override
 					public void run() {
 						try {
-							retreiveTrace();
+							startScript(Arrays.asList(scriptArea.getText().split("\n")));
 						} catch (ScriptException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -112,8 +117,19 @@ public class SocketClient extends JFrame {
 		resultArea.setPreferredSize(new Dimension(100, 50));
 		this.add(new JScrollPane(resultArea), BorderLayout.SOUTH);
 		
+		
 		scriptArea = new JTextArea();
 		this.add(new JScrollPane(scriptArea), BorderLayout.CENTER);
+		
+		try {
+			List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\miyak\\OneDrive\\デスクトップ\\script.txt"));
+			StringBuffer buf = new StringBuffer();
+			lines.forEach(line -> buf.append(line + "\n"));
+			scriptArea.setText(buf.toString());
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 //	protected void startAndTrace() {
@@ -208,18 +224,29 @@ public class SocketClient extends JFrame {
 	}
 	
 
-	protected void retreiveTrace() throws ScriptException {
+	protected void startScript(List<String> script) throws ScriptException {
+		Map<String, String> hostMap = new HashMap<>();
+		for(String s : script) {
+			if (s.startsWith("var")) {
+				String[] tmp = s.split("[\s]+");
+				if (Character.isUpperCase(tmp[1].toCharArray()[0])) {
+					hostMap.put(tmp[1], "localhost:8085");
+				}
+			}
+		}
 		this.resultArea.setText("");
 		new ScriptManager() {
 
 			@Override
 			public void write(String addr, String command) {
+				addr = hostMap.get(addr);
 				print(addr + ":" + command + "\n");
-				getWriter(addr).println(command);
+				getWriter(addr).println(createSocketMessage(SocketMessage.Type.Command, command));
 			}
 
 			@Override
 			public String read(String addr, String query) {
+				addr = hostMap.get(addr);
 				query = query + "?";
 				try {
 					Thread.sleep(100);
@@ -227,7 +254,7 @@ public class SocketClient extends JFrame {
 					e1.printStackTrace();
 				}
 				print(addr + ":" + query);
-				getWriter(addr).println(query);
+				getWriter(addr).println(createSocketMessage(SocketMessage.Type.Query, query));
 				try {
 					String reply = getReader(addr).readLine();
 					print(" -> " + reply + "\n");
@@ -240,6 +267,7 @@ public class SocketClient extends JFrame {
 
 			@Override
 			public String waitEqual(String addr, String id, String value) {
+				addr = hostMap.get(addr);
 				while (true) {
 					if (read(addr, id).equals(value)) {
 						break;
@@ -262,12 +290,21 @@ public class SocketClient extends JFrame {
 
 			@Override
 			public String message(String addr, String message, String controls) {
-				// TODO Auto-generated method stub
-				return null;
+				try {
+					addr = hostMap.get(addr);
+					MessageObject obj = new MessageObject(message, new ObjectMapper().readValue(controls, ControlObject.class), "");
+					print(addr + ":" + message + ":" + controls);
+					getWriter(addr).println(createSocketMessage(SocketMessage.Type.Message, obj.toString()));
+					return "otdr";
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return "";
 			}
 
 			
-		}.start(Arrays.asList(this.scriptArea.getText().split("\n")));
+		}.start(script);
 	}
 
 	protected void print(String arg) {
@@ -277,5 +314,15 @@ public class SocketClient extends JFrame {
 				resultArea.setText(resultArea.getText() + arg);
 			}
 		});
+	}
+
+	private String createSocketMessage(SocketMessage.Type type, String command) {
+		try {
+			return new ObjectMapper().writeValueAsString(new SocketMessage(type, command));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 }
