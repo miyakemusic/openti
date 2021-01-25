@@ -4,7 +4,8 @@ public class SocketMessage {
 	public enum Type {
 		Command,
 		Query,
-		Message
+		Message, 
+		MessageClose
 	}
 	
 	public Type type;

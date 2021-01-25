@@ -201,6 +201,10 @@ public class SocketClient extends JFrame {
 	}
 
 	private PrintWriter getWriter(String addr) {
+		System.out.println(addr);
+		if (addr == null) {
+			System.out.println();
+		}
 		if (!sockets.containsKey(addr)) {
 			String[] tmp = addr.split(":");
 			String host = tmp[0];
@@ -234,26 +238,30 @@ public class SocketClient extends JFrame {
 				}
 			}
 		}
+		hostMap.put("MT1041A", "localhost:8085");
+		hostMap.put("G0400A", "localhost:8086");
+		
 		this.resultArea.setText("");
+		
+		Object sync = new Object();
 		new ScriptManager() {
 
 			@Override
 			public void write(String addr, String command) {
 				addr = hostMap.get(addr);
-				print(addr + ":" + command + "\n");
+				print("write " + addr + ":" + command + "\n");
 				getWriter(addr).println(createSocketMessage(SocketMessage.Type.Command, command));
 			}
 
 			@Override
 			public String read(String addr, String query) {
 				addr = hostMap.get(addr);
-				query = query + "?";
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-				print(addr + ":" + query);
+				print("read " + addr + ":" + query);
 				getWriter(addr).println(createSocketMessage(SocketMessage.Type.Query, query));
 				try {
 					String reply = getReader(addr).readLine();
@@ -267,7 +275,8 @@ public class SocketClient extends JFrame {
 
 			@Override
 			public String waitEqual(String addr, String id, String value) {
-				addr = hostMap.get(addr);
+				//addr = hostMap.get(addr);
+				print("waitEqual" + addr);
 				while (true) {
 					if (read(addr, id).equals(value)) {
 						break;
@@ -290,12 +299,23 @@ public class SocketClient extends JFrame {
 
 			@Override
 			public String message(String addr, String message, String controls) {
+				print(addr + ":" + message + ":" + controls);
 				try {
 					addr = hostMap.get(addr);
 					MessageObject obj = new MessageObject(message, new ObjectMapper().readValue(controls, ControlObject.class), "");
-					print(addr + ":" + message + ":" + controls);
+					
 					getWriter(addr).println(createSocketMessage(SocketMessage.Type.Message, obj.toString()));
-					return "otdr";
+//					synchronized(sync) {
+//						try {
+//							sync.wait();
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+					String reply = getReader(addr).readLine();
+					getWriter(addr).println(createSocketMessage(SocketMessage.Type.MessageClose, ""));
+					return reply;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

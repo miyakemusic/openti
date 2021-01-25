@@ -55,6 +55,7 @@ public class SocketServer {
 	
 	private DeviceScriptManager scriptManager;// = new DeviceScriptManager();
 	private String serialNo;
+	private SocketHandler socketHandler = null;//
 	
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
 		Map<String, String> config = parseConfig(configFile);
@@ -111,11 +112,16 @@ public class SocketServer {
 			while(true) {
 				System.out.println("Waiting for client");
 				Socket socket = sSocket.accept();
-				new ClientHandler(socket, domainModel) {
+				socketHandler = new SocketHandler(socket, domainModel) {
 
 					@Override
 					protected void onMessage(MessageObject readValue) {
 						swingGui.showMessage(readValue);
+					}
+
+					@Override
+					protected void onCloseMessage() {
+						swingGui.closeMessage(null);
 					}
 					
 				};
@@ -253,6 +259,10 @@ public class SocketServer {
 					@Override
 					protected void replyMessage(String id, String string) {
 						scriptManager.replyMessage(id, string);
+						
+						if (socketHandler != null) {
+							socketHandler.replyMessage(id, string);
+						}
 					}
 			
 		};
@@ -386,7 +396,7 @@ public class SocketServer {
 		
 		@Override
 		public void write(String addr, String command) {
-			if (deviceName.equals(addr)) {
+			if (!deviceName.equals(addr)) {
 				return;
 			}
 			
