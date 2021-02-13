@@ -21,8 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
-import javax.swing.border.TitledBorder;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
@@ -34,6 +32,7 @@ import jp.silverbullet.dev.ControlObject;
 import jp.silverbullet.dev.MessageObject;
 import jp.silverbullet.dev.ScriptManager;
 import jp.silverbullet.swing.SwingGui;
+import jp.silverbullet.testspec.TestResultList;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -56,6 +55,7 @@ public class SocketServer {
 	private DeviceScriptManager scriptManager;// = new DeviceScriptManager();
 	private String serialNo;
 	private SocketHandler socketHandler = null;//
+	protected TestResultList testResultList = new TestResultList();
 	
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
 		Map<String, String> config = parseConfig(configFile);
@@ -170,7 +170,7 @@ public class SocketServer {
 			}
 		}
 		
-		domainModel = new StandaloneDomainModel(filename, sequencers) {
+		domainModel = new StandaloneDomainModel(filename, sequencers, application, baseFolder) {
 			@Override
 			protected void onChanged(String id, String value) {
 				webServerHandler.changeValue(id, value);
@@ -179,6 +179,13 @@ public class SocketServer {
 			@Override
 			protected void onBlobChanged(String id, Object value, String name) {
 				webServerHandler.changeBlob(id, value, name);
+			}
+
+			@Override
+			protected void onSave(List<String> saved) {
+				if (saved.size() > 0) {
+					webServerHandler.postFiles(saved);
+				}
 			}
 		};
 
@@ -193,6 +200,14 @@ public class SocketServer {
 		for(String fname : new File(scriptFolder).list()) {
 			automatorList.addItem(fname);
 		}
+		automatorList.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+			}
+			
+		});
 		swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 
 				domainModel.getBlobStore(), domainModel.getSequencer(), 
 				gui, title, bgImage, topMargin, leftMaring, width, height) {
@@ -206,6 +221,7 @@ public class SocketServer {
 								automatorList.addItem(fname);
 							}
 							domainModel.reload();
+							
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -250,7 +266,13 @@ public class SocketServer {
 						runAutomator.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								//retreiveScript(automatorList.getSelectedItem().toString());
+								try {
+									String projectName = automatorList.getSelectedItem().toString().split("\\.")[0];
+									testResultList = webServerHandler.retreiveTestResultList(projectName);
+								} catch (IOException ee) {
+									// TODO Auto-generated catch block
+									ee.printStackTrace();
+								}
 								runLocalScript(scriptFolder + "/" + automatorList.getSelectedItem().toString());
 							}
 						});
@@ -288,6 +310,7 @@ public class SocketServer {
 			List<String> content = webServerHandler.retreiveScript(scriptName);
 			try {
 				String path = scriptFolder + "/" + scriptName;
+				Files.deleteIfExists(Paths.get(path));
 				Files.write(Paths.get(path), content, StandardOpenOption.CREATE);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -356,6 +379,7 @@ public class SocketServer {
 					swingGui.closeMessage(messageId);
 				}
 			};
+//			testResultList = webServerHandler.retreiveTestResultList();
 			
 		}
 		else {
@@ -481,6 +505,10 @@ public class SocketServer {
 			}
 			return "";
 		}
-		
+
+		@Override
+		public boolean requires(String portid, String testMethod) {
+			return !testResultList.done(portid, testMethod);
+		}
 	};
 }

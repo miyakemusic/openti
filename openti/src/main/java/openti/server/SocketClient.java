@@ -323,6 +323,11 @@ public class SocketClient extends JFrame {
 				return "";
 			}
 
+			@Override
+			public boolean requires(String portid, String testMethod) {
+				return true;
+			}
+
 			
 		}.start(script);
 	}

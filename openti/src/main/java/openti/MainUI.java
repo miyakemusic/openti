@@ -44,27 +44,27 @@ public abstract class MainUI extends JFrame implements IMainUI{
 		buttonDownload.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				downloadPendingFiles();
+//				downloadPendingFiles();
 				updateList();
 			}
 		});
 		
-		for (File file : getPendingFileList()) {
-			model.addElement(file.getName());
-		}
+//		for (File file : getPendingFileList()) {
+//			model.addElement(file.getName());
+//		}
 	}
 
 	protected void updateList() {
 		model.clear();
-		for (File file : getPendingFileList()) {
-			model.addElement(file.getName());
-		}
+//		for (File file : getPendingFileList()) {
+//			model.addElement(file.getName());
+//		}
 	}
 
-	protected abstract void downloadPendingFiles();
+//	protected abstract void downloadPendingFiles();
 
 	protected abstract void onWindowClosed();
-	protected abstract List<File> getPendingFileList();
+//	protected abstract List<File> getPendingFileList();
 	
 	public void setDeviceName(String deviceName) {
 		this.setTitle(deviceName);
