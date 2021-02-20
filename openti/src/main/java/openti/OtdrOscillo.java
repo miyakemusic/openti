@@ -17,16 +17,16 @@ public class OtdrOscillo extends AbstractIndependentMain {
 	private SilverbulletUserEasyAccess properties;
 	private SilverbulletUserRegister registers;
 	
-	public OtdrOscillo(String host, String port, String username, String application, String deviceName, boolean headless) {
-		super(host, port, username, "password", application, deviceName, "", headless);
+	public OtdrOscillo(String protocol, String host, String port, String username, String application, String deviceName, boolean headless) {
+		super(protocol, host, port, username, "password", application, deviceName, "", headless);
 	}
 
 	public static void main(String[] args) {
-		try {
-			new OtdrOscillo(args[0],args[1], args[2], args[3], args[4], args[5].equals("true"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			new OtdrOscillo(args[0],args[1], args[2], args[3], args[4], args[5].equals("true"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override

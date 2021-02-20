@@ -17,7 +17,7 @@ public class NullAbstractIndependentMain extends AbstractIndependentMain {
 
 	public NullAbstractIndependentMain(String host, String port, String userid, String password, String application, String deviceName,
 			String serialNo, boolean headless) {
-		super(host, port, userid, password, application, deviceName, serialNo, headless);
+		super("http", host, port, userid, password, application, deviceName, serialNo, headless);
 		// TODO Auto-generated constructor stub
 	}
 

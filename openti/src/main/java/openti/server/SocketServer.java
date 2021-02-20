@@ -18,6 +18,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
@@ -48,7 +49,7 @@ public class SocketServer {
 	private String application;
 	private SwingGui swingGui;
 	private String host;
-	private String port;
+	private String port = "";
 	private String userid;
 	private String password;
 	
@@ -56,6 +57,8 @@ public class SocketServer {
 	private String serialNo;
 	private SocketHandler socketHandler = null;//
 	protected TestResultList testResultList = new TestResultList();
+	private String protocol;
+	private JCheckBox silent =  new JCheckBox("Silent");
 	
 	public SocketServer(String configFile,List<UserSequencer> sequencers) {
 		Map<String, String> config = parseConfig(configFile);
@@ -100,8 +103,9 @@ public class SocketServer {
 	public void constructor(String port, String gui, String filename, 
 			String deviceName, String serialNo, List<UserSequencer> sequencers, 
 			String imagePath, int topMargin, int leftMargin, int width, int height, String baseFolder) {
+		
 		String title = gui + "(" + port + ")";
-		init(gui, title, filename, deviceName, serialNo, sequencers, imagePath,
+		init(port, gui, title, filename, deviceName, serialNo, sequencers, imagePath,
 				topMargin, leftMargin, width, height, baseFolder);
 		
 		ServerSocket sSocket = null;
@@ -141,7 +145,7 @@ public class SocketServer {
 		}
 	}
 
-	private void init(String gui, String title, String uri, String deviceName, 
+	private void init(String port, String gui, String title, String uri, String deviceName, 
 			String serialNo, List<UserSequencer> sequencers, String imagePath, 
 			int topMargin, int leftMaring, int width, int height, String baseFolder) {
 		
@@ -154,9 +158,13 @@ public class SocketServer {
 		this.filename = uri.split("/")[uri.split("/").length-1];//new File(filename).getName();
 		this.uri = uri;
 		
-		String[] tmp = this.uri.split("[/:]+");
+		String[] tmp = this.uri.split("[/://]+");
+
+		this.protocol = tmp[0];
 		this.host = tmp[1];
-		this.port = tmp[2];
+		if (this.uri.split(":").length == 3) {
+			this.port = tmp[2].split("/")[0];
+		}
 		this.userid = "Default00";
 		this.password = "password";
 		this.deviceName = deviceName;
@@ -208,6 +216,7 @@ public class SocketServer {
 			}
 			
 		});
+				
 		swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 
 				domainModel.getBlobStore(), domainModel.getSequencer(), 
 				gui, title, bgImage, topMargin, leftMaring, width, height) {
@@ -276,6 +285,9 @@ public class SocketServer {
 								runLocalScript(scriptFolder + "/" + automatorList.getSelectedItem().toString());
 							}
 						});
+						
+						
+						toolBar.add(silent);
 					}
 
 					@Override
@@ -342,7 +354,7 @@ public class SocketServer {
 			requestFile();
 			
 			boolean headless = true;
-			webServerHandler = new AbstractIndependentMain(this.host, this.port, userid, password, this.application, this.deviceName, this.serialNo, headless) {
+			webServerHandler = new AbstractIndependentMain(this.protocol, this.host, this.port, userid, password, this.application, this.deviceName, this.serialNo, headless) {
 	
 				@Override
 				protected void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException {
@@ -463,6 +475,9 @@ public class SocketServer {
 		@Override
 		public String message(String addr, String message, String controls) {
 			System.out.println("message" + addr + ":" + controls);
+			if (silent.isSelected()) {
+				return "ok";
+			}
 			if (addr.equals(SocketServer.this.deviceName)) {
 				try {
 					String messageid = deviceName + System.currentTimeMillis();
@@ -472,7 +487,6 @@ public class SocketServer {
 					swingGui.closeMessage(messageid);
 					return replyId;
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

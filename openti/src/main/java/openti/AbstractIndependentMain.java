@@ -66,11 +66,13 @@ public abstract class AbstractIndependentMain {
 	private String authenticationCode = "forDebug"; // This is tentative. MUST be implemented formally
 	private String password;
 	private String serialNo;
+	private String protocol;
 	
 //	private List<FileUploadMessage> pendingFiles = new ArrayList<>();
 
-	public AbstractIndependentMain(String host, String port, String userid, String password, String application, 
+	public AbstractIndependentMain(String protocol, String host, String port, String userid, String password, String application, 
 			String deviceName, String serialNo, boolean headless) {
+		this.protocol = protocol;
 		this.host = host;
 		this.port = port;
 		this.application = application;
@@ -169,7 +171,7 @@ public abstract class AbstractIndependentMain {
 		init(model);
 		
 		try {
-			login(application, deviceName);
+			login(application, deviceName, serialNo);
 			ReceiverThread sender = new ReceiverThread();
 			sender.start();
 			createWebSocket(sender);
@@ -280,7 +282,7 @@ public abstract class AbstractIndependentMain {
         }		
 	}
 	
-	private void login(String application2, String deviceName2) throws IOException {
+	private void login(String application2, String deviceName2, String serialNo2) throws IOException {
         String url = getServer() + "/rest/"+ getPath() + "/login?userid=" + this.userid + "&password=" + password + "&code=" + this.authenticationCode ;
         Request request = new Request.Builder().url(url).get().build();
 
@@ -397,7 +399,7 @@ public abstract class AbstractIndependentMain {
 	}
 
 	private String getServer() {
-		return "http://"+ this.host + ":" + this.port;
+		return this.protocol + "://"+ this.host + ":" + this.port;
 	}
 	
 	protected void sendChangeValue(String id, String value) {
@@ -483,7 +485,7 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	private String getPath() {
-		String ret = application + "/domain/" + deviceName;
+		String ret = application + "/domain/" + deviceName + "/" + serialNo;
 		ret = ret.replace("#", "&#035").replace("@", "&#064;");
 		return ret;
 	}
@@ -562,6 +564,7 @@ public abstract class AbstractIndependentMain {
 		message.application = application;
 		message.userid = userid;
 		message.device = deviceName;
+		message.serialNo = serialNo;
 		message.type = WsLoginMessage.DomainModel;
 		String str = new ObjectMapper().writeValueAsString(message);
 		return str;

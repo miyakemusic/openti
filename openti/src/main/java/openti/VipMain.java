@@ -16,11 +16,11 @@ import jp.silverbullet.dev.MessageObject;
 
 public class VipMain extends AbstractIndependentMain {
 	public static void main(String[] args) {
-		try {
-			new VipMain(args[0],args[1], args[2], args[3], args[4], args[5].equals("true"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			new VipMain(args[0],args[1], args[2], args[3], args[4], args[5].equals("true"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	private VipSimulator vipSim = new VipSimulator() {
@@ -63,8 +63,8 @@ public class VipMain extends AbstractIndependentMain {
 		}
 	};
 	
-	public VipMain(String host, String port, String userid, String application, String deviceName, boolean headless) {
-		super(host, port, userid, "password" ,application, deviceName, "", headless);
+	public VipMain(String protocol, String host, String port, String userid, String application, String deviceName, boolean headless) {
+		super(protocol, host, port, userid, "password" ,application, deviceName, "", headless);
 	}
 
 	@Override
