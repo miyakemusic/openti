@@ -199,4 +199,20 @@ public class SilverbulletID{
 	public static final String ID_LS_ENABLED_OFF="ID_LS_ENABLED_OFF";
 	public static final String ID_LS_ENABLED_ON="ID_LS_ENABLED_ON";
 	public static final String ID_PM_POWER="ID_PM_POWER";
+	public static final String ID_SAVE_VIP="ID_SAVE_VIP";
+	public static final String ID_SAVE_OLTS="ID_SAVE_OLTS";
+	public static final String ID_OTDR_PASSFAIL="ID_OTDR_PASSFAIL";
+	public static final String ID_OTDR_PASSFAIL_FAIL="ID_OTDR_PASSFAIL_FAIL";
+	public static final String ID_OTDR_PASSFAIL_NOTTESTED="ID_OTDR_PASSFAIL_NOTTESTED";
+	public static final String ID_OTDR_PASSFAIL_PASS="ID_OTDR_PASSFAIL_PASS";
+	public static final String ID_FILE_NUMBER="ID_FILE_NUMBER";
+	public static final String ID_BASE_FILE_NAME="ID_BASE_FILE_NAME";
+	public static final String ID_AUTO_FILENAME="ID_AUTO_FILENAME";
+	public static final String ID_AUTO_FOLDERNAME="ID_AUTO_FOLDERNAME";
+	public static final String ID_AUTO_FOLDERNAME_DDMMYYYY="ID_AUTO_FOLDERNAME_DDMMYYYY";
+	public static final String ID_AUTO_FOLDERNAME_NO="ID_AUTO_FOLDERNAME_NO";
+	public static final String ID_AUTO_FOLDERNAME_YYYYMMDD="ID_AUTO_FOLDERNAME_YYYYMMDD";
+	public static final String ID_FILE_EXTENSION="ID_FILE_EXTENSION";
+	public static final String ID_SYSTEM_SERIAL_NUMBER="ID_SYSTEM_SERIAL_NUMBER";
+	public static final String ID_TEST_TIME="ID_TEST_TIME";
 }

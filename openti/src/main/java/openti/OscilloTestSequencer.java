@@ -1,10 +1,13 @@
 package openti;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import jp.silverbullet.core.SbDateTime;
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
@@ -25,7 +28,8 @@ public class OscilloTestSequencer implements UserSequencer {
 		SilverbulletUserRegister registers = new SilverbulletUserRegister(model.getRegisterAccessor());
 
 		if (properties.getOscTestcontrol().compareTo(EnumOscTestcontrol.ID_OSC_TESTCONTROL_START) == 0) {	
-//			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x00).write();
+			properties.setTestTime(new SbDateTime().string());
+			
 			registers.oscillo_test.set(OSCILLO_TEST.TRGPOS, properties.getOscTrigger().intValue()).write();
 			registers.oscillo_test.set(OSCILLO_TEST.TEST, 0x01).write();
 			registers.waitInterrupt();
@@ -41,7 +45,7 @@ public class OscilloTestSequencer implements UserSequencer {
 							//byte[] b = Base64.getEncoder().encode(registers.eyediagram.read());
 							//String base64 = "data:image/png;base64," + new String(b);
 							try {
-								model.getEasyAccessInterface().requestChange(new Id(ID.ID_OSC_EYEDIAGRAM), 
+								model.getEasyAccessInterface().requestChange(new Id(SilverbulletID.ID_OSC_EYEDIAGRAM), 
 										new ImageProperty(b), String.valueOf(System.currentTimeMillis()));
 							} catch (RequestRejectedException e) {
 								// TODO Auto-generated catch block
@@ -67,7 +71,7 @@ public class OscilloTestSequencer implements UserSequencer {
 
 	@Override
 	public List<String> targetIds() {
-		return Arrays.asList(ID.ID_OSC_TESTCONTROL, ID.ID_OSC_TRIGGER);
+		return Arrays.asList(SilverbulletID.ID_OSC_TESTCONTROL, SilverbulletID.ID_OSC_TRIGGER);
 	}
 
 }

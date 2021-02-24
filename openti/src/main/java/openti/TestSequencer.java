@@ -3,6 +3,7 @@ package openti;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.silverbullet.core.SbDateTime;
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
@@ -54,7 +56,8 @@ public class TestSequencer implements UserSequencer {
 		
 		if (properties.getOtdrTestcontrol().compareTo(EnumOtdrTestcontrol.ID_OTDR_TESTCONTROL_START) == 0) {			
 			stopRequested = false;
-			
+					
+			properties.setTestTime(new SbDateTime().string());
 			long average = properties.getAveragetime().intValue();
 			boolean newFlag = true;
 			for (long loop = 0; loop < average; loop++) {

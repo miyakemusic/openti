@@ -38,6 +38,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import openti.AbstractIndependentMain;
+import openti.SilverbulletID;
 
 public class SocketServer {
 	public static final String FromServer = "FromServer";
@@ -196,7 +197,7 @@ public class SocketServer {
 				}
 			}
 		};
-
+				
 		BufferedImage  bgImage = null;
 		try {
 			bgImage = ImageIO.read(new File(imagePath));
@@ -209,12 +210,10 @@ public class SocketServer {
 			automatorList.addItem(fname);
 		}
 		automatorList.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 			}
-			
 		});
 				
 		swingGui = new SwingGui(domainModel.getUiBuilder(), domainModel.getPropertyStore(), 
@@ -281,6 +280,12 @@ public class SocketServer {
 								} catch (IOException ee) {
 									// TODO Auto-generated catch block
 									ee.printStackTrace();
+								}
+								
+								try {
+									domainModel.getSequencer().requestChange(SilverbulletID.ID_SYSTEM_SERIAL_NUMBER, serialNo);
+								} catch (RequestRejectedException e2) {
+									e2.printStackTrace();
 								}
 								runLocalScript(scriptFolder + "/" + automatorList.getSelectedItem().toString());
 							}
