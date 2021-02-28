@@ -641,4 +641,15 @@ public class SilverbulletUserEasyAccess {
     public String getTestTime() {
         return String.valueOf(model.getCurrentValue(SilverbulletID.ID_TEST_TIME));
     }
+    public enum EnumOltsPassfail{
+        ID_OLTS_PASSFAIL_FAIL,
+        ID_OLTS_PASSFAIL_NOT_TESTED,
+        ID_OLTS_PASSFAIL_PASS,
+    };
+    public void setOltsPassfail(EnumOltsPassfail value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_OLTS_PASSFAIL, value.toString());
+    }
+    public EnumOltsPassfail getOltsPassfail() {
+        return EnumOltsPassfail.valueOf(model.getCurrentValue(SilverbulletID.ID_OLTS_PASSFAIL));
+    }
 }

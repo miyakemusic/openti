@@ -215,4 +215,8 @@ public class SilverbulletID{
 	public static final String ID_FILE_EXTENSION="ID_FILE_EXTENSION";
 	public static final String ID_SYSTEM_SERIAL_NUMBER="ID_SYSTEM_SERIAL_NUMBER";
 	public static final String ID_TEST_TIME="ID_TEST_TIME";
+	public static final String ID_OLTS_PASSFAIL="ID_OLTS_PASSFAIL";
+	public static final String ID_OLTS_PASSFAIL_FAIL="ID_OLTS_PASSFAIL_FAIL";
+	public static final String ID_OLTS_PASSFAIL_NOT_TESTED="ID_OLTS_PASSFAIL_NOT_TESTED";
+	public static final String ID_OLTS_PASSFAIL_PASS="ID_OLTS_PASSFAIL_PASS";
 }

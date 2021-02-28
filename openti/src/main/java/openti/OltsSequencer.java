@@ -13,6 +13,7 @@ import jp.silverbullet.core.dependency2.RequestRejectedException;
 import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.UserSequencer;
 import openti.SilverbulletUserEasyAccess.EnumLsEnabled;
+import openti.SilverbulletUserEasyAccess.EnumOltsPassfail;
 
 public class OltsSequencer implements UserSequencer {
 	private Olts olts = new Olts() {
@@ -20,6 +21,7 @@ public class OltsSequencer implements UserSequencer {
 		protected void onUpdate(String value) {
 			try {
 				properties.setPmPower(value);
+				properties.setOltsPassfail(EnumOltsPassfail.ID_OLTS_PASSFAIL_PASS);
 			} catch (RequestRejectedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
