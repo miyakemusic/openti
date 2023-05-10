@@ -16,8 +16,8 @@ import openti.AbstractIndependentMain;
 public class NullAbstractIndependentMain extends AbstractIndependentMain {
 
 	public NullAbstractIndependentMain(String host, String port, String userid, String password, String application, String deviceName,
-			boolean headless) {
-		super(host, port, userid, password, application, deviceName, headless);
+			String serialNo, boolean headless) {
+		super("http", host, port, userid, password, application, deviceName, serialNo, headless);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -65,6 +65,12 @@ public class NullAbstractIndependentMain extends AbstractIndependentMain {
 
 	@Override
 	protected void onMessage(MessageObject message2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onCloseMessage(String messageId) {
 		// TODO Auto-generated method stub
 		
 	}

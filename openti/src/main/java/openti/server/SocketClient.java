@@ -33,6 +33,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jp.silverbullet.dev.ControlObject;
+import jp.silverbullet.dev.MessageObject;
 import jp.silverbullet.dev.ScriptManager;
 
 
@@ -96,7 +101,7 @@ public class SocketClient extends JFrame {
 					@Override
 					public void run() {
 						try {
-							retreiveTrace();
+							startScript(Arrays.asList(scriptArea.getText().split("\n")));
 						} catch (ScriptException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -112,8 +117,19 @@ public class SocketClient extends JFrame {
 		resultArea.setPreferredSize(new Dimension(100, 50));
 		this.add(new JScrollPane(resultArea), BorderLayout.SOUTH);
 		
+		
 		scriptArea = new JTextArea();
 		this.add(new JScrollPane(scriptArea), BorderLayout.CENTER);
+		
+		try {
+			List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\miyak\\OneDrive\\デスクトップ\\script.txt"));
+			StringBuffer buf = new StringBuffer();
+			lines.forEach(line -> buf.append(line + "\n"));
+			scriptArea.setText(buf.toString());
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 //	protected void startAndTrace() {
@@ -185,6 +201,10 @@ public class SocketClient extends JFrame {
 	}
 
 	private PrintWriter getWriter(String addr) {
+		System.out.println(addr);
+		if (addr == null) {
+			System.out.println();
+		}
 		if (!sockets.containsKey(addr)) {
 			String[] tmp = addr.split(":");
 			String host = tmp[0];
@@ -208,26 +228,41 @@ public class SocketClient extends JFrame {
 	}
 	
 
-	protected void retreiveTrace() throws ScriptException {
+	protected void startScript(List<String> script) throws ScriptException {
+		Map<String, String> hostMap = new HashMap<>();
+		for(String s : script) {
+			if (s.startsWith("var")) {
+				String[] tmp = s.split("[\s]+");
+				if (Character.isUpperCase(tmp[1].toCharArray()[0])) {
+					hostMap.put(tmp[1], "localhost:8085");
+				}
+			}
+		}
+		hostMap.put("MT1041A", "localhost:8085");
+		hostMap.put("G0400A", "localhost:8086");
+		
 		this.resultArea.setText("");
+		
+		Object sync = new Object();
 		new ScriptManager() {
 
 			@Override
 			public void write(String addr, String command) {
-				print(addr + ":" + command + "\n");
-				getWriter(addr).println(command);
+				addr = hostMap.get(addr);
+				print("write " + addr + ":" + command + "\n");
+				getWriter(addr).println(createSocketMessage(SocketMessage.Type.Command, command));
 			}
 
 			@Override
 			public String read(String addr, String query) {
-				query = query + "?";
+				addr = hostMap.get(addr);
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-				print(addr + ":" + query);
-				getWriter(addr).println(query);
+				print("read " + addr + ":" + query);
+				getWriter(addr).println(createSocketMessage(SocketMessage.Type.Query, query));
 				try {
 					String reply = getReader(addr).readLine();
 					print(" -> " + reply + "\n");
@@ -240,6 +275,8 @@ public class SocketClient extends JFrame {
 
 			@Override
 			public String waitEqual(String addr, String id, String value) {
+				//addr = hostMap.get(addr);
+				print("waitEqual" + addr);
 				while (true) {
 					if (read(addr, id).equals(value)) {
 						break;
@@ -262,12 +299,37 @@ public class SocketClient extends JFrame {
 
 			@Override
 			public String message(String addr, String message, String controls) {
-				// TODO Auto-generated method stub
-				return null;
+				print(addr + ":" + message + ":" + controls);
+				try {
+					addr = hostMap.get(addr);
+					MessageObject obj = new MessageObject(message, new ObjectMapper().readValue(controls, ControlObject.class), "");
+					
+					getWriter(addr).println(createSocketMessage(SocketMessage.Type.Message, obj.toString()));
+//					synchronized(sync) {
+//						try {
+//							sync.wait();
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+					String reply = getReader(addr).readLine();
+					getWriter(addr).println(createSocketMessage(SocketMessage.Type.MessageClose, ""));
+					return reply;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return "";
+			}
+
+			@Override
+			public boolean requires(String portid, String testMethod) {
+				return true;
 			}
 
 			
-		}.start(Arrays.asList(this.scriptArea.getText().split("\n")));
+		}.start(script);
 	}
 
 	protected void print(String arg) {
@@ -277,5 +339,15 @@ public class SocketClient extends JFrame {
 				resultArea.setText(resultArea.getText() + arg);
 			}
 		});
+	}
+
+	private String createSocketMessage(SocketMessage.Type type, String command) {
+		try {
+			return new ObjectMapper().writeValueAsString(new SocketMessage(type, command));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 }

@@ -13,7 +13,7 @@ import jp.silverbullet.dev.MessageObject;
 
 public class OltsMain extends AbstractIndependentMain {
 	public static void main(String[] args) {
-		new OltsMain(args[0], args[1], args[2], "password", args[3], args[4], args[5].equals("true"));
+//		new OltsMain(args[0], args[1], args[2], "password", args[3], args[4], args[5].equals("true"));
 	}
 	
 	
@@ -32,8 +32,8 @@ public class OltsMain extends AbstractIndependentMain {
 	};
 	
 	
-	public OltsMain(String host, String port, String userid, String password, String application, String deviceName, boolean headless) {
-		super(host, port, userid, password, application, deviceName, headless);
+	public OltsMain(String protocol, String host, String port, String userid, String password, String application, String deviceName, boolean headless) {
+		super(protocol, host, port, userid, password, application, deviceName, "", headless);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -66,6 +66,12 @@ public class OltsMain extends AbstractIndependentMain {
 
 	@Override
 	protected void onMessage(MessageObject obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onCloseMessage(String messageId) {
 		// TODO Auto-generated method stub
 		
 	}

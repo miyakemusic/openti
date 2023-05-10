@@ -41,7 +41,7 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 	private BlobStore blobStore;
 	private UiBuilder uiBuilder;
 	private String currentFilename;
-	public StandaloneDomainModel(String filename, List<UserSequencer> sequencers) {
+	public StandaloneDomainModel(String filename, List<UserSequencer> sequencers, String application, String baseFolder) {
 		uiBuilder = new UiBuilder();
 		
 		this.currentFilename = filename;
@@ -138,7 +138,17 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 
 			@Override
 			protected String getStorePath() {
-				return "store/";
+				return baseFolder + "\\results";
+			}
+
+			@Override
+			protected void onSaved(List<String> saved) {
+				StandaloneDomainModel.this.onSave(saved);
+			}
+
+			@Override
+			protected String application() {
+				return application;
 			}
 			
 		});
@@ -163,6 +173,8 @@ public abstract class StandaloneDomainModel extends AbstractTesterModel {
 			}
 		});
 	}
+
+	protected abstract void onSave(List<String> saved);
 
 	abstract protected void onChanged(String id, String value);
 	abstract protected void onBlobChanged(String id, Object value, String name);

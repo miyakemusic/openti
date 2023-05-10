@@ -1,5 +1,6 @@
 package openti;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,10 +13,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.services.drive.model.File;
 
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.Id;
@@ -29,6 +30,7 @@ import jp.silverbullet.core.sequncer.SvHandlerModel;
 import jp.silverbullet.core.sequncer.SystemAccessor;
 import jp.silverbullet.dev.ControlObject;
 import jp.silverbullet.dev.MessageObject;
+import jp.silverbullet.testspec.TestResultList;
 import jp.silverbullet.web.ChangesJson;
 import jp.silverbullet.web.FilePendingResponse;
 import jp.silverbullet.web.ListStringClass;
@@ -63,15 +65,19 @@ public abstract class AbstractIndependentMain {
 	private boolean headless;
 	private String authenticationCode = "forDebug"; // This is tentative. MUST be implemented formally
 	private String password;
+	private String serialNo;
+	private String protocol;
 	
 //	private List<FileUploadMessage> pendingFiles = new ArrayList<>();
 
-	public AbstractIndependentMain(String host, String port, String userid, String password, String application, 
-			String deviceName, boolean headless) {
+	public AbstractIndependentMain(String protocol, String host, String port, String userid, String password, String application, 
+			String deviceName, String serialNo, boolean headless) {
+		this.protocol = protocol;
 		this.host = host;
 		this.port = port;
 		this.application = application;
 		this.deviceName = deviceName;
+		this.serialNo = serialNo;
 		this.userid = userid;
 		this.password = password;
 		this.headless = headless;
@@ -87,19 +93,19 @@ public abstract class AbstractIndependentMain {
 					logout();
 				}
 	
-				@Override
-				protected void downloadPendingFiles() {
-					for (File file : pendingFiles.list) {
-						AbstractIndependentMain.this.download(file.getId(), file.getName(), file.getParents().toString());	
-					}
-	
-					getPendingFiles();
-				}
-	
-				@Override
-				protected List<File> getPendingFileList() {
-					return AbstractIndependentMain.this.getPendingFiles();
-				}
+//				@Override
+//				protected void downloadPendingFiles() {
+//					for (File file : pendingFiles.list) {
+//						AbstractIndependentMain.this.download(file.getId(), file.getName(), file.getParents().toString());	
+//					}
+//	
+//					getPendingFiles();
+//				}
+//	
+//				@Override
+//				protected List<File> getPendingFileList() {
+//					return AbstractIndependentMain.this.getPendingFiles();
+//				}
 			};
 			mainUI.setDeviceName(deviceName);
 			mainUI.setVisible(true);
@@ -165,7 +171,7 @@ public abstract class AbstractIndependentMain {
 		init(model);
 		
 		try {
-			login(application, deviceName);
+			login(application, deviceName, serialNo);
 			ReceiverThread sender = new ReceiverThread();
 			sender.start();
 			createWebSocket(sender);
@@ -199,6 +205,10 @@ public abstract class AbstractIndependentMain {
 							mainUI.onPendingFilesUpdated(pendingFiles.list);
 							//download(fm.fileID, fm.path);
 						}
+						else if (m.type.equals(MessageToDevice.CLOSEMESSAGE)) {
+							MessageObject obj = new ObjectMapper().readValue(m.json, MessageObject.class);
+							onCloseMessage(obj.messageId);
+						}
 
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -229,6 +239,8 @@ public abstract class AbstractIndependentMain {
 	}
 
 	protected abstract void onMessage(MessageObject obj);
+	protected abstract void onCloseMessage(String messageId);
+	
 	protected void download(String fileID, String filename, String path) {
         String url = getServer() + "/rest/"+ getPath() + "/download?userid=" + userid + "&password=" + password + "&fileid=" + fileID + "&code="+ this.authenticationCode;
         Request request = new Request.Builder().url(url).get().build();
@@ -270,7 +282,7 @@ public abstract class AbstractIndependentMain {
         }		
 	}
 	
-	private void login(String application2, String deviceName2) throws IOException {
+	private void login(String application2, String deviceName2, String serialNo2) throws IOException {
         String url = getServer() + "/rest/"+ getPath() + "/login?userid=" + this.userid + "&password=" + password + "&code=" + this.authenticationCode ;
         Request request = new Request.Builder().url(url).get().build();
 
@@ -329,6 +341,7 @@ public abstract class AbstractIndependentMain {
         return null;
 	}
 	
+	
 	public List<String> retreiveScript(String name) {
         String url = getServer() + "/rest/"+ this.application + "/domain/autoScriptFromDevice?" + "userid=" + userid + "&password=" + password
         		+ "&code=" + this.authenticationCode + "&name=" + name;
@@ -350,8 +363,28 @@ public abstract class AbstractIndependentMain {
             e.printStackTrace();
         }
         return null;
-
 	}	
+	
+	public TestResultList retreiveTestResultList(String projectName) throws IOException {
+        String url = getServer() + "/rest/"+ this.application + "/domain/" + projectName + "/resultListFromDevice?" + "userid=" + userid + "&password=" + password
+        		+ "&code=" + this.authenticationCode;
+        Request request = new Request.Builder().url(url).get().build();
+
+        Call call = client.newCall(request);
+        TestResultList result = new TestResultList();
+
+        Response response = call.execute();
+        ResponseBody body = response.body();
+        if (body != null) {
+        	result = new ObjectMapper().readValue(body.byteStream(), TestResultList.class);
+            body.close();
+            response.close();
+            return result;
+        }
+        
+        return new TestResultList();
+	}
+	
 	protected boolean isTargetIdChanged(Map<String, List<ChangedItemValue>> changed) {
 		List<String> targets = getTargetIds();
 		for (String id : changed.keySet()) {
@@ -366,7 +399,7 @@ public abstract class AbstractIndependentMain {
 	}
 
 	private String getServer() {
-		return "http://"+ this.host + ":" + this.port;
+		return this.protocol + "://"+ this.host + ":" + this.port;
 	}
 	
 	protected void sendChangeValue(String id, String value) {
@@ -452,7 +485,9 @@ public abstract class AbstractIndependentMain {
 	}
 	
 	private String getPath() {
-		return this.application + "/domain/" + deviceName;
+		String ret = application + "/domain/" + deviceName + "/" + serialNo;
+		ret = ret.replace("#", "&#035").replace("@", "&#064;");
+		return ret;
 	}
 
 	private SvHandlerModel model = new SvHandlerModel() {
@@ -511,7 +546,7 @@ public abstract class AbstractIndependentMain {
 				}
 
 				@Override
-				public void message(String string, ControlObject controls) {
+				public void message(String string, ControlObject controls, String messageId) {
 					// TODO Auto-generated method stub
 					
 				}
@@ -529,6 +564,7 @@ public abstract class AbstractIndependentMain {
 		message.application = application;
 		message.userid = userid;
 		message.device = deviceName;
+		message.serialNo = serialNo;
 		message.type = WsLoginMessage.DomainModel;
 		String str = new ObjectMapper().writeValueAsString(message);
 		return str;
@@ -552,5 +588,29 @@ public abstract class AbstractIndependentMain {
 			}
 		}.start();
 	}
+	
+	public void postFiles(List<String> saved) {
+		try {
+			File file = new File(saved.get(0));
+//			String json = new ObjectMapper().writeValueAsString(blob);
+	        String url = getServer() + "/rest/"+ getPath() + "/upload?" + 
+	        		"&userid=" + userid + "&password=" + password + "&code=" + this.authenticationCode +
+	        		"&filepath=" + file.getAbsolutePath();
+			//RequestBody body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json);
+	        RequestBody body = RequestBody.create(MediaType.get("application/octet-stream"), file);
+			Request request = new Request.Builder()
+				.url(url)
+				.post(body)
+				.build();
+			
+            Response response = client.newCall(request).execute();
+            response.close();
+  //          response.body().string();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 
 }

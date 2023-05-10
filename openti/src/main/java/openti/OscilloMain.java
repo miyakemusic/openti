@@ -15,16 +15,16 @@ public class OscilloMain extends AbstractIndependentMain {
 	private SilverbulletUserRegister registers;
 	private Oscillo oscillo = new Oscillo();
 	
-	public OscilloMain(String host, String port, String username, String application, String deviceName, boolean headless) {
-		super(host, port, username, "password", application, deviceName, headless);
+	public OscilloMain(String protocol, String host, String port, String username, String application, String deviceName, boolean headless) {
+		super(protocol, host, port, username, "password", application, deviceName, "", headless);
 	}
 
 	public static void main(String[] args) {
-		try {
-			new OscilloMain(args[0],args[1], args[2], args[3], args[4], args[5].equals("true"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			new OscilloMain(args[0],args[1], args[2], args[3], args[4], args[5].equals("true"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	@Override
@@ -52,6 +52,12 @@ public class OscilloMain extends AbstractIndependentMain {
 
 	@Override
 	protected void onMessage(MessageObject message2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onCloseMessage(String messageId) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,9 +1,13 @@
 package openti;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
+
+import jp.silverbullet.core.SbDateTime;
 import jp.silverbullet.core.dependency2.ChangedItemValue;
 import jp.silverbullet.core.dependency2.Id;
 import jp.silverbullet.core.dependency2.RequestRejectedException;
@@ -21,8 +25,8 @@ public class VipSequencer implements UserSequencer {
 		protected void onUpdate(byte[] bytes) {
 //			String base64 = Base64.encodeBase64String(bytes);
 			try {
-//				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, "data:image/png;base64," + base64, String.valueOf(System.currentTimeMillis()));
-				model.getEasyAccessInterface().requestChange(ID.ID_VIPIMAGE, new ImageProperty(bytes), String.valueOf(System.currentTimeMillis()));
+//				model.getEasyAccessInterface().requestChange(Silverbullet.ID_VIPIMAGE, "data:image/png;base64," + base64, String.valueOf(System.currentTimeMillis()));
+				model.getEasyAccessInterface().requestChange(SilverbulletID.ID_VIPIMAGE, new ImageProperty(bytes), String.valueOf(System.currentTimeMillis()));
 			} catch (RequestRejectedException e) {
 				e.printStackTrace();
 			}
@@ -31,12 +35,12 @@ public class VipSequencer implements UserSequencer {
 		@Override
 		protected void onComplete() {
 			try {
-				model.getEasyAccessInterface().requestChange(ID.ID_VIPCONTROL, ID.ID_VIPCONTROL_STOP);
+				model.getEasyAccessInterface().requestChange(SilverbulletID.ID_VIPCONTROL, SilverbulletID.ID_VIPCONTROL_STOP);
 				if (Math.random() < 0.5) {
-					model.getEasyAccessInterface().requestChange(ID.ID_VIPSTATUS, ID.ID_VIPSTATUS_PASS);
+					model.getEasyAccessInterface().requestChange(SilverbulletID.ID_VIPSTATUS, SilverbulletID.ID_VIPSTATUS_PASS);
 				}
 				else {
-					model.getEasyAccessInterface().requestChange(ID.ID_VIPSTATUS, ID.ID_VIPSTATUS_FAIL);
+					model.getEasyAccessInterface().requestChange(SilverbulletID.ID_VIPSTATUS, SilverbulletID.ID_VIPSTATUS_FAIL);
 				}
 			} catch (RequestRejectedException e) {
 				e.printStackTrace();
@@ -46,7 +50,7 @@ public class VipSequencer implements UserSequencer {
 		@Override
 		protected void onStart() {
 			try {
-				model.getEasyAccessInterface().requestChange(ID.ID_VIPSTATUS, ID.ID_VIPSTATUS_TESTING);
+				model.getEasyAccessInterface().requestChange(SilverbulletID.ID_VIPSTATUS, SilverbulletID.ID_VIPSTATUS_TESTING);
 			} catch (RequestRejectedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -63,7 +67,7 @@ public class VipSequencer implements UserSequencer {
 		this.model = model;
 		SilverbulletUserEasyAccess properties = new SilverbulletUserEasyAccess(model.getEasyAccessInterface());
 		SilverbulletUserRegister registers = new SilverbulletUserRegister(model.getRegisterAccessor());
-		
+		properties.setTestTime(new SbDateTime().string());
 		if (properties.getVipcontrol().compareTo(EnumVipcontrol.ID_VIPCONTROL_START) == 0) {
 			vipSim.start();
 		}
@@ -74,7 +78,7 @@ public class VipSequencer implements UserSequencer {
 
 	@Override
 	public List<String> targetIds() {
-		return Arrays.asList(ID.ID_VIPCONTROL);
+		return Arrays.asList(SilverbulletID.ID_VIPCONTROL);
 	}
 
 

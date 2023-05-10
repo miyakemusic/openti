@@ -583,4 +583,73 @@ public class SilverbulletUserEasyAccess {
     public String getPmPower() {
         return String.valueOf(model.getCurrentValue(SilverbulletID.ID_PM_POWER));
     }
+    public enum EnumOtdrPassfail{
+        ID_OTDR_PASSFAIL_FAIL,
+        ID_OTDR_PASSFAIL_NOTTESTED,
+        ID_OTDR_PASSFAIL_PASS,
+    };
+    public void setOtdrPassfail(EnumOtdrPassfail value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_OTDR_PASSFAIL, value.toString());
+    }
+    public EnumOtdrPassfail getOtdrPassfail() {
+        return EnumOtdrPassfail.valueOf(model.getCurrentValue(SilverbulletID.ID_OTDR_PASSFAIL));
+    }
+    public void setFileNumber(Long value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_FILE_NUMBER, String.valueOf(value));
+    }
+    public Long getFileNumber() {
+        return Long.valueOf(model.getCurrentValue(SilverbulletID.ID_FILE_NUMBER));
+    }
+    public void setBaseFileName(String value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_BASE_FILE_NAME, String.valueOf(value));
+    }
+    public String getBaseFileName() {
+        return String.valueOf(model.getCurrentValue(SilverbulletID.ID_BASE_FILE_NAME));
+    }
+    public void setAutoFilename(Boolean value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_AUTO_FILENAME, String.valueOf(value));
+    }
+    public Boolean getAutoFilename() {
+        return Boolean.valueOf(model.getCurrentValue(SilverbulletID.ID_AUTO_FILENAME));
+    }
+    public enum EnumAutoFoldername{
+        ID_AUTO_FOLDERNAME_DDMMYYYY,
+        ID_AUTO_FOLDERNAME_NO,
+        ID_AUTO_FOLDERNAME_YYYYMMDD,
+    };
+    public void setAutoFoldername(EnumAutoFoldername value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_AUTO_FOLDERNAME, value.toString());
+    }
+    public EnumAutoFoldername getAutoFoldername() {
+        return EnumAutoFoldername.valueOf(model.getCurrentValue(SilverbulletID.ID_AUTO_FOLDERNAME));
+    }
+    public void setFileExtension(String value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_FILE_EXTENSION, String.valueOf(value));
+    }
+    public String getFileExtension() {
+        return String.valueOf(model.getCurrentValue(SilverbulletID.ID_FILE_EXTENSION));
+    }
+    public void setSystemSerialNumber(String value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_SYSTEM_SERIAL_NUMBER, String.valueOf(value));
+    }
+    public String getSystemSerialNumber() {
+        return String.valueOf(model.getCurrentValue(SilverbulletID.ID_SYSTEM_SERIAL_NUMBER));
+    }
+    public void setTestTime(String value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_TEST_TIME, String.valueOf(value));
+    }
+    public String getTestTime() {
+        return String.valueOf(model.getCurrentValue(SilverbulletID.ID_TEST_TIME));
+    }
+    public enum EnumOltsPassfail{
+        ID_OLTS_PASSFAIL_FAIL,
+        ID_OLTS_PASSFAIL_NOT_TESTED,
+        ID_OLTS_PASSFAIL_PASS,
+    };
+    public void setOltsPassfail(EnumOltsPassfail value) throws RequestRejectedException {
+        model.requestChange(SilverbulletID.ID_OLTS_PASSFAIL, value.toString());
+    }
+    public EnumOltsPassfail getOltsPassfail() {
+        return EnumOltsPassfail.valueOf(model.getCurrentValue(SilverbulletID.ID_OLTS_PASSFAIL));
+    }
 }
