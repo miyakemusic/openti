@@ -45,7 +45,6 @@ import okhttp3.ResponseBody;
 
 public abstract class AbstractIndependentMain {
 
-	
 	protected abstract void handle(Map<String, List<ChangedItemValue>> changed) throws RequestRejectedException;
 	protected abstract List<String> getTargetIds();
 	protected abstract  RegisterAccessor getRegisterAccessor();
